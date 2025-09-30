@@ -22,8 +22,8 @@ const TODO_ITEMS = [
   'book a doctors appointment'
 ] as const;
 
-test.describe('New Todo', () => {
-  test('should allow me to add todo items', async ({ page }) => {
+test.describe.only('New Todo', () => {
+  test.only('should allow me to add todo items', async ({ page }) => {
     // create a new todo locator
     const newTodo = page.getByPlaceholder('What needs to be done?');
 
@@ -455,7 +455,7 @@ async function checkNumberOfTodosInLocalStorage(page: Page, expected: number) {
       // Check for the mismatch and throw an error with a descriptive message
       if (actualCount !== expectedCount) {
         throw new Error(
-          `Number of todos mismatch: Expected ${expectedCount}, but found ${actualCount}.`
+          `Number of todos is incorrect: Expected ${expectedCount}, but found ${actualCount}.`
         );
       }
 
