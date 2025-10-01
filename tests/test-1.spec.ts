@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import { describe } from 'node:test';
+import {TodoPage} from '../tests/POM/to-do-page';
 
 const tasks = [
   { task: "Create a task #", index: "1" },
@@ -7,9 +9,21 @@ const tasks = [
 ]
 
 test('Populate tasks using an array of objects', async ({ page }) => {
-  await page.goto('https://demo.playwright.dev/todomvc/#/');
+  const todoPage = new TodoPage(page);
+
+  // Navigate to the main page
+  todoPage.gotoMainPage();
+
+  // Different ways to pinpoint a header
   await expect(page.getByRole('heading', { name: 'todos' })).toBeVisible();
+  await expect(page.locator('header')).toBeVisible();
+  await expect(page.locator('header')).toContainText('todos');
+
+  // Different ways to pinpoint a textbox
+  await expect(todoPage.textBox).toHaveAttribute('placeholder', 'What needs to be done?'); // POM
   await expect(page.getByRole('textbox', { name: 'What needs to be done?' })).toBeVisible();
+
+  //
   await expect(page.getByText('This is just a demo of TodoMVC for testing, not the real TodoMVC app. todos')).toBeVisible();
   await expect(page.getByRole('heading')).toContainText('todos');
   for (const record of tasks) {
@@ -35,4 +49,12 @@ test('Populate tasks using an array of objects', async ({ page }) => {
   }
 
   await page.getByRole('link', { name: 'Active' }).click();
+});
+
+test.describe.skip(`Utilize fixtures`, () => {
+  test(`Script 1`, async ({page}) => {
+    const whatNeedsToBeDoneField = page.getByPlaceholder('What needs to be done?');
+
+  });
+
 });
