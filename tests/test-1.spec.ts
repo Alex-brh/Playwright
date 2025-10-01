@@ -53,7 +53,7 @@ test('Populate tasks using an array of objects', async ({ page }) => {
 
   await page.getByRole('link', { name: 'Active' }).click();
   await page.getByRole('link', { name: 'All' }).click();
-  todoPage.verifyItemCount({count: '3'});
+  todoPage.verifyItemCount({count: '6'});
 });
 
 test.describe.skip(`Utilize fixtures`, () => {
