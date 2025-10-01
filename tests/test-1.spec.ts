@@ -33,13 +33,16 @@ test('Populate tasks using an array of objects', async ({ page }) => {
 
   }
 
-  await page.getByRole('link', { name: 'Active' }).click();
-  await page.getByRole('link', { name: 'Completed' }).click();
+  // Click various buttons directly and by using POM methods
+  todoPage.clickActiveButton();
+  todoPage.clickCompletedButton();
   await page.getByRole('link', { name: 'Active' }).click();
   await page.getByRole('link', { name: 'Completed' }).click();
   await page.getByRole('textbox', { name: 'What needs to be done?' }).click({
     button: 'right'
   });
+
+  //
   await expect(page.getByRole('textbox', { name: 'What needs to be done?' })).toBeVisible();
   await expect(page.locator('body')).toContainText('Completed');
   for (const record of tasks) {
@@ -49,6 +52,8 @@ test('Populate tasks using an array of objects', async ({ page }) => {
   }
 
   await page.getByRole('link', { name: 'Active' }).click();
+  await page.getByRole('link', { name: 'All' }).click();
+  todoPage.verifyItemCount({count: '3'});
 });
 
 test.describe.skip(`Utilize fixtures`, () => {
