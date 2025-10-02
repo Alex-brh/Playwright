@@ -8,6 +8,8 @@ private readonly header: Locator;
 private readonly buttonActive: Locator;
 private readonly buttonCompleted: Locator;
 private readonly itemCount: Locator;
+private readonly markAllAsCompleteCheckbox: Locator;
+readonly clearCompletedButton: Locator;
 
 constructor(public readonly page: Page) {
     this.textBox = this.page.getByRole('textbox', {name: 'What needs to be done?'});
@@ -15,6 +17,8 @@ constructor(public readonly page: Page) {
     this.buttonActive = this.page.getByText('Active');
     this.buttonCompleted = this.page.getByRole('link', {name: 'Completed'});
     this.itemCount = this.page.locator('span[data-testid="todo-count"] > strong');
+    this.markAllAsCompleteCheckbox = this.page.getByLabel('Mark all as complete');
+    this.clearCompletedButton = this.page.getByRole('button', { name: 'Clear completed'});
 }
 
 async gotoMainPage() {
@@ -37,6 +41,11 @@ async clickCompletedButton() {
 async verifyItemCount({count}: {count: string | RegExp}) {
     await expect(this.itemCount).toBeVisible();
     await expect(this.itemCount).toHaveText(count);
+}
+
+// Check checkbox to select and cross off all items
+async completeAllItems() {
+await this.markAllAsCompleteCheckbox.check({force: true});
 }
 
 
