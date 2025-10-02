@@ -80,3 +80,29 @@ test.describe(`Describe block # 1`, () => {
   });
 
 });
+
+test.describe(`Describe block # 2`, () => {
+  let todoPage: TodoPage;
+
+  test.beforeEach(async ({ page }) => {
+    todoPage = new TodoPage(page);
+    // Navigate to the main page
+    todoPage.gotoMainPage();
+  });
+
+  test('Populate tasks and delete them', async ({ page }) => {
+    await expect(page.getByRole('heading')).toContainText('todos');
+    for (const record of tasks) {
+      page.getByRole('textbox', { name: 'What needs to be done?' }).click();
+      page.getByRole('textbox', { name: 'What needs to be done?' }).fill(`${record.task} ${record.index}`);
+      page.getByRole('textbox', { name: 'What needs to be done?' }).press('Enter');
+    }
+    // Count the number of 'Delete record' buttons (X)
+    const buttonXLocator = page.locator('button[aria-label="Delete"]');
+    while (await buttonXLocator.count() > 0) {
+      await buttonXLocator.first().click();
+    }
+    await expect(buttonXLocator).not.toBeVisible();
+
+  })
+});
