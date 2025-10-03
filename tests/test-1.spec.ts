@@ -102,7 +102,7 @@ test.describe(`Describe block # 2`, () => {
     while (await buttonXLocator.count() > 0) {
       await buttonXLocator.first().click();
     }
-    await expect(buttonXLocator).not.toBeVisible();
+    await expect(buttonXLocator.nth(0)).not.toBeVisible();
 
   })
 });
