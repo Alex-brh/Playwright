@@ -2,16 +2,16 @@ import { type Page, type Locator, expect, APIRequestContext } from '@playwright/
 import { url } from 'inspector';
 
 export class StoreHomePage {
-private readonly homeMenuItem: Locator;
-private readonly storemenuItem: Locator;
-private readonly faqMenuItem: Locator;
-private readonly customerTestimonialsMenuItem: Locator;
-private readonly contactMenuItem: Locator;
-private elementsWithFramesMenuItem: Locator;
-private readonly basketMenuItem: Locator;
-private readonly aboutUsMenuItem: Locator;
+readonly homeMenuItem: Locator;
+readonly storemenuItem: Locator;
+readonly faqMenuItem: Locator;
+readonly customerTestimonialsMenuItem: Locator;
+readonly contactMenuItem: Locator;
+elementsWithFramesMenuItem: Locator;
+readonly basketMenuItem: Locator;
+readonly aboutUsMenuItem: Locator;
 private readonly pageHeader: Locator;
-private readonly shopNowButton: Locator;
+readonly shopNowButton: Locator;
 private readonly welcomeSubHeader: Locator;
 
 constructor(public readonly page: Page) {
@@ -47,6 +47,12 @@ async validateAllMenuItemsPresence() {
     await expect(this.elementsWithFramesMenuItem).toBeVisible();
     await expect(this.basketMenuItem).toBeVisible();
     await expect(this.aboutUsMenuItem).toBeVisible();
+}
+
+  async clickMenuItem(page: Page, locator: Locator, url: string) {
+    await expect(locator).toBeVisible();
+    locator.click();
+    await expect(page).toHaveURL(url);
 }
 
 }
