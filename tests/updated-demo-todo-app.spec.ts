@@ -455,7 +455,7 @@ async function checkNumberOfTodosInLocalStorage(page: Page, expected: number) {
       // Check for the mismatch and throw an error with a descriptive message
       if (actualCount !== expectedCount) {
         throw new Error(
-          `Number of todos mismatch: Expected ${expectedCount}, but found ${actualCount}.`
+          `Number of todos is incorrect: Expected ${expectedCount}, but found ${actualCount}.`
         );
       }
 
