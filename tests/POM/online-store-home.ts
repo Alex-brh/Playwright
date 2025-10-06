@@ -10,9 +10,9 @@ export class StoreHomePage {
   elementsWithFramesMenuItem: Locator;
   readonly basketMenuItem: Locator;
   readonly aboutUsMenuItem: Locator;
-  private readonly pageHeader: Locator;
+  readonly pageHeader: Locator;
   readonly shopNowButton: Locator;
-  private readonly welcomeSubHeader: Locator;
+  readonly pageSubHeader: Locator;
 
   constructor(public readonly page: Page) {
     this.homeMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/"]');
@@ -25,7 +25,7 @@ export class StoreHomePage {
     this.aboutUsMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/contact"] > span');
     this.pageHeader = this.page.locator('div[class="jw-slideshow-title"]');
     this.shopNowButton = this.page.locator('a[href="/store"] > div');
-    this.welcomeSubHeader = this.page.locator('h1[class^="jw-heading"]').filter({hasText: `Welcome to Alex's test automation site for practice`});
+    this.pageSubHeader = this.page.locator('h1[class^="jw-heading"]'); //.filter({hasText: `Welcome to Alex's test automation site for practice`});
   }
 
   /**

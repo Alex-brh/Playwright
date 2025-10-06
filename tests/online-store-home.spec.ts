@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { StoreHomePage } from './POM/online-store-home';
+import { AsyncResource } from 'async_hooks';
 
 const baseUrl = "https://free-5288352.webadorsite.com/";
 
@@ -36,5 +37,25 @@ test.describe(`Test online store 'Home' page by`, () => {
       await page.goBack();
       await expect(page).toHaveURL(baseUrl, { timeout: 15000 });
     }
+  });
+
+  test(`validating the 'Home' page header and all sub-header contents`, async ({ page }) => {
+    const homePageHeader = "Discover Unique Ways To Create Test Scripts";
+    await expect(storeHomePage.pageHeader).toHaveText(homePageHeader);
+    const homePageSubHeaders = [
+      {index: 0, text: "Welcome to Alex's test automation site for practice"},
+      {index: 1, text: "Verify New Collection"},
+      {index: 2, text: "Discover Our Exclusive Collection"},
+      {index: 3, text: "More stuff"}
+    ];
+    for (const subHeader of homePageSubHeaders) {
+      console.log(`Verifying the following sub-header at index ${subHeader.index} with text: ${subHeader.text}`);
+      await expect(storeHomePage.pageSubHeader.nth(subHeader.index)).toHaveText(subHeader.text);
+
+    }
+
+    
+    
+
   });
 });
