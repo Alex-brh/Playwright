@@ -53,9 +53,20 @@ test.describe(`Test online store 'Home' page by`, () => {
       await expect(storeHomePage.pageSubHeader.nth(subHeader.index)).toHaveText(subHeader.text);
 
     }
+  });
 
-    
-    
-
+  test(`validating the 'Home' page header and all sub-header colors`, async ({ page }) => {
+    const homePageHeaderColor = "rgb(255, 255, 255)"; // White
+    await expect(storeHomePage.pageHeader).toHaveCSS("color", homePageHeaderColor);
+    const homePageSubHeadersColors = [
+      {index: 0, color: "rgb(115, 115, 115)", colorEng: "black"},
+      {index: 1, color: "rgb(115, 115, 115)", colorEng: "black"},
+      {index: 2, color: "rgb(115, 115, 115)", colorEng: "black"},
+      {index: 3, color: "rgb(115, 115, 115)", colorEng: "black"}
+    ];
+    for (const subHeaderColor of homePageSubHeadersColors) {
+      console.log(`Validating the following sub-header at [index: ${subHeaderColor.index}] with [color: ${subHeaderColor.colorEng}] | [color number: ${subHeaderColor.color}]`);
+      await expect(storeHomePage.pageSubHeader.nth(subHeaderColor.index)).toHaveCSS("color", subHeaderColor.color);
+    }
   });
 });
