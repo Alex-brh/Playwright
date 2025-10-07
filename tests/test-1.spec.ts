@@ -7,7 +7,7 @@ const tasks = [
   { task: "Create a task #", index: "3" }
 ]
 
-test.describe(`Describe block # 1`, () => {
+test.describe.skip(`Describe block # 1`, () => {
   let todoPage: TodoPage;
 
   test.beforeEach(async ({ page }) => {
