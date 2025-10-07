@@ -43,10 +43,10 @@ test.describe(`Test online store 'Home' page by`, () => {
     const homePageHeader = "Discover Unique Ways To Create Test Scripts";
     await expect(storeHomePage.pageHeader).toHaveText(homePageHeader);
     const homePageSubHeaders = [
-      {index: 0, text: "Welcome to Alex's test automation site for practice"},
-      {index: 1, text: "Verify New Collection"},
-      {index: 2, text: "Discover Our Exclusive Collection"},
-      {index: 3, text: "More stuff"}
+      { index: 0, text: "Welcome to Alex's test automation site for practice" },
+      { index: 1, text: "Verify New Collection" },
+      { index: 2, text: "Discover Our Exclusive Collection" },
+      { index: 3, text: "More stuff" }
     ];
     for (const subHeader of homePageSubHeaders) {
       console.log(`Verifying the following sub-header at index ${subHeader.index} with text: ${subHeader.text}`);
@@ -59,14 +59,25 @@ test.describe(`Test online store 'Home' page by`, () => {
     const homePageHeaderColor = "rgb(255, 255, 255)"; // White
     await expect.soft(storeHomePage.pageHeader).toHaveCSS("color", homePageHeaderColor);
     const homePageSubHeadersColors = [
-      {index: 0, color: "rgb(115, 115, 115)", colorEng: "black"},
-      {index: 1, color: "rgb(115, 115, 115)", colorEng: "black"},
-      {index: 2, color: "rgb(115, 115, 115)", colorEng: "black"},
-      {index: 3, color: "rgb(115, 115, 115)", colorEng: "black"}
+      { index: 0, color: "rgb(115, 115, 115)", colorEng: "black" },
+      { index: 1, color: "rgb(115, 115, 115)", colorEng: "black" },
+      { index: 2, color: "rgb(115, 115, 115)", colorEng: "black" },
+      { index: 3, color: "rgb(115, 115, 115)", colorEng: "black" }
     ];
     for (const subHeaderColor of homePageSubHeadersColors) {
       console.log(`Validating the following sub-header at [index: ${subHeaderColor.index}] with [color: ${subHeaderColor.colorEng}] | [color number: ${subHeaderColor.color}]`);
       await expect.soft(storeHomePage.pageSubHeader.nth(subHeaderColor.index)).toHaveCSS("color", subHeaderColor.color);
     }
   });
+
+  test(`validating the presence of 3 pictures in the carousel`, async ({ page }) => {
+    await expect.soft(storeHomePage.picsInCarousel).toHaveCount(5);
+    // Validate each image attributes.
+    await expect.soft(storeHomePage.picsInCarousel.nth(0)).toHaveAttribute('data-high-res-path', 'https://primary.jwwb.nl/unsplash/2dDJdOlA3CY.jpg');
+    await expect.soft(storeHomePage.picsInCarousel.nth(1)).toHaveAttribute('data-high-res-path', 'https://primary.jwwb.nl/unsplash/bgIO-u4GEfI.jpg');
+    await expect.soft(storeHomePage.picsInCarousel.nth(2)).toHaveAttribute('data-high-res-path', 'https://primary.jwwb.nl/unsplash/fJIfOzw_e7U.jpg');
+    await expect.soft(storeHomePage.picsInCarousel.nth(3)).toHaveAttribute('data-high-res-path', 'https://primary.jwwb.nl/unsplash/oCqGniQYP-c.jpg');
+    await expect.soft(storeHomePage.picsInCarousel.nth(4)).toHaveAttribute('data-high-res-path', 'https://primary.jwwb.nl/unsplash/_L3YMlqc9NA.jpg');
+  });
+
 });

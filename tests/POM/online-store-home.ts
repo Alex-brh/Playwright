@@ -13,6 +13,7 @@ export class StoreHomePage {
   readonly pageHeader: Locator;
   readonly shopNowButton: Locator;
   readonly pageSubHeader: Locator;
+  readonly picsInCarousel: Locator;
 
   constructor(public readonly page: Page) {
     this.homeMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/"]');
@@ -26,6 +27,7 @@ export class StoreHomePage {
     this.pageHeader = this.page.locator('div[class="jw-slideshow-title"]');
     this.shopNowButton = this.page.locator('a[href="/store"] > div');
     this.pageSubHeader = this.page.locator('h1[class^="jw-heading"]'); //.filter({hasText: `Welcome to Alex's test automation site for practice`});
+    this.picsInCarousel = this.page.locator('div[class^="jw-intent jw-element-image jw-element-child"]');
   }
 
   /**
@@ -89,5 +91,11 @@ export class StoreHomePage {
     const locator = this.shopNowButton.nth(buttonIndex);
     await expect(locator).toBeVisible();
     locator.click();
+  }
+
+  async validatePicsInCarouselByIndex(page: Page, picIndex: number) {
+    console.log(`Validating picture with index: ${picIndex} in the carousel`)
+    await expect(this.picsInCarousel.nth(picIndex)).toBeAttached();
+    await expect(this.picsInCarousel.nth(picIndex)).toBeVisible();
   }
 }
