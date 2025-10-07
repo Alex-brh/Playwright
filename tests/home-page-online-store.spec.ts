@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { StoreHomePage } from './POM/home-page';
-import { AsyncResource } from 'async_hooks';
+import config from '../playwright.config';
 
-const baseUrl = "https://free-5288352.webadorsite.com/";
+const baseUrl = config.use?.baseURL ?? 'https://free-5288352.webadorsite.com/';
 
 test.describe(`Test online store 'Home' page by`, () => {
   let storeHomePage: StoreHomePage;
