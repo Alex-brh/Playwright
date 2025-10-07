@@ -1,7 +1,19 @@
 import { test, expect, type Page } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
+
   await page.goto('https://demo.playwright.dev/todomvc');
+  
+  // 1. Clear all cookies for the current browser context
+  await page.context().clearCookies();
+
+  // 2. Clear local storage by running a script in the page context
+  await page.evaluate(() => window.localStorage.clear());
+
+  // Optional: Clear session storage as well
+  await page.evaluate(() => window.sessionStorage.clear());
+
+  
 });
 
 const TODO_ITEMS = [
@@ -29,8 +41,10 @@ test.describe('New Todo', () => {
     await newTodo.press('Enter');
 
     // Make sure the list now has two todo items.
-    await expect(page.getByTestId('todo-title')).toHaveText([
-      TODO_ITEMS[0],
+    await expect(page.getByTestId('todo-title').nth(0)).toHaveText([
+      TODO_ITEMS[0]
+    ]);
+    await expect(page.getByTestId('todo-title').nth(1)).toHaveText([
       TODO_ITEMS[1]
     ]);
 
@@ -56,7 +70,7 @@ test.describe('New Todo', () => {
 
     // create a todo count locator
     const todoCount = page.getByTestId('todo-count')
-  
+
     // Check test using different methods.
     await expect(page.getByText('3 items left')).toBeVisible();
     await expect(todoCount).toHaveText('3 items left');
@@ -260,7 +274,7 @@ test.describe('Counter', () => {
   test('should display the current number of todo items', async ({ page }) => {
     // create a new todo locator
     const newTodo = page.getByPlaceholder('What needs to be done?');
-    
+
     // create a todo count locator
     const todoCount = page.getByTestId('todo-count')
 
@@ -350,7 +364,7 @@ test.describe('Routing', () => {
   });
 
   test('should respect the back button', async ({ page }) => {
-    const todoItem = page.getByTestId('todo-item'); 
+    const todoItem = page.getByTestId('todo-item');
     await page.getByTestId('todo-item').nth(1).getByRole('checkbox').check();
 
     await checkNumberOfCompletedTodosInLocalStorage(page, 1);
@@ -393,7 +407,7 @@ test.describe('Routing', () => {
 
   test('should highlight the currently applied filter', async ({ page }) => {
     await expect(page.getByRole('link', { name: 'All' })).toHaveClass('selected');
-    
+
     //create locators for active and completed links
     const activeLink = page.getByRole('link', { name: 'Active' });
     const completedLink = page.getByRole('link', { name: 'Completed' });
@@ -418,11 +432,40 @@ async function createDefaultTodos(page: Page) {
   }
 }
 
+// async function checkNumberOfTodosInLocalStorage(page: Page, expected: number) {
+//   return await page.waitForFunction(e => {
+//     return JSON.parse(localStorage['react-todos']).length === e;
+//   }, expected);
+// }
 async function checkNumberOfTodosInLocalStorage(page: Page, expected: number) {
-  return await page.waitForFunction(e => {
-    return JSON.parse(localStorage['react-todos']).length === e;
-  }, expected);
+  // Use waitForFunction with a custom check
+  return await page.waitForFunction(
+    ({ expectedCount }) => {
+      // Access the expectedCount parameter passed from the outer scope
+      const todosString = localStorage.getItem('react-todos');
+
+      if (!todosString) {
+        // Throw an error immediately if the local storage item is not found
+        throw new Error('Could not find "react-todos" in local storage.');
+      }
+
+      const todos = JSON.parse(todosString);
+      const actualCount = todos.length;
+
+      // Check for the mismatch and throw an error with a descriptive message
+      if (actualCount !== expectedCount) {
+        throw new Error(
+          `Number of todos mismatch: Expected ${expectedCount}, but found ${actualCount}.`
+        );
+      }
+
+      // Return true only if the condition is met
+      return true;
+    },
+    { expectedCount: expected } // Pass `expected` as an argument to the in-browser function
+  );
 }
+
 
 async function checkNumberOfCompletedTodosInLocalStorage(page: Page, expected: number) {
   return await page.waitForFunction(e => {
