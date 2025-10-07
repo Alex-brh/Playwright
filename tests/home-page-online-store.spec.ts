@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { StoreHomePage } from './POM/online-store-home';
+import { StoreHomePage } from './POM/home-page';
 import { AsyncResource } from 'async_hooks';
 
 const baseUrl = "https://free-5288352.webadorsite.com/";
