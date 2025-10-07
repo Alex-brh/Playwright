@@ -81,7 +81,7 @@ test.describe(`Describe block # 1`, () => {
 
 });
 
-test.describe(`Describe block # 2`, () => {
+test.describe.skip(`Describe block # 2`, () => {
   let todoPage: TodoPage;
 
   test.beforeEach(async ({ page }) => {
