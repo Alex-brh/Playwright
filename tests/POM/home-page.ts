@@ -3,7 +3,7 @@ import { url } from "inspector";
 
 export class StoreHomePage {
   readonly homeMenuItem: Locator;
-  readonly storemenuItem: Locator;
+  readonly storMenuItem: Locator;
   readonly faqMenuItem: Locator;
   readonly customerTestimonialsMenuItem: Locator;
   readonly contactMenuItem: Locator;
@@ -17,7 +17,7 @@ export class StoreHomePage {
 
   constructor(public readonly page: Page) {
     this.homeMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/"]');
-    this.storemenuItem = this.page.locator('a[class^="jw-menu-link"][href="/store"] > span');
+    this.storMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/store"] > span');
     this.faqMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/faq"] > span');
     this.customerTestimonialsMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/customer-testimonials"] > span');
     this.contactMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/contact"] > span');
@@ -56,7 +56,7 @@ export class StoreHomePage {
    */
   async validateAllMenuItemsPresence() {
     await expect(this.homeMenuItem).toBeVisible();
-    await expect(this.storemenuItem).toBeVisible();
+    await expect(this.storMenuItem).toBeVisible();
     await expect(this.faqMenuItem).toBeVisible();
     await expect(this.customerTestimonialsMenuItem).toBeVisible();
     await expect(this.contactMenuItem).toBeVisible();

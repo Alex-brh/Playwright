@@ -20,7 +20,7 @@ test.describe(`Test online store 'Home' page by`, () => {
 
   test('switching over between menus and verifying page URL', async ({ page }) => {
     // Click each one of the menu items on the 'Home' page and validate the page URL each time.
-    await storeHomePage.clickMenuItem(page, storeHomePage.storemenuItem, `${baseUrl}store`);
+    await storeHomePage.clickMenuItem(page, storeHomePage.storMenuItem, `${baseUrl}store`);
     await storeHomePage.clickMenuItem(page, storeHomePage.homeMenuItem, `${baseUrl}`);
     await storeHomePage.clickMenuItem(page, storeHomePage.faqMenuItem, `${baseUrl}faq`);
     await storeHomePage.clickMenuItem(page, storeHomePage.customerTestimonialsMenuItem, `${baseUrl}customer-testimonials`);
