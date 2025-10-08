@@ -39,4 +39,26 @@ test.describe(`Test online store 'Store' page by`, () => {
             await storePage.validateProductHeader(page, product)
         }
     });
+
+    test(`opening a product and validating product details`, async ({ page }) => {
+        await storeHomePage.clickMenuItem(page, storeHomePage.storMenuItem, `${baseURL}store`);
+        await expect(page).toHaveURL(`${baseURL}store`);
+        const productDetails = [
+            {
+                productIndex: 0,
+            },
+            {
+                productIndex: 1,
+                productHref: "/product/15278051/best-test-script-b", // Optional.
+            },
+            {
+                headerText: "Best test script C" // Optional.
+            },];
+
+        for (const product of productDetails) {
+            await storePage.openProductByHeaderOrIndexOrHref(page, product);
+            await storeHomePage.clickMenuItem(page, storeHomePage.storMenuItem, `${baseURL}store`);
+            await expect(page).toHaveURL(`${baseURL}store`);
+        }
+    });
 });
