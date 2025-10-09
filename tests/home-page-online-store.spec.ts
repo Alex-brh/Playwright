@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { StoreHomePage } from './POM/online-store-home';
-import { AsyncResource } from 'async_hooks';
+import { StoreHomePage } from './POM/home-page';
+import config from '../playwright.config';
 
-const baseUrl = "https://free-5288352.webadorsite.com/";
+const baseUrl = config.use?.baseURL ?? 'https://free-5288352.webadorsite.com/';
 
 test.describe(`Test online store 'Home' page by`, () => {
   let storeHomePage: StoreHomePage;
@@ -20,7 +20,7 @@ test.describe(`Test online store 'Home' page by`, () => {
 
   test('switching over between menus and verifying page URL', async ({ page }) => {
     // Click each one of the menu items on the 'Home' page and validate the page URL each time.
-    await storeHomePage.clickMenuItem(page, storeHomePage.storemenuItem, `${baseUrl}store`);
+    await storeHomePage.clickMenuItem(page, storeHomePage.storMenuItem, `${baseUrl}store`);
     await storeHomePage.clickMenuItem(page, storeHomePage.homeMenuItem, `${baseUrl}`);
     await storeHomePage.clickMenuItem(page, storeHomePage.faqMenuItem, `${baseUrl}faq`);
     await storeHomePage.clickMenuItem(page, storeHomePage.customerTestimonialsMenuItem, `${baseUrl}customer-testimonials`);
