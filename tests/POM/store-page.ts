@@ -1,18 +1,52 @@
 import { type Page, type Locator, expect, APIRequestContext } from "@playwright/test";
 
 interface ProductDetails {
-    productIndex?: number;
+    productIndex?: number; // Optional.
     productHref?: string; // Optional.
     headerText?: string; // Optional.
+}
+
+interface productDetailsToValidate {
+    image?: string,
+    header?: string;
+    status?: string;
+    price?: string;
+    labelAdditionalOptions?: string;
+    productList?: string;
+    labelAddToCart?: string;
+    addToWishlistButton?: string;
+    itemDescription?: string;
 }
 
 export class StorePage {
     readonly pageDisclaimer: Locator;
     readonly productHeader: Locator;
 
+    // Product Details.
+    private readonly imageUnderProductDetails: Locator;
+    private readonly headerUnderProductDetails: Locator; // Best test script A.
+    private readonly statusUnderProductDetails: Locator; // Available | Unavailable.
+    private readonly priceUnderProductDetails: Locator; // CA$0.99.
+    private readonly labelAdditionalOptionsUnderProductDetails: Locator; // Label "Additional options".
+    private readonly productListUnderProductDetails: Locator; // A list of product options.
+    private readonly labelAddToCartUnderProductDetails: Locator; // Label 'Add to cart' | Disabled.
+    private readonly addToWishlistButtonUnderProductDetails: Locator; // Button heart to add item to cart.
+    private readonly itemDescriptionUnderProductDetails: Locator; // Text representing item description.
+
     constructor(public readonly page: Page) {
         this.pageDisclaimer = this.page.locator('div[class="jw-tree-node jw-element jw-image-text jw-node-is-first-child"]');
         this.productHeader = this.page.locator('div[class="product__top"] > h3 > a');
+
+        // Product Details.
+        this.imageUnderProductDetails = this.page.locator('img[itemprop="image"]');
+        this.headerUnderProductDetails = this.page.locator('h1[class="product-page__heading"][itemprop="name"]');
+        this.statusUnderProductDetails = this.page.locator('div[class="product-sticker"]');
+        this.priceUnderProductDetails = this.page.locator('span[class="product__price__price"]');
+        this.labelAdditionalOptionsUnderProductDetails = this.page.locator('div[class="product__property product__property--selectbox"] > label');
+        this.productListUnderProductDetails = this.page.locator('select[data-field-type="select"]');
+        this.labelAddToCartUnderProductDetails = this.page.locator('span[class="product__add-to-cart__label"]');
+        this.addToWishlistButtonUnderProductDetails = this.page.locator('button[title="Add to wishlist"]');
+        this.itemDescriptionUnderProductDetails = this.page.locator('div[class="product-page__description"] > p > span');
     }
     /**
      * Validates the header of a product element on the page, asserting its existence,
@@ -99,5 +133,34 @@ export class StorePage {
         // Assert that exactly one element matches the final locator before clicking.
         await expect(productLocator).toHaveCount(1);
         await productLocator.click();
+    }
+
+    async validateProductDetails(page: Page, validateProductDetails: productDetailsToValidate) {
+        const {
+            image,
+            header,
+            status,
+            price,
+            labelAdditionalOptions,
+            productList,
+            labelAddToCart,
+            addToWishlistButton,
+            itemDescription,
+        } = validateProductDetails;
+
+
+        if (image !== undefined && image !== null) {
+            await expect(this.imageUnderProductDetails).toHaveAttribute("alt", image);
+        }
+        if (header !== undefined && header !== null) {
+            await expect(this.headerUnderProductDetails).toHaveText(header);
+        }
+        if (status !== undefined && status !== null) {
+            await expect(this.statusUnderProductDetails).toHaveText(status);
+        }
+        if (price !== undefined && price !== null) {
+            await expect(this.priceUnderProductDetails).toHaveText(price);
+        }
+
     }
 }

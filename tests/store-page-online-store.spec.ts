@@ -41,8 +41,44 @@ test.describe(`Test online store 'Store' page by`, () => {
     });
 
     test(`opening a product and validating product details`, async ({ page }) => {
+        let i = 0;
         await storeHomePage.clickMenuItem(page, storeHomePage.storMenuItem, `${baseURL}store`);
         await expect(page).toHaveURL(`${baseURL}store`);
+        const validateProductDetails = [
+            {
+                image: "Best test script A",
+                header: "Best test script A",
+                status: "Unavailable",
+                price: "CA$0.99",
+                // labelAdditionalOptions: "Additional options",
+                // productList: "",
+                // labelAddToCart: "Disabled",
+                // addToWishlistButton: "Add to wishlist",
+                // itemDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            },
+            {
+                image: "Best test script B",
+                header: "Best test script B",
+                status: "Unavailable",
+                price: "CA$0.89",
+                // labelAdditionalOptions: "Additional options",
+                // productList: "",
+                // labelAddToCart: "Disabled",
+                // addToWishlistButton: "Add to wishlist",
+                // itemDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            },
+            {
+                image: "Best test script C",
+                header: "Best test script C",
+                status: "Unavailable",
+                price: "CA$0.79",
+                // labelAdditionalOptions: "Additional options",
+                // productList: "",
+                // labelAddToCart: "Disabled",
+                // addToWishlistButton: "Add to wishlist",
+                // itemDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            }
+        ]
         const productDetails = [
             {
                 productIndex: 0,
@@ -57,8 +93,12 @@ test.describe(`Test online store 'Store' page by`, () => {
 
         for (const product of productDetails) {
             await storePage.openProductByHeaderOrIndexOrHref(page, product);
+            // Validate product details.
+            await storePage.validateProductDetails(page, validateProductDetails[i]);
+            // Go back to the 'Store' page and validate URL.
             await storeHomePage.clickMenuItem(page, storeHomePage.storMenuItem, `${baseURL}store`);
             await expect(page).toHaveURL(`${baseURL}store`);
+            i++;
         }
     });
 });
