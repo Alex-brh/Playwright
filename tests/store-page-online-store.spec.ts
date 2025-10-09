@@ -34,7 +34,7 @@ test.describe(`Test online store 'Store' page by`, () => {
     });
 
     // Test case for navigating to the 'Store' page and validating product headers.
-    test(`navigating to the 'Store' page and validating product headers`, async ({ page }) => {
+    test(`validating each product header`, async ({ page }) => {
         // Define an array of test data for different products.
         // This makes the test data-driven, allowing for easy expansion and maintenance.
         const productDetails = [
