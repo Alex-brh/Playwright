@@ -6,13 +6,18 @@ interface ProductDetails {
     headerText?: string; // Optional.
 }
 
+// Define an interface for a single option object.
+interface ProductOption {
+    optionValue: string;
+    optionText: string;
+}
 interface productDetailsToValidate {
     image?: string,
     header?: string;
     status?: string;
     price?: string;
     labelAdditionalOptions?: string;
-    productList?: string;
+    productList?: ProductOption[];
     labelAddToCart?: string;
     addToWishlistButton?: string;
     itemDescription?: string;
@@ -43,7 +48,7 @@ export class StorePage {
         this.statusUnderProductDetails = this.page.locator('div[class="product-sticker"]');
         this.priceUnderProductDetails = this.page.locator('span[class="product__price__price"]');
         this.labelAdditionalOptionsUnderProductDetails = this.page.locator('div[class="product__property product__property--selectbox"] > label');
-        this.productListUnderProductDetails = this.page.locator('select[data-field-type="select"]');
+        this.productListUnderProductDetails = this.page.locator('select[data-field-type="select"] > option');
         this.labelAddToCartUnderProductDetails = this.page.locator('span[class="product__add-to-cart__label"]');
         this.addToWishlistButtonUnderProductDetails = this.page.locator('button[title="Add to wishlist"]');
         this.itemDescriptionUnderProductDetails = this.page.locator('div[class="product-page__description"] > p > span');
@@ -164,6 +169,11 @@ export class StorePage {
         if (labelAdditionalOptions !== undefined && labelAdditionalOptions !== null) {
             await expect(this.labelAdditionalOptionsUnderProductDetails).toHaveText(labelAdditionalOptions);
         }
+        if (productList !== undefined && productList !== null) {
+            for(let i=0; i<productList.length; i++) {
+                await expect(this.productListUnderProductDetails.nth(i)).toHaveText(productList[i].optionText);
+            }
+        }
         if (labelAddToCart !== undefined && labelAddToCart !== null) {
             await expect(this.labelAddToCartUnderProductDetails).toHaveText(labelAddToCart);
         }
@@ -173,6 +183,7 @@ export class StorePage {
         if (itemDescription !== undefined && itemDescription !== null) {
             await expect(this.itemDescriptionUnderProductDetails).toHaveText(itemDescription);
         }
+
 
     }
 }
