@@ -4,6 +4,7 @@ interface ProductDetails {
     productIndex?: number; // Optional.
     productHref?: string; // Optional.
     headerText?: string; // Optional.
+    productDetailsToValidate?: productDetailsToValidate;
 }
 
 // Define an interface for a single option object.
@@ -22,7 +23,7 @@ interface productDetailsToValidate {
     addToWishlistButton?: string;
     itemDescription?: string;
 }
-
+// ********************************************** Methods *************************************************************
 export class StorePage {
     readonly pageDisclaimer: Locator;
     readonly productHeader: Locator;
@@ -53,6 +54,7 @@ export class StorePage {
         this.addToWishlistButtonUnderProductDetails = this.page.locator('button[title="Add to wishlist"]');
         this.itemDescriptionUnderProductDetails = this.page.locator('div[class="product-page__description"] > p > span');
     }
+    // *************************
     /**
      * Validates the header of a product element on the page, asserting its existence,
      * and optionally its `href` and text content.
@@ -90,7 +92,7 @@ export class StorePage {
             await expect(this.productHeader.nth(productIndex)).toHaveText(headerText);
         }
     }
-
+    // *************************
     /**
      * Opens a product by clicking on its header, identified by index, header text, or href.
      * It first determines the most specific locator based on the provided `productDetails`.
@@ -139,7 +141,66 @@ export class StorePage {
         await expect(productLocator).toHaveCount(1);
         await productLocator.click();
     }
-
+    // *************************
+/**
+ * Validates the product details on the page based on the provided object.
+ * This method checks for the existence and correct text/attributes of various product elements.
+ * All properties in the `productDetailsToValidate` object are optional.
+ *
+ * @param {import('@playwright/test').Page} page - The Playwright `Page` object.
+ * @param {productDetailsToValidate} validateProductDetails - An object containing the product details to validate.
+ * @param {string} [validateProductDetails.image] - The expected `alt` attribute value for the product image.
+ * @param {string} [validateProductDetails.header] - The expected header text.
+ * @param {string} [validateProductDetails.status] - The expected status text.
+ * @param {string} [validateProductDetails.price] - The expected price text.
+ * @param {string} [validateProductDetails.labelAdditionalOptions] - The expected text for the additional options label.
+ * @param {Array<{optionText: string}>} [validateProductDetails.productList] - A list of products with their expected option text.
+ * @param {string} [validateProductDetails.labelAddToCart] - The expected text for the "add to cart" label.
+ * @param {string} [validateProductDetails.addToWishlistButton] - The expected `title` attribute value for the "add to wishlist" button.
+ * @param {string} [validateProductDetails.itemDescription] - The expected item description text.
+ * @example
+ * // Example usage with a Playwright test
+ * import { test, expect } from '@playwright/test';
+ * import { ProductPage } from '../pages/ProductPage';
+ *
+ * test('should validate all product details correctly', async ({ page }) => {
+ *   const productPage = new ProductPage(page);
+ *   await productPage.goToProductPage();
+ *
+ *   const productData = {
+ *     image: 'Cool-Shirt',
+ *     header: 'Cool Shirt',
+ *     status: 'In Stock',
+ *     price: '$19.99',
+ *     labelAdditionalOptions: 'Size',
+ *     productList: [
+ *       { optionText: 'Small' },
+ *       { optionText: 'Medium' }
+ *     ],
+ *     labelAddToCart: 'Add to Cart',
+ *     addToWishlistButton: 'Add to Wishlist',
+ *     itemDescription: 'This is a very cool shirt.'
+ *   };
+ *
+ *   await productPage.validateProductDetails(page, productData);
+ * });
+ * @example
+ * // Example usage with only a subset of details to validate
+ * import { test, expect } from '@playwright/test';
+ * import { ProductPage } from '../pages/ProductPage';
+ *
+ * test('should validate price and status', async ({ page }) => {
+ *   const productPage = new ProductPage(page);
+ *   await productPage.goToProductPage();
+ *
+ *   const productData = {
+ *     price: '$25.00',
+ *     status: 'Out of Stock',
+ *   };
+ *
+ *   await productPage.validateProductDetails(page, productData);
+ * });
+ */
     async validateProductDetails(page: Page, validateProductDetails: productDetailsToValidate) {
         const {
             image,
@@ -170,7 +231,7 @@ export class StorePage {
             await expect(this.labelAdditionalOptionsUnderProductDetails).toHaveText(labelAdditionalOptions);
         }
         if (productList !== undefined && productList !== null) {
-            for(let i=0; i<productList.length; i++) {
+            for (let i = 0; i < productList.length; i++) {
                 await expect(this.productListUnderProductDetails.nth(i)).toHaveText(productList[i].optionText);
             }
         }
@@ -183,7 +244,5 @@ export class StorePage {
         if (itemDescription !== undefined && itemDescription !== null) {
             await expect(this.itemDescriptionUnderProductDetails).toHaveText(itemDescription);
         }
-
-
     }
 }
