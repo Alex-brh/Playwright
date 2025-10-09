@@ -9,12 +9,13 @@ const baseURL = config.use?.baseURL ?? 'https://free-5288352.webadorsite.com/';
 // Use `test.describe` to group related test cases for the "Store" page.
 test.describe(`Test online store 'FAQ' page by`, () => {
     // Declare variables for the Page Object Model (POM) classes to be used in the tests.
-    let storeHomePage: StoreHomePage;
+    let storeHomePage: StoreHomePage, faqPage: FaqPage;
 
     // The `beforeEach` hook runs before every test in this `test.describe` block.
     test.beforeEach(async ({ page, request }) => {
         // Initialize the POM classes with the Playwright `page` fixture.
         storeHomePage = new StoreHomePage(page);
+        faqPage = new FaqPage(page);
 
         // Navigate to the store's home page using a POM method.
         await storeHomePage.gotoStoreHomePage(page, request);
@@ -29,5 +30,10 @@ test.describe(`Test online store 'FAQ' page by`, () => {
 
     test(`validating its overall appearance`, async ({ page }) => {
         console.log(`First test block`);
+        const questionAnswerAndDisclaimer = {
+            questionAndAnswer: "Q: What is this website all about?A: It's not a real e-comm website. It's a demo site for educational purposes ONLY! No real items can be purchased or/and delivered here.",
+            bottomDisclaimer: "DISCLAIMER: This is NOT a real e-comm website. It's being used for educational purposes ONLY. No items can be purchased and/or delivered through this website."
+        }
+        await faqPage.validateTopQuestionAnswer(questionAnswerAndDisclaimer);
     });
 });
