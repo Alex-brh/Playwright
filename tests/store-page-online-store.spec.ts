@@ -50,33 +50,31 @@ test.describe(`Test online store 'Store' page by`, () => {
                 header: "Best test script A",
                 status: "Unavailable",
                 price: "CA$0.99",
-                // labelAdditionalOptions: "Additional options",
+                labelAdditionalOptions: "Additional options",
                 // productList: "",
-                // labelAddToCart: "Disabled",
-                // addToWishlistButton: "Add to wishlist",
-                // itemDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                labelAddToCart: "Disabled",
+                addToWishlistButton: "Add to wishlist",
+                itemDescription: "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"",
             },
             {
                 image: "Best test script B",
                 header: "Best test script B",
                 status: "Unavailable",
                 price: "CA$0.89",
-                // labelAdditionalOptions: "Additional options",
                 // productList: "",
-                // labelAddToCart: "Disabled",
-                // addToWishlistButton: "Add to wishlist",
-                // itemDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                labelAddToCart: "Disabled",
+                addToWishlistButton: "Add to wishlist",
+                itemDescription: "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"",
             },
             {
                 image: "Best test script C",
                 header: "Best test script C",
                 status: "Unavailable",
                 price: "CA$0.79",
-                // labelAdditionalOptions: "Additional options",
                 // productList: "",
-                // labelAddToCart: "Disabled",
-                // addToWishlistButton: "Add to wishlist",
-                // itemDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                labelAddToCart: "Disabled",
+                addToWishlistButton: "Add to wishlist",
+                itemDescription: "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\"",
             }
         ]
         const productDetails = [
@@ -85,10 +83,10 @@ test.describe(`Test online store 'Store' page by`, () => {
             },
             {
                 productIndex: 1,
-                productHref: "/product/15278051/best-test-script-b", // Optional.
+                productHref: "/product/15278051/best-test-script-b",
             },
             {
-                headerText: "Best test script C" // Optional.
+                headerText: "Best test script C"
             },];
 
         for (const product of productDetails) {
@@ -98,7 +96,7 @@ test.describe(`Test online store 'Store' page by`, () => {
             // Go back to the 'Store' page and validate URL.
             await storeHomePage.clickMenuItem(page, storeHomePage.storMenuItem, `${baseURL}store`);
             await expect(page).toHaveURL(`${baseURL}store`);
-            i++;
+            i++; // This is used to iterate through the validateProductDetails array.
         }
     });
 });

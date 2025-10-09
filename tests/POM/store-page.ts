@@ -161,6 +161,18 @@ export class StorePage {
         if (price !== undefined && price !== null) {
             await expect(this.priceUnderProductDetails).toHaveText(price);
         }
+        if (labelAdditionalOptions !== undefined && labelAdditionalOptions !== null) {
+            await expect(this.labelAdditionalOptionsUnderProductDetails).toHaveText(labelAdditionalOptions);
+        }
+        if (labelAddToCart !== undefined && labelAddToCart !== null) {
+            await expect(this.labelAddToCartUnderProductDetails).toHaveText(labelAddToCart);
+        }
+        if (addToWishlistButton !== undefined && addToWishlistButton !== null) {
+            await expect(this.addToWishlistButtonUnderProductDetails).toHaveAttribute("title", addToWishlistButton);
+        }
+        if (itemDescription !== undefined && itemDescription !== null) {
+            await expect(this.itemDescriptionUnderProductDetails).toHaveText(itemDescription);
+        }
 
     }
 }
