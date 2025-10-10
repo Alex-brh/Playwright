@@ -29,11 +29,22 @@ test.describe(`Test online store 'FAQ' page by`, () => {
     });
 
     test(`validating its overall appearance`, async ({ page }) => {
-        console.log(`First test block`);
         const questionAnswerAndDisclaimer = {
             questionAndAnswer: "Q: What is this website all about?A: It's not a real e-comm website. It's a demo site for educational purposes ONLY! No real items can be purchased or/and delivered here.",
             bottomDisclaimer: "DISCLAIMER: This is NOT a real e-comm website. It's being used for educational purposes ONLY. No items can be purchased and/or delivered through this website."
         }
         await faqPage.validateTopQuestionAnswer(questionAnswerAndDisclaimer);
+
+        // Validate all h3 headers text.
+        const h3Labels = [
+            { index: 0, text: "Frequently asked question" },
+            { index: 1, text: "Service example" },
+            { index: 2, text: "Overview" }
+        ];
+        for (const h3Label of h3Labels) {
+            console.log(`Validating h3 label: ${h3Label.text}`);
+            await faqPage.validateH3Text(h3Label);
+            console.log(`Successful validation of h3 label: ${h3Label.text}`);
+        }
     });
 });
