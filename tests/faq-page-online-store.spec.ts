@@ -47,4 +47,20 @@ test.describe(`Test online store 'FAQ' page by`, () => {
             console.log(`Successful validation of h3 label: ${h3Label.text}`);
         }
     });
+
+    test(`expanding h3 sections and validating text content inside`, async ({ page }) => {
+        // Validate each expanded section text.
+        const sectionsText = [
+            { index: 0, text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
+            { index: 1, text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
+            { index: 2, text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." }
+        ];
+        for (const sectionText of sectionsText) {
+            console.log(`Validating section with index: ${sectionText.index} and text: ${sectionText.text}`);
+        await faqPage.expandSectionAndValidateText(sectionText);
+        }
+
+    });
+
+
 });
