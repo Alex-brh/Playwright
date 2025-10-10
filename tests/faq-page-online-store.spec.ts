@@ -35,6 +35,9 @@ test.describe(`Test online store 'FAQ' page by`, () => {
         }
         await faqPage.validateTopQuestionAnswer(questionAnswerAndDisclaimer);
 
+        // Validate the image presence.
+        await expect(faqPage.image).toBeVisible();
+
         // Validate all h3 headers text.
         const h3Labels = [
             { index: 0, text: "Frequently asked question" },

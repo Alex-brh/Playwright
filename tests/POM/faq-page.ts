@@ -43,6 +43,7 @@ export class FaqPage {
     private readonly caretToExpandSection: Locator;
     private readonly sectionText: Locator;
     private readonly sectionDetails: Locator; // To validate if a section is open or close.
+    readonly image: Locator;
 
     /**
      * Creates an instance of FaqPage.
@@ -55,6 +56,7 @@ export class FaqPage {
         this.caretToExpandSection = this.page.locator('i[class="jw-element-accordion__icon website-rendering-icon-right-open"]');
         this.sectionText = this.page.locator('div[class="jw-element-accordion__content-wrap"] > p > span');
         this.sectionDetails = this.page.locator('details[class="jw-element-accordion__item"]');
+        this.image = this.page.locator('img[class="jw-element-image__image jw-intrinsic__item"]');
     }
 
     /**
