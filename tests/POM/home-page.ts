@@ -27,7 +27,7 @@ export class StoreHomePage {
     this.pageHeader = this.page.locator('div[class="jw-slideshow-title"]');
     this.shopNowButton = this.page.locator('a[href="/store"] > div');
     this.pageSubHeader = this.page.locator('h1[class^="jw-heading"]'); //.filter({hasText: `Welcome to Alex's test automation site for practice`});
-    this.picsInCarousel = this.page.locator('div[class^="jw-intent jw-element-image jw-element-child"]');
+    this.picsInCarousel = this.page.locator('img[class="jw-element-image__image jw-intrinsic__item"]');
   }
 
   /**
