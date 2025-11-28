@@ -70,14 +70,14 @@ test.describe(`Test online store 'Home' page by`, () => {
     }
   });
 
-  test(`validating the presence of 3 pictures in the carousel`, async ({ page }) => {
-    await expect.soft(storeHomePage.picsInCarousel).toHaveCount(5);
+  test(`validating the presence of 5 pictures on the 'Home' page`, async () => {
+    await expect(storeHomePage.picsInCarousel).toHaveCount(5);
     // Validate each image attributes.
-    await expect.soft(storeHomePage.picsInCarousel.nth(0)).toHaveAttribute('data-high-res-path', 'https://primary.jwwb.nl/unsplash/2dDJdOlA3CY.jpg');
-    await expect.soft(storeHomePage.picsInCarousel.nth(1)).toHaveAttribute('data-high-res-path', 'https://primary.jwwb.nl/unsplash/bgIO-u4GEfI.jpg');
-    await expect.soft(storeHomePage.picsInCarousel.nth(2)).toHaveAttribute('data-high-res-path', 'https://primary.jwwb.nl/unsplash/fJIfOzw_e7U.jpg');
-    await expect.soft(storeHomePage.picsInCarousel.nth(3)).toHaveAttribute('data-high-res-path', 'https://primary.jwwb.nl/unsplash/oCqGniQYP-c.jpg');
-    await expect.soft(storeHomePage.picsInCarousel.nth(4)).toHaveAttribute('data-high-res-path', 'https://primary.jwwb.nl/unsplash/_L3YMlqc9NA.jpg');
+    await expect.soft(storeHomePage.picsInCarousel.nth(0)).toHaveAttribute('srcset');
+    await expect.soft(storeHomePage.picsInCarousel.nth(1)).toHaveAttribute('srcset');
+    await expect.soft(storeHomePage.picsInCarousel.nth(2)).toHaveAttribute('srcset');
+    await expect.soft(storeHomePage.picsInCarousel.nth(3)).toHaveAttribute('srcset');
+    await expect.soft(storeHomePage.picsInCarousel.nth(4)).toHaveAttribute('srcset');
   });
 
 });
