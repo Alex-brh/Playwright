@@ -26,7 +26,7 @@ test.describe(`Test online store's 'Showcase' page by`, () => {
         await expect(page).toHaveURL(`${baseURL}showcase`);
     });
 
-    test("verifying all paragraph text contents", async () => {
+    test("validating all paragraph text contents", async () => {
         // Validate that there are 12 paragraph texts on the Showcase page.
         await expect(showcasePage.paragraphTexts).toHaveCount(12);
         let elementDetails = [
@@ -70,6 +70,32 @@ test.describe(`Test online store's 'Showcase' page by`, () => {
         // Validate the presence and correctness of all paragraphs on the page.
         for (let i = 0; i < elementDetails.length; i++) {
             await showcasePage.validateHeaderText(elementDetails[i]);
+        }
+    });
+
+    test("validating the images presence", async () => {
+        // Validate that there are 5 images on the Showcase page.
+        await expect(showcasePage.showcasePageImage).toHaveCount(5);
+        let elementDetails = [
+            {
+                elementLocator: showcasePage.showcasePageImage, elementIndex: 0, attributeName: "loading", attributeValue: "lazy"
+            },
+            {
+                elementLocator: showcasePage.showcasePageImage, elementIndex: 1, attributeName: "loading", attributeValue: "lazy"
+            },
+            {
+                elementLocator: showcasePage.showcasePageImage, elementIndex: 2, attributeName: "loading", attributeValue: "lazy"
+            },
+            {
+                elementLocator: showcasePage.showcasePageImage, elementIndex: 3, attributeName: "loading", attributeValue: "lazy"
+            },
+            {
+                elementLocator: showcasePage.showcasePageImage, elementIndex: 4, attributeName: "loading", attributeValue: "lazy"
+            },
+        ];
+        // Validate that all 5 images have a specific attribute.
+        for (let i = 0; i < elementDetails.length; i++) {
+            await showcasePage.validateImagePresence(elementDetails[i]);
         }
     });
 

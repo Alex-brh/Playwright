@@ -6,6 +6,7 @@ export class ShowcasePage {
     private commonMethods: CommonlyUsedMethods;
     readonly pageHeader: Locator;
     readonly paragraphTexts: Locator;
+    readonly showcasePageImage: Locator;
 
     /**
      * Creates an instance of ShowcasePage.
@@ -16,10 +17,12 @@ export class ShowcasePage {
         this.pageHeader = this.page.locator('h2[class^="jw-heading"]');
         // Paragraph texts under each header (should be 12 in total right now).
         this.paragraphTexts = this.page.locator('div[class^="jw-element-imagetext-text"] > p');
+        // Showcase page images.
+        this.showcasePageImage = this.page.locator('picture[class^="jw-element-image__image-wrapper"] > img');
         this.commonMethods = new CommonlyUsedMethods(); // Initialize it here.
     }
 
-
+    // **************************************************************************************************************
     /**
      * Validate the header and paragraph text on the Showcase page.
      * @param elementDetails 
@@ -31,5 +34,18 @@ export class ShowcasePage {
             elementText: elementDetails.elementText,
         });
     }
-
+    // **************************************************************************************************************
+    /**
+     * Validate an element attribute base on elementLocator, elementIndex, attributeName, and attributeValue
+     * @param elementDetails: elementLocator, elementIndex, attributeName, and attributeValue
+     */
+    async validateImagePresence(elementDetails: { elementLocator: Locator; elementIndex: number; attributeName: string; attributeValue: string; }) {
+        await this.commonMethods.validateElementAttribute({
+            elementLocator: elementDetails.elementLocator,
+            elementIndex: elementDetails.elementIndex,
+            attributeName: elementDetails.attributeName,
+            attributeValue: elementDetails.attributeValue,
+        });
+    }
+    // **************************************************************************************************************
 }
