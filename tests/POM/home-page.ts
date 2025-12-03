@@ -7,6 +7,7 @@ export class StoreHomePage {
   readonly faqMenuItem: Locator;
   readonly customerTestimonialsMenuItem: Locator;
   readonly contactMenuItem: Locator;
+  readonly showCaseMenuItem: Locator;
   elementsWithFramesMenuItem: Locator;
   readonly basketMenuItem: Locator;
   readonly aboutUsMenuItem: Locator;
@@ -21,6 +22,7 @@ export class StoreHomePage {
     this.faqMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/faq"] > span');
     this.customerTestimonialsMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/customer-testimonials"] > span');
     this.contactMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/contact"] > span');
+    this.showCaseMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/showcase"] > span');
     this.elementsWithFramesMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/elements-with-frames"] > span');
     this.basketMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/cart"] > span').nth(0);
     this.aboutUsMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/contact"] > span');
