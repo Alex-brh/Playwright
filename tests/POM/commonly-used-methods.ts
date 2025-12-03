@@ -14,7 +14,6 @@ export class CommonlyUsedMethods {
      * This utility method scrolls the element into view and performs multiple assertions
      * based on the provided element details.
      *
-     * @param {Page} page - The Playwright Page object.
      * @param {ElementDetails} elementDetails - An object containing element validation details.
      * @param {number} [elementDetails.elementIndex] - Optional index of the element to validate (uses nth selector).
      * @param {string} [elementDetails.elementHref] - Optional href attribute value to validate.
