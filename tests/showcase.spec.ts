@@ -26,7 +26,7 @@ test.describe(`Test online store's 'Showcase' page by`, () => {
         await expect(page).toHaveURL(`${baseURL}showcase`);
     });
 
-    test("verifying all paragraph text contents", async ({ page }) => {
+    test("verifying all paragraph text contents", async () => {
         // Validate that there are 12 paragraph texts on the Showcase page.
         await expect(showcasePage.paragraphTexts).toHaveCount(12);
         let elementDetails = [
@@ -67,7 +67,7 @@ test.describe(`Test online store's 'Showcase' page by`, () => {
                 elementLocator: showcasePage.paragraphTexts, elementIndex: 11, elementText: "DISCLAIMER: This is NOT a real e-comm website. It's being used for educational purposes ONLY. No items can be purchased and/or delivered through this website.",
             },
         ]
-        // Validate the presence and visibility of all form elements.
+        // Validate the presence and correctness of all paragraphs on the page.
         for (let i = 0; i < elementDetails.length; i++) {
             await showcasePage.validateHeaderText(elementDetails[i]);
         }

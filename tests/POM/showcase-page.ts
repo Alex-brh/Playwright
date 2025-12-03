@@ -4,12 +4,8 @@ import { CommonlyUsedMethods } from "./commonly-used-methods";
 
 export class ShowcasePage {
     private commonMethods: CommonlyUsedMethods;
-    // 
     readonly pageHeader: Locator;
     readonly paragraphTexts: Locator;
-
-
-
 
     /**
      * Creates an instance of ShowcasePage.
@@ -24,15 +20,16 @@ export class ShowcasePage {
     }
 
 
-  
+    /**
+     * Validate the header and paragraph text on the Showcase page.
+     * @param elementDetails 
+     */
     async validateHeaderText(elementDetails: { elementLocator: Locator; elementIndex: number; elementText: string; }) {
-    await this.commonMethods.validateElementText(this.page, {
-        elementLocator: elementDetails.elementLocator,
-        elementIndex: elementDetails.elementIndex,
-        elementText: elementDetails.elementText, 
-    });
-}
-
-/// Validate the headers and paragraph texts on the Showcase page.
+        await this.commonMethods.validateElementText({
+            elementLocator: elementDetails.elementLocator,
+            elementIndex: elementDetails.elementIndex,
+            elementText: elementDetails.elementText,
+        });
+    }
 
 }
