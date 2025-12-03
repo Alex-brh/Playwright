@@ -27,6 +27,8 @@ test.describe(`Test online store's 'Showcase' page by`, () => {
     });
 
     test("verifying all paragraph text contents", async ({ page }) => {
+        // Validate that there are 12 paragraph texts on the Showcase page.
+        await expect(showcasePage.paragraphTexts).toHaveCount(12);
         let elementDetails = [
             {
                 elementLocator: showcasePage.paragraphTexts, elementIndex: 0, elementText: "This is where our journey begins. Get to know our business and what we do, and how we're committed to quality and great service. Join us as we grow and succeed together. We're glad you're here to be a part of our story."
