@@ -11,7 +11,7 @@ interface ElementDetails {
 }
 
 export class CommonlyUsedMethods {
-
+// **************************************************************************************************************
     /**
      * Validates element properties including href attribute, and text content.
      * This utility method scrolls the element into view and performs multiple assertions
