@@ -53,15 +53,11 @@ export class CommonlyUsedMethods {
 
             if (elementHref !== undefined && elementHref !== null) {
                 console.log(`Validating href attribute: ${elementHref}`);
-                // Scroll the element into view, but only if it's not already visible.
-                await elementLocator.nth(elementIndex).scrollIntoViewIfNeeded();
                 await expect(elementLocator.nth(elementIndex)).toHaveAttribute("href", elementHref);
             }
 
             if (elementText !== undefined && elementText !== null) {
                 console.log(`Validating text content: ${elementText}`);
-                // Scroll the element into view, but only if it's not already visible.
-                await elementLocator.nth(elementIndex).scrollIntoViewIfNeeded();
                 await expect(elementLocator.nth(elementIndex)).toHaveText(elementText);
             }
         }

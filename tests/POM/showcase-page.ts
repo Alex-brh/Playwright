@@ -7,6 +7,7 @@ export class ShowcasePage {
     readonly pageHeader: Locator;
     readonly paragraphTexts: Locator;
     readonly showcasePageImage: Locator;
+    readonly exploreProductsButton: Locator;
 
     /**
      * Creates an instance of ShowcasePage.
@@ -19,6 +20,8 @@ export class ShowcasePage {
         this.paragraphTexts = this.page.locator('div[class^="jw-element-imagetext-text"] > p');
         // Showcase page images.
         this.showcasePageImage = this.page.locator('picture[class^="jw-element-image__image-wrapper"] > img');
+        // 'Explore products' button on the Showcase page.
+        this.exploreProductsButton = this.page.locator('a[class^="jw-element-content"][title="Store"]', { hasText: 'Explore products' });
         this.commonMethods = new CommonlyUsedMethods(); // Initialize it here.
     }
 
@@ -39,7 +42,7 @@ export class ShowcasePage {
      * Validate an element attribute base on elementLocator, elementIndex, attributeName, and attributeValue
      * @param elementDetails: elementLocator, elementIndex, attributeName, and attributeValue
      */
-    async validateImagePresence(elementDetails: { elementLocator: Locator; elementIndex: number; attributeName: string; attributeValue: string; }) {
+    async validateElemAttribute(elementDetails: { elementLocator: Locator; elementIndex: number; attributeName: string; attributeValue: string; }) {
         await this.commonMethods.validateElementAttribute({
             elementLocator: elementDetails.elementLocator,
             elementIndex: elementDetails.elementIndex,

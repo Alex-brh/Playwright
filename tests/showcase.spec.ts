@@ -95,8 +95,23 @@ test.describe(`Test online store's 'Showcase' page by`, () => {
         ];
         // Validate that all 5 images have a specific attribute.
         for (let i = 0; i < elementDetails.length; i++) {
-            await showcasePage.validateImagePresence(elementDetails[i]);
+            await showcasePage.validateElemAttribute(elementDetails[i]);
         }
+    });
+
+    test("validating the 'Explore products' button", async () => {
+        // Validate the 'Explore products' button is visible and has the correct text.
+        await expect(showcasePage.exploreProductsButton).toBeVisible();
+        let elementDetails = {
+            elementLocator: showcasePage.exploreProductsButton, elementIndex: 0, attributeName: "href", attributeValue: "/store"
+        };
+        await showcasePage.validateElemAttribute(elementDetails);
+        // Ensure the button leads to the correct URL when clicked.
+        await Promise.all([ // Use Promise.all to wait for both actions to complete.
+            showcasePage.page.waitForURL(`${baseURL}store`), // Wait for the navigation to complete.
+            showcasePage.exploreProductsButton.click() // Click the 'Explore products' button.
+        ]);
+        await expect(showcasePage.page).toHaveURL(`${baseURL}store`);
     });
 
 });
