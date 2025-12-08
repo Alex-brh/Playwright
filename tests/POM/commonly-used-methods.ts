@@ -8,6 +8,9 @@ interface ElementDetails {
     elementText?: string; // Optional.
     attributeName?: string; // Optional.
     attributeValue?: string; // Optional.
+    optionValue?: string; // Optional.
+    optionLabel?: string; // Optional.
+    optionIndex?: number; // Optional.
 }
 
 export class CommonlyUsedMethods {
@@ -114,6 +117,44 @@ export class CommonlyUsedMethods {
         }
         else {
             throw new Error(`Missing required parameters. Please provide: elementLocator, elementIndex, attributeName, and attributeValue.`);
+        }
+    }
+    // **************************************************************************************************************
+    /**
+     * @description Selects an option from a dropdown element by value, label, or index.
+     * @param elementDetails An object containing details for selecting the option.
+     * @param {Locator} elementDetails.elementLocator - Required Locator pointing to the dropdown element.
+     * @param {number} elementDetails.elementIndex - Required index of the dropdown element to interact with (uses nth selector).
+     * @param {string} [elementDetails.optionValue] - Optional value of the option to select.
+     * @param {string} [elementDetails.optionLabel] - Optional label of the option to select.
+     * @param {number} [elementDetails.optionIndex] - Optional index of the option to select.
+     */
+    async selectOptionByValueLabelOrIndex(elementDetails: ElementDetails): Promise<void> {
+        const { elementLocator, elementIndex, optionValue, optionLabel, optionIndex } = elementDetails;
+
+        if (elementIndex !== undefined && elementIndex !== null) {
+            console.log(`Validating element: [${elementLocator}] at index: ${elementIndex}`);
+            // Scroll the element into view, but only if it's not already visible.
+            await elementLocator.nth(elementIndex).scrollIntoViewIfNeeded();
+            await expect(elementLocator.nth(elementIndex)).toBeAttached();
+
+            if (optionValue !== undefined && optionValue !== null) {
+                console.log(`Select option value: ${optionValue}`);
+                await elementLocator.nth(elementIndex).selectOption({ value:  optionValue});
+            }
+            if (optionLabel !== undefined && optionLabel !== null) {
+                console.log(`Select option label: ${optionLabel}`);
+                await elementLocator.nth(elementIndex).selectOption({ label:  optionLabel});
+            }
+            if (optionIndex !== undefined && optionIndex !== null) {
+                console.log(`Select option index: ${optionIndex}`);
+                await elementLocator.nth(elementIndex).selectOption({ index:  optionIndex});
+            }          
+        }
+        else {
+            {
+                throw new Error(`Missing required parameters. Please provide: elementLocator, elementIndex, optionValue, optionLabel, optionIndex.`);
+            }
         }
     }
     // **************************************************************************************************************

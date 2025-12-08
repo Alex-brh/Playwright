@@ -6,6 +6,7 @@ export class ClearancePage {
     private commonMethods: CommonlyUsedMethods;
     readonly pageHeader: Locator;
     readonly paragraphTexts: Locator;
+    readonly sortByDropdown: Locator;
 
     /**
      * Creates an instance of ShowcasePage.
@@ -17,6 +18,8 @@ export class ClearancePage {
         this.pageHeader = this.page.locator('h2[class^="jw-heading"]');
         // Paragraph texts under each header (should be 12 in total right now).
         this.paragraphTexts = this.page.locator('div[class^="jw-element-imagetext-text"] > p');
+        // Sort By dropdown locator
+        this.sortByDropdown = this.page.locator('select[class="jw-select__input jw-element-form-input-text"]');
     }
 
     // **************************************************************************************************************
@@ -29,6 +32,16 @@ export class ClearancePage {
             elementLocator: elementDetails.elementLocator,
             elementIndex: elementDetails.elementIndex,
             elementText: elementDetails.elementText,
+        });
+    }
+    // **************************************************************************************************************
+    async selectOptionByValueLabelOrIndex(elementDetails: { elementLocator: Locator; elementIndex: number; optionValue?: string; optionLabel?: string; optionIndex?: number; }) {
+        await this.commonMethods.selectOptionByValueLabelOrIndex({
+            elementLocator: elementDetails.elementLocator,
+            elementIndex: elementDetails.elementIndex,
+            optionValue: elementDetails.optionValue,
+            optionLabel: elementDetails.optionLabel,
+            optionIndex: elementDetails.optionIndex,
         });
     }
     // **************************************************************************************************************
