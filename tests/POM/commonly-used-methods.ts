@@ -12,6 +12,9 @@ interface ElementDetails {
     optionIndex?: number; // Optional.
     toWaitForLoadingIndicator?: boolean; // Optional.
 }
+interface SelectedOptionDetails {
+    optionValue: string; // Required.
+}
 
 export class CommonlyUsedMethods {
     readonly dataLoadingIndicator: Locator;
@@ -19,6 +22,15 @@ export class CommonlyUsedMethods {
     constructor(public readonly page: Page) {
         // Data loading indicator locator
         this.dataLoadingIndicator = this.page.locator('div[class*="jw-element-is-loading"]');
+    }
+
+    /**
+     * Gets a locator for a selected option by its value.
+     * @param {string} optionValue - The value of the option to find.
+     * @returns {Locator} A locator pointing to the selected option with the specified value.
+     */
+    getSelectedOptionByValue(optionValue: string): Locator {
+        return this.page.locator(`select > option[value="${optionValue}"][selected]`);
     }
 
     // **************************************************************************************************************
@@ -135,25 +147,28 @@ export class CommonlyUsedMethods {
      * @param {string} [elementDetails.optionValue] - Optional value of the option to select.
      * @param {string} [elementDetails.optionLabel] - Optional label of the option to select.
      * @param {number} [elementDetails.optionIndex] - Optional index of the option to select.
-     * @param {boolean} [toWaitForLoadingIndicator=true] - Whether to wait for the loading indicator after selection.
+     * @param {boolean} [elementDetails.toWaitForLoadingIndicator] - true by default. Whether to wait for the loading indicator after selection.
      * @returns {Promise<void>}
      */
-    async selectOptionByValueLabelOrIndex(elementDetails: ElementDetails ): Promise<void> {
-        const { elementLocator, elementIndex, optionValue, optionLabel, optionIndex, toWaitForLoadingIndicator = true } = elementDetails;
+    async selectOptionByValueLabelOrIndex(elementDetails: ElementDetails): Promise<void> {
+        let { elementLocator, elementIndex, optionValue, optionLabel, optionIndex, toWaitForLoadingIndicator = true } = elementDetails;
 
         if (elementIndex !== undefined && elementIndex !== null) {
             console.log(`Validating element: [${elementLocator}] at index: ${elementIndex}`);
             // Scroll the element into view, but only if it's not already visible.
-            await elementLocator.nth(elementIndex).scrollIntoViewIfNeeded();
-            await expect(elementLocator.nth(elementIndex)).toBeAttached();
+            await expect(elementLocator.nth(elementIndex)).toBeAttached({ timeout: 10000 });
+            await elementLocator.nth(elementIndex).scrollIntoViewIfNeeded({ timeout: 10000 });
+            await expect(elementLocator.nth(elementIndex)).toBeAttached({ timeout: 10000 });
             await expect(elementLocator.nth(elementIndex)).toBeVisible();
 
             if (optionValue !== undefined && optionValue !== null) {
-                console.log(`Select option value: ${optionValue}`);
+                console.log(`Select option value: [${optionValue}], to wait for loading indicator: ${toWaitForLoadingIndicator}`);
                 await elementLocator.nth(elementIndex).selectOption({ value: optionValue });
-                if (toWaitForLoadingIndicator) {
+                if (toWaitForLoadingIndicator == true) {
                     await this.waitForDataLoadingToComplete();
                 }
+                const selectedOption = this.getSelectedOptionByValue(optionValue);
+                await expect(selectedOption).toBeAttached({ timeout: 10000 });
             }
             if (optionLabel !== undefined && optionLabel !== null) {
                 console.log(`Select option label: ${optionLabel}`);

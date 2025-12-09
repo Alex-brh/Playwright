@@ -35,13 +35,14 @@ export class ClearancePage {
         });
     }
     // **************************************************************************************************************
-    async selectOptionByValueLabelOrIndex(elementDetails: { elementLocator: Locator; elementIndex: number; optionValue?: string; optionLabel?: string; optionIndex?: number; }) {
+    async selectOptionByValueLabelOrIndex(elementDetails: { elementLocator: Locator; elementIndex: number; optionValue?: string; optionLabel?: string; optionIndex?: number; toWaitForLoadingIndicator?: boolean }) {
         await this.commonMethods.selectOptionByValueLabelOrIndex({
             elementLocator: elementDetails.elementLocator,
             elementIndex: elementDetails.elementIndex,
             optionValue: elementDetails.optionValue,
             optionLabel: elementDetails.optionLabel,
             optionIndex: elementDetails.optionIndex,
+            toWaitForLoadingIndicator: elementDetails.toWaitForLoadingIndicator,
         });
     }
     // **************************************************************************************************************
