@@ -13,7 +13,7 @@ export class ClearancePage {
      * @param {Page} page - The Playwright Page object.
      */
     constructor(public readonly page: Page) {
-        this.commonMethods = new CommonlyUsedMethods(); // Initialize it here.
+        this.commonMethods = new CommonlyUsedMethods(this.page); // Initialize it here.
         // Page h2 headers (should be 2 in total on the Showcase page).
         this.pageHeader = this.page.locator('h2[class^="jw-heading"]');
         // Paragraph texts under each header (should be 12 in total right now).

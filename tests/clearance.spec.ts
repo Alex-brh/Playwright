@@ -58,15 +58,18 @@ test.describe(`Test online store's 'Clearance' page by`, () => {
     });
 
     test("validating that products can be sorted by value | label | index", async () => {
-        // Select the dropdown to sort products by value, label, or index.
+        // Select the dropdown to sort products by value, label, or index. toWaitForLoadingIndicator
         let elementDetails = [
+            { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "created-desc", toWaitForLoadingIndicator: false },
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "price-asc" },
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "manual" },
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "price-desc" },
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "title-asc" },
-            { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "title-desc" },
-            { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "created-desc" },
+            { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "title-desc" }
         ];
+        for (let i = 0; i < elementDetails.length; i++) { 
+            await clearancePage.selectOptionByValueLabelOrIndex(elementDetails[i]);
+        }
 
     });
 

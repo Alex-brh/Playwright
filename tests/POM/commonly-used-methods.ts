@@ -1,5 +1,4 @@
 import { type Page, type Locator, expect, APIRequestContext } from "@playwright/test";
-import { error } from "console";
 
 interface ElementDetails {
     elementLocator: Locator; // Required.
@@ -11,9 +10,17 @@ interface ElementDetails {
     optionValue?: string; // Optional.
     optionLabel?: string; // Optional.
     optionIndex?: number; // Optional.
+    toWaitForLoadingIndicator?: boolean; // Optional.
 }
 
 export class CommonlyUsedMethods {
+    readonly dataLoadingIndicator: Locator;
+
+    constructor(public readonly page: Page) {
+        // Data loading indicator locator
+        this.dataLoadingIndicator = this.page.locator('div[class*="jw-element-is-loading"]');
+    }
+
     // **************************************************************************************************************
     /**
      * Validates element properties including href attribute, and text content.
@@ -128,34 +135,65 @@ export class CommonlyUsedMethods {
      * @param {string} [elementDetails.optionValue] - Optional value of the option to select.
      * @param {string} [elementDetails.optionLabel] - Optional label of the option to select.
      * @param {number} [elementDetails.optionIndex] - Optional index of the option to select.
+     * @param {boolean} [toWaitForLoadingIndicator=true] - Whether to wait for the loading indicator after selection.
+     * @returns {Promise<void>}
      */
-    async selectOptionByValueLabelOrIndex(elementDetails: ElementDetails): Promise<void> {
-        const { elementLocator, elementIndex, optionValue, optionLabel, optionIndex } = elementDetails;
+    async selectOptionByValueLabelOrIndex(elementDetails: ElementDetails ): Promise<void> {
+        const { elementLocator, elementIndex, optionValue, optionLabel, optionIndex, toWaitForLoadingIndicator = true } = elementDetails;
 
         if (elementIndex !== undefined && elementIndex !== null) {
             console.log(`Validating element: [${elementLocator}] at index: ${elementIndex}`);
             // Scroll the element into view, but only if it's not already visible.
             await elementLocator.nth(elementIndex).scrollIntoViewIfNeeded();
             await expect(elementLocator.nth(elementIndex)).toBeAttached();
+            await expect(elementLocator.nth(elementIndex)).toBeVisible();
 
             if (optionValue !== undefined && optionValue !== null) {
                 console.log(`Select option value: ${optionValue}`);
-                await elementLocator.nth(elementIndex).selectOption({ value:  optionValue});
+                await elementLocator.nth(elementIndex).selectOption({ value: optionValue });
+                if (toWaitForLoadingIndicator) {
+                    await this.waitForDataLoadingToComplete();
+                }
             }
             if (optionLabel !== undefined && optionLabel !== null) {
                 console.log(`Select option label: ${optionLabel}`);
-                await elementLocator.nth(elementIndex).selectOption({ label:  optionLabel});
+                await elementLocator.nth(elementIndex).selectOption({ label: optionLabel });
+                if (toWaitForLoadingIndicator) {
+                    await this.waitForDataLoadingToComplete();
+                }
             }
             if (optionIndex !== undefined && optionIndex !== null) {
                 console.log(`Select option index: ${optionIndex}`);
-                await elementLocator.nth(elementIndex).selectOption({ index:  optionIndex});
-            }          
+                await elementLocator.nth(elementIndex).selectOption({ index: optionIndex });
+                if (toWaitForLoadingIndicator) {
+                    await this.waitForDataLoadingToComplete();
+                }
+            }
         }
         else {
             {
                 throw new Error(`Missing required parameters. Please provide: elementLocator, elementIndex, optionValue, optionLabel, optionIndex.`);
             }
         }
+    }
+    // **************************************************************************************************************
+    /**
+     * Waits for the data loading indicator to appear and then disappear.
+     * @param timeoutVisible 
+     * @param timeoutHidden 
+     * @returns 
+     */
+    async waitForDataLoadingToComplete(timeoutVisible = 3000, timeoutHidden = 10000): Promise<void> {
+        const loader = this.dataLoadingIndicator
+        // If loader is not visible quickly, assume nothing to wait for
+        try {
+            await loader.waitFor({ state: 'visible', timeout: timeoutVisible });
+        } catch {
+            // loader did not become visible within a short timeout — treat as no loader
+            throw new Error(`No data loading indicator shows up.`);
+        }
+        // Loader became visible → wait for it to hide (longer timeout)
+        await loader.waitFor({ state: 'hidden', timeout: timeoutHidden });
     }
     // **************************************************************************************************************
 

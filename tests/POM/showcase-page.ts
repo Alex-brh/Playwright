@@ -22,7 +22,7 @@ export class ShowcasePage {
         this.showcasePageImage = this.page.locator('picture[class^="jw-element-image__image-wrapper"] > img');
         // 'Explore products' button on the Showcase page.
         this.exploreProductsButton = this.page.locator('a[class^="jw-element-content"][title="Store"]', { hasText: 'Explore products' });
-        this.commonMethods = new CommonlyUsedMethods(); // Initialize it here.
+        this.commonMethods = new CommonlyUsedMethods(this.page); // Initialize it here.
     }
 
     // **************************************************************************************************************
