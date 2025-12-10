@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { StoreHomePage } from "./POM/home-page";
 import { ClearancePage } from "./POM/clearance-page";
+import { ContactPage } from "./POM/contact-page";
 import config from "../playwright.config";
 
 // Determine the base URL from the Playwright configuration or use a fallback URL.
@@ -8,13 +9,14 @@ const baseURL = config.use?.baseURL ?? "https://free-5288352.webadorsite.com/";
 
 test.describe(`Test 'Clearance' page by`, () => {
     // Declare variables for the Page Object Model (POM) classes to be used in the tests.
-    let storeHomePage: StoreHomePage, clearancePage: ClearancePage;
+    let storeHomePage: StoreHomePage, clearancePage: ClearancePage, contactPage: ContactPage;
 
     // The `beforeEach` hook runs before every test in this `test.describe` block.
     test.beforeEach(async ({ page, request }) => {
         // Initialize the POM classes with the Playwright `page` fixture.
         storeHomePage = new StoreHomePage(page);
         clearancePage = new ClearancePage(page);
+        contactPage = new ContactPage(page);
 
         // Navigate to the store's home page using a POM method.
         await storeHomePage.gotoStoreHomePage(page, request);
@@ -74,7 +76,11 @@ test.describe(`Test 'Clearance' page by`, () => {
         for (let i = 0; i < elementDetails.length; i++) { 
             await clearancePage.selectOptionByValueLabelOrIndex(elementDetails[i]);
         }
+    });
 
+    test("validating the 'Contact Us' button functionality", async () => {
+        // Click the 'Contact Us' button and validate navigation to the Contact page.
+        await contactPage.clickContactUsButtonAndValidateNavigation();
     });
 
 });
