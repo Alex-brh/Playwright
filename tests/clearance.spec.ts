@@ -28,9 +28,9 @@ test.describe(`Test online store's 'Clearance' page by`, () => {
 
     test("validating the header and paragraph texts on the 'Clearance' page", async () => {
         // Validate that there are 2 headers on the Clearance page.
-        await expect(clearancePage.pageHeader).toHaveCount(2);
+        await expect(clearancePage.pageHeader).toHaveCount(3);
         // Validate that there are 4 paragraph texts on the Clearance page.
-        await expect(clearancePage.paragraphTexts).toHaveCount(4);
+        await expect(clearancePage.paragraphTexts).toHaveCount(5);
         // Validate the header and paragraph texts on the 'Clearance' page.
          let elementDetails = [
             {
@@ -49,7 +49,10 @@ test.describe(`Test online store's 'Clearance' page by`, () => {
                 elementLocator: clearancePage.paragraphTexts, elementIndex: 2, elementText: "This is where our journey begins. Get to know our business and what we do, and how we're committed to quality and great service. Join us as we grow and succeed together. We're glad you're here to be a part of our story.",
             },
             {
-                elementLocator: clearancePage.paragraphTexts, elementIndex: 3, elementText: "DISCLAIMER: This is NOT a real e-comm website. It's being used for educational purposes ONLY. No items can be purchased and/or delivered through this website.",
+                elementLocator: clearancePage.paragraphTexts, elementIndex: 3, elementText: "In this space, we share inspiration, tips, and stories that help you get the most out of our services. Whether you're looking for helpful tips, background information, or a behind-the-scenes look: you'll find it all here. We regularly post new articles, so keep an eye on the blog for updates and new insights.",
+            },
+            {
+                elementLocator: clearancePage.paragraphTexts, elementIndex: 4, elementText: "DISCLAIMER: This is NOT a real e-comm website. It's being used for educational purposes ONLY. No items can be purchased and/or delivered through this website.",
             }
         ];
         for (let i = 0; i < elementDetails.length; i++) { 
