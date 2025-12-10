@@ -7,6 +7,7 @@ export class ClearancePage {
     readonly pageHeader: Locator;
     readonly paragraphTexts: Locator;
     readonly sortByDropdown: Locator;
+    readonly clearancePageImage: Locator;
 
     /**
      * Creates an instance of ShowcasePage.
@@ -20,6 +21,8 @@ export class ClearancePage {
         this.paragraphTexts = this.page.locator('div[class^="jw-element-imagetext-text"] > p');
         // Sort By dropdown locator
         this.sortByDropdown = this.page.locator('select[class="jw-select__input jw-element-form-input-text"]');
+        // Clearance page images.
+        this.clearancePageImage = this.page.locator('a[class*="product-image"]');
     }
 
     // **************************************************************************************************************

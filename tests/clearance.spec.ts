@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import { StoreHomePage } from "./POM/home-page";
 import { ClearancePage } from "./POM/clearance-page";
 import { ContactPage } from "./POM/contact-page";
+import { ShowcasePage } from "./POM/showcase-page";
 import config from "../playwright.config";
 
 // Determine the base URL from the Playwright configuration or use a fallback URL.
@@ -9,7 +10,7 @@ const baseURL = config.use?.baseURL ?? "https://free-5288352.webadorsite.com/";
 
 test.describe(`Test 'Clearance' page by`, () => {
     // Declare variables for the Page Object Model (POM) classes to be used in the tests.
-    let storeHomePage: StoreHomePage, clearancePage: ClearancePage, contactPage: ContactPage;
+    let storeHomePage: StoreHomePage, clearancePage: ClearancePage, contactPage: ContactPage, showcasePage: ShowcasePage;
 
     // The `beforeEach` hook runs before every test in this `test.describe` block.
     test.beforeEach(async ({ page, request }) => {
@@ -17,6 +18,7 @@ test.describe(`Test 'Clearance' page by`, () => {
         storeHomePage = new StoreHomePage(page);
         clearancePage = new ClearancePage(page);
         contactPage = new ContactPage(page);
+        showcasePage = new ShowcasePage(page);
 
         // Navigate to the store's home page using a POM method.
         await storeHomePage.gotoStoreHomePage(page, request);
@@ -83,4 +85,19 @@ test.describe(`Test 'Clearance' page by`, () => {
         await contactPage.clickContactUsButtonAndValidateNavigation();
     });
 
+    test("validating the images presence on the 'Clearance' page", async () => {
+        // Validate that there are 3 images on the Clearance page.
+        await expect(clearancePage.clearancePageImage).toHaveCount(3);
+        // Validate that each image has the 'loading' attribute set to 'lazy'.
+        let elementDetails = [
+            {   elementLocator: clearancePage.clearancePageImage, elementIndex: 0, attributeName: "data-jwlink-title", attributeValue: "Best product #1" },
+
+            {   elementLocator: clearancePage.clearancePageImage, elementIndex: 1, attributeName: "data-jwlink-title", attributeValue: "Best product #2" },
+
+            {   elementLocator: clearancePage.clearancePageImage, elementIndex: 2, attributeName: "data-jwlink-title", attributeValue: "Best product #3" },
+        ];
+        for (let i = 0; i < elementDetails.length; i++) { 
+            await showcasePage.validateElemAttribute(elementDetails[i]);
+        }
+    });
 });
