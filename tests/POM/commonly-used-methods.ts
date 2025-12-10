@@ -18,10 +18,16 @@ interface SelectedOptionDetails {
 
 export class CommonlyUsedMethods {
     readonly dataLoadingIndicator: Locator;
+    readonly dropDownSelectedOption: Locator;
+    readonly sortDropDownCaret: Locator;
 
     constructor(public readonly page: Page) {
         // Data loading indicator locator
         this.dataLoadingIndicator = this.page.locator('div[class*="jw-element-is-loading"]');
+        // Dropdown selected option locator
+        this.dropDownSelectedOption = this.page.locator('select > option[selected]');
+        // Sort dropdown caret locator
+        this.sortDropDownCaret = this.page.locator('div[class="product-gallery-sorting js-product-gallery-sorting"]');
     }
 
     /**
@@ -160,6 +166,7 @@ export class CommonlyUsedMethods {
             await elementLocator.nth(elementIndex).scrollIntoViewIfNeeded({ timeout: 15000 });
             await expect(elementLocator.nth(elementIndex)).toBeAttached({ timeout: 10000 });
             await expect(elementLocator.nth(elementIndex)).toBeVisible();
+            await this.sortDropDownCaret.click(); // Click the caret to open the dropdown options.
 
             if (optionValue !== undefined && optionValue !== null) {
                 console.log(`Select option value: [${optionValue}], to wait for loading indicator: ${toWaitForLoadingIndicator}`);
@@ -168,7 +175,9 @@ export class CommonlyUsedMethods {
                     await this.waitForDataLoadingToComplete();
                 }
                 const selectedOption = this.getSelectedOptionByValue(optionValue);
-                await expect(selectedOption).toBeAttached({ timeout: 10000 });
+                console.log(`Validating selected option with value: ${optionValue}`);
+                await expect(this.dropDownSelectedOption.nth(0)).toBeAttached({ timeout: 10000 });
+                await expect(this.dropDownSelectedOption.nth(0)).toHaveAttribute('value', optionValue);
             }
             if (optionLabel !== undefined && optionLabel !== null) {
                 console.log(`Select option label: ${optionLabel}`);
@@ -198,7 +207,7 @@ export class CommonlyUsedMethods {
      * @param timeoutHidden 
      * @returns 
      */
-    async waitForDataLoadingToComplete(timeoutVisible = 10000, timeoutHidden = 30000): Promise<void> {
+    async waitForDataLoadingToComplete(timeoutVisible = 10000, timeoutHidden = 25000): Promise<void> {
         const loader = this.dataLoadingIndicator
         // If loader is not visible quickly, assume nothing to wait for
         try {

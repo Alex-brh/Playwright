@@ -6,7 +6,7 @@ import config from "../playwright.config";
 // Determine the base URL from the Playwright configuration or use a fallback URL.
 const baseURL = config.use?.baseURL ?? "https://free-5288352.webadorsite.com/";
 
-test.describe(`Test online store 'Contact' page by`, () => {
+test.describe(`Test 'Contact' page by`, () => {
     // Declare variables for the Page Object Model (POM) classes to be used in the tests.
     let storeHomePage: StoreHomePage, contactPage: ContactPage;
 

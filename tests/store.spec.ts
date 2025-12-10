@@ -11,7 +11,7 @@ import { url } from 'inspector';
 const baseURL = config.use?.baseURL ?? 'https://free-5288352.webadorsite.com/';
 
 // Use `test.describe` to group related test cases for the "Store" page.
-test.describe(`Test online store 'Store' page by`, () => {
+test.describe(`Test 'Store' page by`, () => {
     // Declare variables for the Page Object Model (POM) classes to be used in the tests.
     let storeHomePage: StoreHomePage, storePage: StorePage;
 

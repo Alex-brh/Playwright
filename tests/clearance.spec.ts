@@ -6,7 +6,7 @@ import config from "../playwright.config";
 // Determine the base URL from the Playwright configuration or use a fallback URL.
 const baseURL = config.use?.baseURL ?? "https://free-5288352.webadorsite.com/";
 
-test.describe(`Test online store's 'Clearance' page by`, () => {
+test.describe(`Test 'Clearance' page by`, () => {
     // Declare variables for the Page Object Model (POM) classes to be used in the tests.
     let storeHomePage: StoreHomePage, clearancePage: ClearancePage;
 
@@ -63,13 +63,13 @@ test.describe(`Test online store's 'Clearance' page by`, () => {
     test("validating that products can be sorted by value | label | index", async () => {
         // Select the dropdown to sort products by value, label, or index. toWaitForLoadingIndicator
         let elementDetails = [
-            { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "created-desc", toWaitForLoadingIndicator: false },
+            { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "manual", toWaitForLoadingIndicator: false },
+            { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "created-desc" },
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "price-asc" },
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "manual" },
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "price-desc" },
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "title-asc" },
-            { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "title-desc" },
-            { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "created-desc", toWaitForLoadingIndicator: false }
+            { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "title-desc", toWaitForLoadingIndicator: false  }
         ];
         for (let i = 0; i < elementDetails.length; i++) { 
             await clearancePage.selectOptionByValueLabelOrIndex(elementDetails[i]);
