@@ -68,7 +68,8 @@ test.describe(`Test online store's 'Clearance' page by`, () => {
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "manual" },
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "price-desc" },
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "title-asc" },
-            { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "title-desc" }
+            { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "title-desc" },
+            { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "created-desc", toWaitForLoadingIndicator: false }
         ];
         for (let i = 0; i < elementDetails.length; i++) { 
             await clearancePage.selectOptionByValueLabelOrIndex(elementDetails[i]);

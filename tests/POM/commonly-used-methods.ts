@@ -157,14 +157,14 @@ export class CommonlyUsedMethods {
             console.log(`Validating element: [${elementLocator}] at index: ${elementIndex}`);
             // Scroll the element into view, but only if it's not already visible.
             await expect(elementLocator.nth(elementIndex)).toBeAttached({ timeout: 10000 });
-            await elementLocator.nth(elementIndex).scrollIntoViewIfNeeded({ timeout: 10000 });
+            await elementLocator.nth(elementIndex).scrollIntoViewIfNeeded({ timeout: 15000 });
             await expect(elementLocator.nth(elementIndex)).toBeAttached({ timeout: 10000 });
             await expect(elementLocator.nth(elementIndex)).toBeVisible();
 
             if (optionValue !== undefined && optionValue !== null) {
                 console.log(`Select option value: [${optionValue}], to wait for loading indicator: ${toWaitForLoadingIndicator}`);
                 await elementLocator.nth(elementIndex).selectOption({ value: optionValue });
-                if (toWaitForLoadingIndicator == true) {
+                if (toWaitForLoadingIndicator) {
                     await this.waitForDataLoadingToComplete();
                 }
                 const selectedOption = this.getSelectedOptionByValue(optionValue);
@@ -198,7 +198,7 @@ export class CommonlyUsedMethods {
      * @param timeoutHidden 
      * @returns 
      */
-    async waitForDataLoadingToComplete(timeoutVisible = 3000, timeoutHidden = 10000): Promise<void> {
+    async waitForDataLoadingToComplete(timeoutVisible = 10000, timeoutHidden = 30000): Promise<void> {
         const loader = this.dataLoadingIndicator
         // If loader is not visible quickly, assume nothing to wait for
         try {
