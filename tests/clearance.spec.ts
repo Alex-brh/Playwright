@@ -100,4 +100,9 @@ test.describe(`Test 'Clearance' page by`, () => {
             await showcasePage.validateElemAttribute(elementDetails[i]);
         }
     });
+
+    test("validating the 'Best product # 1'", async () => {
+        // Validate the details of 'Best product #1'.
+        await clearancePage.validateBestProductDetails(0, "Best product #1", "$19.99", "Add to cart");
+    });
 });

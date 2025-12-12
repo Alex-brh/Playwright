@@ -1,6 +1,19 @@
 import { type Page, type Locator, expect, APIRequestContext } from "@playwright/test";
 import { CommonlyUsedMethods } from "./commonly-used-methods";
 
+interface BestProductDetails {
+    productHeaderLocator: Locator; // Required.
+    elementIndex?: number; // Optional.
+    productImageLocator?: Locator; // Optional.
+    productHeader?: string; // Optional.
+    productCost?: string; // Optional.
+    productDescription?: string; // Optional.
+    buttonDisabledLocator?: Locator; // Optional.
+    buttonAddToWishListLocator?: Locator; // Optional.
+    amountDropDownListLocator?: Locator; // Optional.
+    amountIndex?: number; // Optional.
+    clearanceLabelLocator?: Locator; // Optional.
+}
 
 export class ClearancePage {
     private commonMethods: CommonlyUsedMethods;
@@ -8,6 +21,14 @@ export class ClearancePage {
     readonly paragraphTexts: Locator;
     readonly sortByDropdown: Locator;
     readonly clearancePageImage: Locator;
+    readonly productHeaderLocator: Locator;
+    readonly productImageLocator: Locator;
+    readonly buttonDisabledLocator: Locator;
+    readonly productPriceLocator: Locator;
+    readonly buttonAddToWishListLocator: Locator;
+    readonly seeDetailsButtonLocator: Locator;
+    readonly selectAmountDropDownListLocator: Locator;
+    readonly clearanceLabelLocator: Locator;
 
     /**
      * Creates an instance of ShowcasePage.
@@ -23,6 +44,22 @@ export class ClearancePage {
         this.sortByDropdown = this.page.locator('select[class="jw-select__input jw-element-form-input-text"]');
         // Clearance page images.
         this.clearancePageImage = this.page.locator('a[class*="product-image"]');
+        // Product header locator: used in 'Best product #1', #2, and #3 validations.
+        this.productHeaderLocator = this.page.locator('h3[class="product__heading heading__no-margin"] > a'); // Use index to select specific product.
+        // Product image locator: used in 'Best product #1', #2, and #3 validations.
+        this.productImageLocator = this.page.locator('a[data-segment-type="product"] > img'); // Use index to select specific image.
+        // 'Disabled' button locator: used in 'Best product #1', #2, and #3 validations.
+        this.buttonDisabledLocator = this.page.locator('button[title="Disabled"][disabled]'); // There are 6 such buttons on the Clearance page.
+        // 'Add to wish list' button locator: used in 'Best product #1', #2, and #3 validations.
+        this.buttonAddToWishListLocator = this.page.locator('button[title="Add to wishlist"]'); // There are 6 such buttons on the Clearance page.
+        // Product price locator: used in 'Best product #1', #2, and #3 validations.
+        this.productPriceLocator = this.page.locator('div[class="product__price js-product-container__price"] > span'); // Use index to select specific product price.
+        // 'See details' button locator: used in 'Best product #1', #2, and #3 validations.
+        this.seeDetailsButtonLocator = this.page.locator('div[class="product__long-description"] > a'); // Use index to select specific product.
+        // Select-amount dropdown list locator: used in 'Best product #1', #2, and #3 validations.
+        this.selectAmountDropDownListLocator = this.page.locator('select[class*="product-quantity-input__select"] > option'); // Use index to select specific product.
+        // Clearance label locator: used in 'Best product #1', #2, and #3 validations.
+        this.clearanceLabelLocator = this.page.locator('div[class="product__top"] > div[class="product-sticker"]'); // Use index to select specific product.
     }
 
     // **************************************************************************************************************
@@ -49,5 +86,8 @@ export class ClearancePage {
         });
     }
     // **************************************************************************************************************
+    async validateBestProductDetails(elementIndex: number, expectedTitle: string, expectedPrice: string, expectedButtonText: string) {
+
+    }
 
 }
