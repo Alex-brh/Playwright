@@ -2,35 +2,35 @@ import { type Page, type Locator, expect, APIRequestContext } from "@playwright/
 import { CommonlyUsedMethods } from "./commonly-used-methods";
 
 
-export class ShowcasePage {
+export class ClearancePage {
     private commonMethods: CommonlyUsedMethods;
     readonly pageHeader: Locator;
     readonly paragraphTexts: Locator;
-    readonly showcasePageImage: Locator;
-    readonly exploreProductsButton: Locator;
+    readonly sortByDropdown: Locator;
+    readonly clearancePageImage: Locator;
 
     /**
      * Creates an instance of ShowcasePage.
      * @param {Page} page - The Playwright Page object.
      */
     constructor(public readonly page: Page) {
-        // Page h2 headers (should be 5 in total on the Showcase page).
+        this.commonMethods = new CommonlyUsedMethods(this.page); // Initialize it here.
+        // Page h2 headers (should be 2 in total on the Showcase page).
         this.pageHeader = this.page.locator('h2[class^="jw-heading"]');
         // Paragraph texts under each header (should be 12 in total right now).
         this.paragraphTexts = this.page.locator('div[class^="jw-element-imagetext-text"] > p');
-        // Showcase page images.
-        this.showcasePageImage = this.page.locator('picture[class^="jw-element-image__image-wrapper"] > img');
-        // 'Explore products' button on the Showcase page.
-        this.exploreProductsButton = this.page.locator('a[class^="jw-element-content"][title="Store"]', { hasText: 'Explore products' });
-        this.commonMethods = new CommonlyUsedMethods(this.page); // Initialize it here.
+        // Sort By dropdown locator
+        this.sortByDropdown = this.page.locator('select[class="jw-select__input jw-element-form-input-text"]');
+        // Clearance page images.
+        this.clearancePageImage = this.page.locator('a[class*="product-image"]');
     }
 
     // **************************************************************************************************************
     /**
-     * Validate the header and paragraph text on the Showcase page.
+     * Validate the header or paragraph text on the Showcase page.
      * @param elementDetails 
      */
-    async validateHeaderText(elementDetails: { elementLocator: Locator; elementIndex: number; elementText: string; }) {
+    async validateHeaderOrParagraphText(elementDetails: { elementLocator: Locator; elementIndex: number; elementText: string; }) {
         await this.commonMethods.validateElementText({
             elementLocator: elementDetails.elementLocator,
             elementIndex: elementDetails.elementIndex,
@@ -38,17 +38,16 @@ export class ShowcasePage {
         });
     }
     // **************************************************************************************************************
-    /**
-     * Validate an element attribute base on elementLocator, elementIndex, attributeName, and attributeValue
-     * @param elementDetails: elementLocator, elementIndex, attributeName, and attributeValue
-     */
-    async validateElemAttribute(elementDetails: { elementLocator: Locator; elementIndex: number; attributeName: string; attributeValue: string; }) {
-        await this.commonMethods.validateElementAttribute({
+    async selectOptionByValueLabelOrIndex(elementDetails: { elementLocator: Locator; elementIndex: number; optionValue?: string; optionLabel?: string; optionIndex?: number; toWaitForLoadingIndicator?: boolean }) {
+        await this.commonMethods.selectOptionByValueLabelOrIndex({
             elementLocator: elementDetails.elementLocator,
             elementIndex: elementDetails.elementIndex,
-            attributeName: elementDetails.attributeName,
-            attributeValue: elementDetails.attributeValue,
+            optionValue: elementDetails.optionValue,
+            optionLabel: elementDetails.optionLabel,
+            optionIndex: elementDetails.optionIndex,
+            toWaitForLoadingIndicator: elementDetails.toWaitForLoadingIndicator,
         });
     }
     // **************************************************************************************************************
+
 }

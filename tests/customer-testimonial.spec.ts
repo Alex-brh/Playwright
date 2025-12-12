@@ -7,7 +7,7 @@ import config from '../playwright.config';
 const baseURL = config.use?.baseURL ?? 'https://free-5288352.webadorsite.com/';
 
 // Group related test cases for the "Store" page.
-test.describe(`Test online store 'Customer Testimonials' page by`, () => {
+test.describe(`Test 'Customer Testimonials' page by`, () => {
     // Declare variables for the Page Object Model (POM) classes to be used in the tests.
     let storeHomePage: StoreHomePage, customerTestimonials: CustomerTestimonials;
 

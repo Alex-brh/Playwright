@@ -29,6 +29,7 @@ export class ContactPage {
     // Form buttons and validation elements
     private readonly submitButton: Locator;
     private readonly errorMessage: Locator;
+    readonly contactUsButton: Locator;
 
     /**
      * Creates an instance of ContactPage.
@@ -46,6 +47,7 @@ export class ContactPage {
         // Submit button and error message
         this.submitButton = this.page.locator('button[name="submit"]');
         this.errorMessage = this.page.locator('div[class="jw-element-form-error"] > strong');
+        this.contactUsButton = this.page.locator('a[href="/contact"][title="Contact"]');
     }
 
     /**
@@ -182,4 +184,22 @@ export class ContactPage {
         await this.emailField.clear();
         await this.messageField.clear();
     }
+
+    /**
+     * Click the 'Contact Us' button and then validate navigation to the Contact page.
+     * @param {Locator} contactUsButton - Locator for the 'Contact Us' button
+     * @returns {Promise<void>}
+     */
+    async clickContactUsButtonAndValidateNavigation(): Promise<void> {
+        // Click the 'Contact Us' button
+        await expect(this.contactUsButton).toBeAttached();
+        await this.contactUsButton.scrollIntoViewIfNeeded();
+        await expect(this.contactUsButton).toBeVisible();
+        await expect(this.contactUsButton).toBeEnabled();
+        await this.contactUsButton.click();
+        // Validate navigation to the Contact page
+        await this.page.waitForURL("**/contact", { timeout: 15000 });
+        await expect(this.page).toHaveURL(/\/contact$/);
+    }
+
 }

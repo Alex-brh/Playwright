@@ -1,5 +1,4 @@
 import { type Page, type Locator, expect, APIRequestContext } from "@playwright/test";
-import { error } from "console";
 
 interface ElementDetails {
     elementLocator: Locator; // Required.
@@ -8,10 +7,39 @@ interface ElementDetails {
     elementText?: string; // Optional.
     attributeName?: string; // Optional.
     attributeValue?: string; // Optional.
+    optionValue?: string; // Optional.
+    optionLabel?: string; // Optional.
+    optionIndex?: number; // Optional.
+    toWaitForLoadingIndicator?: boolean; // Optional.
+}
+interface SelectedOptionDetails {
+    optionValue: string; // Required.
 }
 
 export class CommonlyUsedMethods {
-// **************************************************************************************************************
+    readonly dataLoadingIndicator: Locator;
+    readonly dropDownSelectedOption: Locator;
+    readonly sortDropDownCaret: Locator;
+
+    constructor(public readonly page: Page) {
+        // Data loading indicator locator
+        this.dataLoadingIndicator = this.page.locator('div[class*="jw-element-is-loading"]');
+        // Dropdown selected option locator
+        this.dropDownSelectedOption = this.page.locator('select > option[selected]');
+        // Sort dropdown caret locator
+        this.sortDropDownCaret = this.page.locator('div[class="product-gallery-sorting js-product-gallery-sorting"]');
+    }
+
+    /**
+     * Gets a locator for a selected option by its value.
+     * @param {string} optionValue - The value of the option to find.
+     * @returns {Locator} A locator pointing to the selected option with the specified value.
+     */
+    getSelectedOptionByValue(optionValue: string): Locator {
+        return this.page.locator(`select > option[value="${optionValue}"][selected]`);
+    }
+
+    // **************************************************************************************************************
     /**
      * Validates element properties including href attribute, and text content.
      * This utility method scrolls the element into view and performs multiple assertions
@@ -61,6 +89,11 @@ export class CommonlyUsedMethods {
                 await expect(elementLocator.nth(elementIndex)).toHaveText(elementText);
             }
         }
+        else {
+            {
+                throw new Error(`Missing required parameters. Please provide: elementLocator, elementIndex, attributeName, and attributeValue.`);
+            }
+        }
     }
     // **************************************************************************************************************
     /**
@@ -108,8 +141,87 @@ export class CommonlyUsedMethods {
             await expect(elementLocator.nth(elementIndex)).toHaveAttribute(attributeName, attributeValue);
         }
         else {
-            console.error(`Missing required parameters. Please provide: elementLocator, elementIndex, attributeName, and attributeValue.`);
+            throw new Error(`Missing required parameters. Please provide: elementLocator, elementIndex, attributeName, and attributeValue.`);
         }
+    }
+    // **************************************************************************************************************
+    /**
+     * @description Selects an option from a dropdown element by value, label, or index.
+     * @param elementDetails An object containing details for selecting the option.
+     * @param {Locator} elementDetails.elementLocator - Required Locator pointing to the dropdown element.
+     * @param {number} elementDetails.elementIndex - Required index of the dropdown element to interact with (uses nth selector).
+     * @param {string} [elementDetails.optionValue] - Optional value of the option to select.
+     * @param {string} [elementDetails.optionLabel] - Optional label of the option to select.
+     * @param {number} [elementDetails.optionIndex] - Optional index of the option to select.
+     * @param {boolean} [elementDetails.toWaitForLoadingIndicator] - true by default. Whether to wait for the loading indicator after selection.
+     * @returns {Promise<void>}
+     */
+    async selectOptionByValueLabelOrIndex(elementDetails: ElementDetails): Promise<void> {
+        let { elementLocator, elementIndex, optionValue, optionLabel, optionIndex, toWaitForLoadingIndicator = true } = elementDetails;
+
+        if (elementIndex !== undefined && elementIndex !== null) {
+            console.log(`Validating element: [${elementLocator}] at index: ${elementIndex}`);
+            // Scroll the element into view, but only if it's not already visible.
+            await expect(elementLocator.nth(elementIndex)).toBeAttached({ timeout: 10000 });
+            await elementLocator.nth(elementIndex).scrollIntoViewIfNeeded({ timeout: 15000 });
+            await expect(elementLocator.nth(elementIndex)).toBeAttached({ timeout: 10000 });
+            await expect(elementLocator.nth(elementIndex)).toBeVisible();
+            await this.sortDropDownCaret.click(); // Click the caret to open the dropdown options.
+
+            if (optionValue !== undefined && optionValue !== null) {
+                console.log(`Select option value: [${optionValue}], to wait for loading indicator: ${toWaitForLoadingIndicator}`);
+                await elementLocator.nth(elementIndex).selectOption({ value: optionValue });
+                if (toWaitForLoadingIndicator) {
+                    await this.waitForDataLoadingToComplete();
+                }
+                const selectedOption = this.getSelectedOptionByValue(optionValue);
+                console.log(`Validating selected option with value: ${optionValue}`);
+                await expect(this.dropDownSelectedOption.nth(0)).toBeAttached({ timeout: 10000 });
+                await expect(this.dropDownSelectedOption.nth(0)).toHaveAttribute('value', optionValue);
+                if (optionValue !== "manual") {
+                   // Validate that URL contains the selected option value (except for 'manual').
+                   await expect(this.page).toHaveURL(new RegExp(`=${optionValue}`), { timeout: 10000 });
+                }
+            }
+            if (optionLabel !== undefined && optionLabel !== null) {
+                console.log(`Select option label: ${optionLabel}`);
+                await elementLocator.nth(elementIndex).selectOption({ label: optionLabel });
+                if (toWaitForLoadingIndicator) {
+                    await this.waitForDataLoadingToComplete();
+                }
+            }
+            if (optionIndex !== undefined && optionIndex !== null) {
+                console.log(`Select option index: ${optionIndex}`);
+                await elementLocator.nth(elementIndex).selectOption({ index: optionIndex });
+                if (toWaitForLoadingIndicator) {
+                    await this.waitForDataLoadingToComplete();
+                }
+            }
+        }
+        else {
+            {
+                throw new Error(`Missing required parameters. Please provide: elementLocator, elementIndex, optionValue, optionLabel, optionIndex.`);
+            }
+        }
+    }
+    // **************************************************************************************************************
+    /**
+     * Waits for the data loading indicator to appear and then disappear.
+     * @param timeoutVisible 
+     * @param timeoutHidden 
+     * @returns 
+     */
+    async waitForDataLoadingToComplete(timeoutVisible = 10000, timeoutHidden = 25000): Promise<void> {
+        const loader = this.dataLoadingIndicator
+        // If loader is not visible quickly, assume nothing to wait for
+        try {
+            await loader.waitFor({ state: 'visible', timeout: timeoutVisible });
+        } catch {
+            // loader did not become visible within a short timeout — treat as no loader
+            throw new Error(`No data loading indicator shows up.`);
+        }
+        // Loader became visible → wait for it to hide (longer timeout)
+        await loader.waitFor({ state: 'hidden', timeout: timeoutHidden });
     }
     // **************************************************************************************************************
 
