@@ -109,6 +109,12 @@ test.describe(`Test 'Clearance' page by`, () => {
             productHeaderText: "Best product #1",
             productImageIndex: 0,
             buttonDisabledIndex: 4,
+            productPriceIndex: 1,
+            productCost: "CA$150.00",
+            productDescriptionIndex: 0,
+            productDescriptionText: "This is NOT a real product. It's item for testing. It can't be purchased or ordered.",
+
+
         }
     ]
     for (let i = 0; i < bestProductDetails.length; i++) {

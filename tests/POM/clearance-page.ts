@@ -57,7 +57,7 @@ export class ClearancePage {
         // Product price locator: used in 'Best product #1', #2, and #3 validations.
         this.productPriceLocator = this.page.locator('div[class="product__price js-product-container__price"] > span'); // Use index to select specific product price.
         // Product description locator: used in 'Best product #1', #2, and #3 validations.
-        this.productDescriptionLocator = this.page.locator('div[class="product__description"] > p'); // Use index to select specific product.
+        this.productDescriptionLocator = this.page.locator('div[class="product__description"] > p > span'); // Use index to select specific product.
         // 'See details' button locator: used in 'Best product #1', #2, and #3 validations.
         this.seeDetailsButtonLocator = this.page.locator('div[class="product__long-description"] > a'); // Use index to select specific product.
         // Select-amount dropdown list locator: used in 'Best product #1', #2, and #3 validations.
@@ -126,6 +126,22 @@ export class ClearancePage {
                 elementLocator: this.buttonDisabledLocator,
                 elementIndex: buttonDisabledIndex,
                 elementText: "Disabled",
+            });
+        }
+        if (productPriceIndex !== undefined && productCost !== undefined) {
+            // Validate product price text.
+            await this.commonMethods.validateElementText({
+                elementLocator: this.productPriceLocator,
+                elementIndex: productPriceIndex,
+                elementText: productCost,
+            });
+        }
+        if (productDescriptionIndex !== undefined && productDescriptionText !== undefined) {
+            // Validate product description text.
+            await this.commonMethods.validateElementText({
+                elementLocator: this.productDescriptionLocator,
+                elementIndex: productDescriptionIndex,
+                elementText: productDescriptionText,
             });
         }
     }
