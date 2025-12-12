@@ -15,6 +15,7 @@ interface BestProductDetails {
     productDescriptionText?: string; // Optional.
     productUrlRouting?: string; // Optional.
     amountOfProductsDropdown?: number; // Optional.
+    selectedAmountIndex?: number; // Optional.
 }
 
 export class ClearancePage {
@@ -104,7 +105,8 @@ export class ClearancePage {
             productHeaderText,
             productCost,
             productDescriptionText,
-            productUrlRouting
+            productUrlRouting,
+            selectedAmountIndex
         } = bestProductDetails;
         if (productHeaderIndex !== undefined && productHeaderText !== undefined) {
             // Validate product header text.
@@ -168,6 +170,10 @@ export class ClearancePage {
             await this.seeDetailsButtonLocator.nth(seeDetailsButtonIndex).click();
             await this.page.waitForLoadState("load");
             await expect(this.page).toHaveURL(new RegExp(productUrlRouting));
+            if (selectedAmountIndex !== undefined) {
+                // Validate that the select-amount dropdown has the correct number of options.
+                await expect(this.selectAmountDropDownListLocator.nth(selectedAmountIndex)).toBeAttached();
+            }
             }
 
         }

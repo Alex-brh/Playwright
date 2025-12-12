@@ -101,7 +101,7 @@ test.describe(`Test 'Clearance' page by`, () => {
         }
     });
 
-    test("validating the 'Best product # 1'", async () => {
+    test("validating the 'Best product # 1'", async ({ page }) => {
         // Validate the details of 'Best product #1'.
         const bestProductDetails = [
         {
@@ -117,10 +117,26 @@ test.describe(`Test 'Clearance' page by`, () => {
             seeDetailsButtonIndex: 0,
             clearanceLabelIndex: 0,
             productUrlRouting: "best-product-1"
+        },
+        {
+            productHeaderIndex: 1,
+            productHeaderText: "Best product #2",
+            productImageIndex: 1,
+            buttonDisabledIndex: 5,
+            productPriceIndex: 3,
+            productCost: "CA$1,050.00",
+            productDescriptionIndex: 1,
+            productDescriptionText: "This is NOT a real product. It's item for testing. It can't be purchased or ordered.",
+            buttonAddToWishListIndex: 4,
+            seeDetailsButtonIndex: 1,
+            clearanceLabelIndex: 1,
+            productUrlRouting: "best-product-2"
         }
     ]
     for (let i = 0; i < bestProductDetails.length; i++) {
         await clearancePage.validateBestProductDetails(bestProductDetails[i]);
+        // Click the 'Clearance' menu item to navigate to the contact page.
+        await storeHomePage.clickMenuItem(page, storeHomePage.clearanceMenuItem, `${baseURL}clearance`);
     }
     });
 });
