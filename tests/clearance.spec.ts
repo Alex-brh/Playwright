@@ -115,6 +115,8 @@ test.describe(`Test 'Clearance' page by`, () => {
             productDescriptionText: "This is NOT a real product. It's item for testing. It can't be purchased or ordered.",
             buttonAddToWishListIndex: 3,
             seeDetailsButtonIndex: 0,
+            clearanceLabelIndex: 0,
+            productUrlRouting: "best-product-1"
         }
     ]
     for (let i = 0; i < bestProductDetails.length; i++) {

@@ -13,7 +13,8 @@ interface BestProductDetails {
     productHeaderText?: string; // Optional.
     productCost?: string; // Optional.
     productDescriptionText?: string; // Optional.
-    amountIndex?: number; // Optional.
+    productUrlRouting?: string; // Optional.
+    amountOfProductsDropdown?: number; // Optional.
 }
 
 export class ClearancePage {
@@ -103,7 +104,7 @@ export class ClearancePage {
             productHeaderText,
             productCost,
             productDescriptionText,
-            amountIndex,
+            productUrlRouting
         } = bestProductDetails;
         if (productHeaderIndex !== undefined && productHeaderText !== undefined) {
             // Validate product header text.
@@ -149,9 +150,26 @@ export class ClearancePage {
             await expect(this.buttonAddToWishListLocator.nth(buttonAddToWishListIndex)).toBeAttached();
             await expect(this.buttonAddToWishListLocator.nth(buttonAddToWishListIndex)).toBeDisabled();
         }
+        if (clearanceLabelIndex !== undefined) {
+            // Validate that the 'Clearance' label is visible.
+            await expect(this.clearanceLabelLocator.nth(clearanceLabelIndex)).toBeAttached();
+            // Validate that the 'Clearance' label has the 'Clearance' caption.
+            await this.commonMethods.validateElementText({
+                elementLocator: this.clearanceLabelLocator,
+                elementIndex: clearanceLabelIndex,
+                elementText: "Clearance",
+            });
+        }
         if (seeDetailsButtonIndex !== undefined) {
             // Validate that the 'See details' button is visible.
             await expect(this.seeDetailsButtonLocator.nth(seeDetailsButtonIndex)).toBeAttached();
+            if (productUrlRouting !== undefined) {
+            // Click the 'See details' button and validate navigation to the product details page.
+            await this.seeDetailsButtonLocator.nth(seeDetailsButtonIndex).click();
+            await this.page.waitForLoadState("load");
+            await expect(this.page).toHaveURL(new RegExp(productUrlRouting));
+            }
+
         }
     }
 
