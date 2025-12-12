@@ -100,4 +100,57 @@ test.describe(`Test 'Clearance' page by`, () => {
             await showcasePage.validateElemAttribute(elementDetails[i]);
         }
     });
+
+    test("validating the Best Products", async ({ page }) => {
+        // Validate the details of 'Best product #1'.
+        const bestProductDetails = [
+        {
+            productHeaderIndex: 0,
+            productHeaderText: "Best product #1",
+            productImageIndex: 0,
+            buttonDisabledIndex: 3,
+            productPriceIndex: 1,
+            productCost: "CA$150.00",
+            productDescriptionIndex: 0,
+            productDescriptionText: "This is NOT a real product. It's item for testing. It can't be purchased or ordered.",
+            buttonAddToWishListIndex: 3,
+            seeDetailsButtonIndex: 0,
+            clearanceLabelIndex: 0,
+            productUrlRouting: "best-product-1"
+        },
+        {
+            productHeaderIndex: 1,
+            productHeaderText: "Best product #2",
+            productImageIndex: 1,
+            buttonDisabledIndex: 4,
+            productPriceIndex: 3,
+            productCost: "CA$1,050.00",
+            productDescriptionIndex: 1,
+            productDescriptionText: "This is NOT a real product. It's item for testing. It can't be purchased or ordered.",
+            buttonAddToWishListIndex: 4,
+            seeDetailsButtonIndex: 1,
+            clearanceLabelIndex: 1,
+            productUrlRouting: "best-product-2"
+        },
+        {
+            productHeaderIndex: 2,
+            productHeaderText: "Best product #3",
+            productImageIndex: 2,
+            buttonDisabledIndex: 5,
+            productPriceIndex: 5,
+            productCost: "CA$10,500.00",
+            productDescriptionIndex: 2,
+            productDescriptionText: "This is NOT a real product. It's item for testing. It can't be purchased or ordered.",
+            buttonAddToWishListIndex: 5,
+            seeDetailsButtonIndex: 2,
+            clearanceLabelIndex: 2,
+            productUrlRouting: "best-product-3"
+        }
+    ]
+    for (let i = 0; i < bestProductDetails.length; i++) {
+        await clearancePage.validateBestProductDetails(bestProductDetails[i]);
+        // Click the 'Clearance' menu item to navigate to the contact page.
+        await storeHomePage.clickMenuItem(page, storeHomePage.clearanceMenuItem, `${baseURL}clearance`);
+    }
+    });
 });
