@@ -2,17 +2,18 @@ import { type Page, type Locator, expect, APIRequestContext } from "@playwright/
 import { CommonlyUsedMethods } from "./commonly-used-methods";
 
 interface BestProductDetails {
-    productHeaderLocator: Locator; // Required.
-    elementIndex?: number; // Optional.
-    productImageLocator?: Locator; // Optional.
-    productHeader?: string; // Optional.
+    productHeaderIndex?: number; // Optional.
+    productImageIndex?: number; // Optional.
+    buttonDisabledIndex?: number; // Optional.
+    productPriceIndex?: number; // Optional.
+    productDescriptionIndex?: number; // Optional.
+    buttonAddToWishListIndex?: number; // Optional.
+    seeDetailsButtonIndex?: number; // Optional.
+    clearanceLabelIndex?: number; // Optional.
+    productHeaderText?: string; // Optional.
     productCost?: string; // Optional.
-    productDescription?: string; // Optional.
-    buttonDisabledLocator?: Locator; // Optional.
-    buttonAddToWishListLocator?: Locator; // Optional.
-    amountDropDownListLocator?: Locator; // Optional.
+    productDescriptionText?: string; // Optional.
     amountIndex?: number; // Optional.
-    clearanceLabelLocator?: Locator; // Optional.
 }
 
 export class ClearancePage {
@@ -25,6 +26,7 @@ export class ClearancePage {
     readonly productImageLocator: Locator;
     readonly buttonDisabledLocator: Locator;
     readonly productPriceLocator: Locator;
+    readonly productDescriptionLocator: Locator;
     readonly buttonAddToWishListLocator: Locator;
     readonly seeDetailsButtonLocator: Locator;
     readonly selectAmountDropDownListLocator: Locator;
@@ -54,6 +56,8 @@ export class ClearancePage {
         this.buttonAddToWishListLocator = this.page.locator('button[title="Add to wishlist"]'); // There are 6 such buttons on the Clearance page.
         // Product price locator: used in 'Best product #1', #2, and #3 validations.
         this.productPriceLocator = this.page.locator('div[class="product__price js-product-container__price"] > span'); // Use index to select specific product price.
+        // Product description locator: used in 'Best product #1', #2, and #3 validations.
+        this.productDescriptionLocator = this.page.locator('div[class="product__description"] > p'); // Use index to select specific product.
         // 'See details' button locator: used in 'Best product #1', #2, and #3 validations.
         this.seeDetailsButtonLocator = this.page.locator('div[class="product__long-description"] > a'); // Use index to select specific product.
         // Select-amount dropdown list locator: used in 'Best product #1', #2, and #3 validations.
@@ -86,7 +90,29 @@ export class ClearancePage {
         });
     }
     // **************************************************************************************************************
-    async validateBestProductDetails(elementIndex: number, expectedTitle: string, expectedPrice: string, expectedButtonText: string) {
+    async validateBestProductDetails(bestProductDetails: BestProductDetails): Promise<void> {
+        const {
+            productHeaderIndex,
+            productImageIndex,
+            buttonDisabledIndex,
+            productPriceIndex,
+            productDescriptionIndex,
+            buttonAddToWishListIndex,
+            seeDetailsButtonIndex,
+            clearanceLabelIndex,
+            productHeaderText,
+            productCost,
+            productDescriptionText,
+            amountIndex,
+        } = bestProductDetails;
+        if (productHeaderIndex !== undefined && productHeaderText !== undefined) {
+            // Validate product header text.
+            await this.commonMethods.validateElementText({
+                elementLocator: this.productHeaderLocator,
+                elementIndex: productHeaderIndex,
+                elementText: productHeaderText,
+            });
+        }
 
     }
 

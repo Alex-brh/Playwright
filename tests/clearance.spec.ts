@@ -103,6 +103,14 @@ test.describe(`Test 'Clearance' page by`, () => {
 
     test("validating the 'Best product # 1'", async () => {
         // Validate the details of 'Best product #1'.
-        await clearancePage.validateBestProductDetails(0, "Best product #1", "$19.99", "Add to cart");
+        const bestProductDetails = [
+        {
+            productHeaderIndex: 0,
+            productHeaderText: "Best product #1",
+        }
+    ]
+    for (let i = 0; i < bestProductDetails.length; i++) {
+        await clearancePage.validateBestProductDetails(bestProductDetails[i]);
+    }
     });
 });
