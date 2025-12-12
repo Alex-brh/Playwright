@@ -113,7 +113,21 @@ export class ClearancePage {
                 elementText: productHeaderText,
             });
         }
-
+        if (productImageIndex !== undefined) {
+            // Validate that the product image is visible.
+            await expect(this.productImageLocator.nth(productImageIndex)).toBeVisible();
+        }
+        if (buttonDisabledIndex !== undefined) {
+            // Validate that the 'Disabled' button is visible.
+            await expect(this.buttonDisabledLocator.nth(buttonDisabledIndex)).toBeAttached();
+            this.buttonDisabledLocator.nth(buttonDisabledIndex).scrollIntoViewIfNeeded();
+            // Validate that the 'Disabled' button has the 'Disabled' caption.
+            await this.commonMethods.validateElementText({
+                elementLocator: this.buttonDisabledLocator,
+                elementIndex: buttonDisabledIndex,
+                elementText: "Disabled",
+            });
+        }
     }
 
 }

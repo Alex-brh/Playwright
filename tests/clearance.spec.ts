@@ -107,6 +107,8 @@ test.describe(`Test 'Clearance' page by`, () => {
         {
             productHeaderIndex: 0,
             productHeaderText: "Best product #1",
+            productImageIndex: 0,
+            buttonDisabledIndex: 4,
         }
     ]
     for (let i = 0; i < bestProductDetails.length; i++) {
