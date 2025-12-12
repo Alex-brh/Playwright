@@ -144,6 +144,15 @@ export class ClearancePage {
                 elementText: productDescriptionText,
             });
         }
+        if (buttonAddToWishListIndex !== undefined) {
+            // Validate that the 'Add to wish list' button is visible.
+            await expect(this.buttonAddToWishListLocator.nth(buttonAddToWishListIndex)).toBeAttached();
+            await expect(this.buttonAddToWishListLocator.nth(buttonAddToWishListIndex)).toBeDisabled();
+        }
+        if (seeDetailsButtonIndex !== undefined) {
+            // Validate that the 'See details' button is visible.
+            await expect(this.seeDetailsButtonLocator.nth(seeDetailsButtonIndex)).toBeAttached();
+        }
     }
 
 }
