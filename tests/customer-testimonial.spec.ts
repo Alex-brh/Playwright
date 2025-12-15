@@ -47,6 +47,11 @@ test.describe(`Test 'Customer Testimonials' page by`, () => {
 
     });
 
+    test('validating errors on "Submit comment" without filling the form', async ({ page }) => {
+        // Click the 'Submit comment' button without filling the form.
+        await customerTestimonials.validateSubmitCommentErrors();
+    });
+
     test.afterAll(async ({ page }) => {
         // Close the page after each test to ensure a clean state for the next test.
         await page.close();
