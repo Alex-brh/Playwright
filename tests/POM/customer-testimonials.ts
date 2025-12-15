@@ -13,6 +13,7 @@ export class CustomerTestimonials {
     readonly messageInputField: Locator;
     readonly submitCommentButton: Locator;
     readonly errorSayingSomethingWentWrong: Locator;
+    readonly errorMessages: Locator;
 
     // Initialize the CustomerTestimonials with the provided Page object.
     constructor(public readonly page: Page) {
@@ -29,6 +30,8 @@ export class CustomerTestimonials {
         this.submitCommentButton = this.page.locator('button[name="submit"]');
         // Locator for the 'Oops! Something went wrong.' error message.
         this.errorSayingSomethingWentWrong = this.page.locator('div[class="jw-element-form-error jw-comment-error"] > strong')
+        // A set of error messages differring by element index
+        this.errorMessages = this.page.locator('div[class="jw-element-form-error jw-comment-error"] > ul > li');
     }
 
     // **************************************************************************************************************
@@ -66,8 +69,22 @@ export class CustomerTestimonials {
         // Ensure error messages show up
         await expect(this.errorSayingSomethingWentWrong).toBeAttached();
         await this.errorSayingSomethingWentWrong.scrollIntoViewIfNeeded();
-
-
+        // Validate error messages
+        await expect(this.errorSayingSomethingWentWrong).toBeVisible();
+        await expect(this.errorSayingSomethingWentWrong).toHaveText('Oops! Something went wrong.');
+        const errors = [
+            `Name is a required field.`,
+            `Email address is a required field.`,
+            `Message is a required field.`,
+            `Field is required`
+        ];
+        for (let i = 0; i < errors.length; i++) {
+            console.log(`Validating error message at index ${i} with text: ${errors[i]}`);
+            await expect(this.errorMessages.nth(i)).toBeAttached();
+            await this.errorMessages.nth(i).scrollIntoViewIfNeeded();
+            await expect(this.errorMessages.nth(i)).toBeVisible();
+            await expect(this.errorMessages.nth(i)).toHaveText(errors[i]);
+        }
     }
 
 
