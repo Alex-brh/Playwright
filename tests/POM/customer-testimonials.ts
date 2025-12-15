@@ -29,7 +29,7 @@ export class CustomerTestimonials {
         // Locator for the 'Submit comment' button in the testimonial submission form.
         this.submitCommentButton = this.page.locator('button[name="submit"]');
         // Locator for the 'Oops! Something went wrong.' error message.
-        this.errorSayingSomethingWentWrong = this.page.locator('div[class="jw-element-form-error jw-comment-error"] > strong')
+        this.errorSayingSomethingWentWrong = this.page.locator('div[class="jw-element-form-error jw-comment-error"]')
         // A set of error messages differring by element index
         this.errorMessages = this.page.locator('div[class="jw-element-form-error jw-comment-error"] > ul > li');
     }
@@ -67,11 +67,13 @@ export class CustomerTestimonials {
         await expect(this.submitCommentButton).toBeEnabled();
         await this.submitCommentButton.click();
         // Ensure error messages show up
-        await expect(this.errorSayingSomethingWentWrong).toBeAttached();
-        await this.errorSayingSomethingWentWrong.scrollIntoViewIfNeeded();
+        await expect(this.errorSayingSomethingWentWrong.locator('strong')).toBeAttached(); // Child element
+        await this.errorSayingSomethingWentWrong.locator('strong').scrollIntoViewIfNeeded();
         // Validate error messages
-        await expect(this.errorSayingSomethingWentWrong).toBeVisible();
-        await expect(this.errorSayingSomethingWentWrong).toHaveText('Oops! Something went wrong.');
+        await expect(this.errorSayingSomethingWentWrong.locator('strong')).toBeVisible(); // Child element
+        await expect(this.errorSayingSomethingWentWrong.locator('strong')).toHaveText('Oops! Something went wrong.');
+        await expect(this.errorSayingSomethingWentWrong).toBeAttached();
+        await expect(this.errorSayingSomethingWentWrong).toContainText('Check the following fields and try again:');
         const errors = [
             `Name is a required field.`,
             `Email address is a required field.`,
