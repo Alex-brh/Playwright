@@ -82,4 +82,9 @@ test.describe(`Test 'Home' page by`, () => {
     await expect.soft(storeHomePage.picsInCarousel.nth(4)).toHaveAttribute('srcset');
   });
 
+  test.afterAll(async ({ page }) => {
+    // Close the page after each test to ensure a clean state for the next test.
+    await page.close();
+  });
+
 });

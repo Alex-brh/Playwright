@@ -60,10 +60,13 @@ test.describe(`Test 'FAQ' page by`, () => {
         ];
         for (const sectionText of sectionsText) {
             console.log(`Validating section with index: ${sectionText.index} and text: ${sectionText.text}`);
-        await faqPage.expandSectionAndValidateText(sectionText);
+            await faqPage.expandSectionAndValidateText(sectionText);
         }
 
     });
 
-
+    test.afterAll(async ({ page }) => {
+        // Close the page after each test to ensure a clean state for the next test.
+        await page.close();
+    });
 });

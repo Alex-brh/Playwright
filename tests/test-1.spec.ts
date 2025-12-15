@@ -105,4 +105,9 @@ test.describe.skip(`Describe block # 2`, () => {
     await expect(buttonXLocator.nth(0)).not.toBeVisible();
 
   })
+
+  test.afterAll(async ({ page }) => {
+    // Close the page after each test to ensure a clean state for the next test.
+    await page.close();
+  });
 });
