@@ -59,8 +59,8 @@ test.describe(`Test 'Clearance' page by`, () => {
                 elementLocator: clearancePage.paragraphTexts, elementIndex: 4, elementText: "DISCLAIMER: This is NOT a real e-comm website. It's being used for educational purposes ONLY. No items can be purchased and/or delivered through this website.",
             }
         ];
-        for (let i = 0; i < elementDetails.length; i++) {
-            await clearancePage.validateHeaderOrParagraphText(elementDetails[i]);
+        for (const [i, expectedElementDetails] of elementDetails.entries()) {
+            await clearancePage.validateHeaderOrParagraphText(expectedElementDetails);
         }
     });
 
@@ -75,8 +75,8 @@ test.describe(`Test 'Clearance' page by`, () => {
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "title-asc" },
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "title-desc", toWaitForLoadingIndicator: false }
         ];
-        for (let i = 0; i < elementDetails.length; i++) {
-            await clearancePage.selectOptionByValueLabelOrIndex(elementDetails[i]);
+        for (const [i, expectedElementDetails] of elementDetails.entries()) {
+            await clearancePage.selectOptionByValueLabelOrIndex(expectedElementDetails);
         }
     });
 
@@ -96,8 +96,8 @@ test.describe(`Test 'Clearance' page by`, () => {
 
             { elementLocator: clearancePage.clearancePageImage, elementIndex: 2, attributeName: "data-jwlink-title", attributeValue: "Best product #3" },
         ];
-        for (let i = 0; i < elementDetails.length; i++) {
-            await showcasePage.validateElemAttribute(elementDetails[i]);
+        for (const [i, expectedElementDetails] of elementDetails.entries()) {
+            await showcasePage.validateElemAttribute(expectedElementDetails);
         }
     });
 
@@ -147,8 +147,8 @@ test.describe(`Test 'Clearance' page by`, () => {
                 productUrlRouting: "best-product-3"
             }
         ]
-        for (let i = 0; i < bestProductDetails.length; i++) {
-            await clearancePage.validateBestProductDetails(bestProductDetails[i]);
+        for (const [i, expectedBestProductDetails] of bestProductDetails.entries()) {
+            await clearancePage.validateBestProductDetails(expectedBestProductDetails);
             // Click the 'Clearance' menu item to navigate to the contact page.
             await storeHomePage.clickMenuItem(page, storeHomePage.clearanceMenuItem, `${baseURL}clearance`);
         }

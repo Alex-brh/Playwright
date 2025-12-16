@@ -80,12 +80,12 @@ export class CustomerTestimonials {
             `Message is a required field.`,
             `Field is required`
         ];
-        for (let i = 0; i < errors.length; i++) {
-            console.log(`Validating error message at index ${i} with text: ${errors[i]}`);
-            await expect(this.errorMessages.nth(i)).toBeAttached();
-            await this.errorMessages.nth(i).scrollIntoViewIfNeeded();
-            await expect(this.errorMessages.nth(i)).toBeVisible();
-            await expect(this.errorMessages.nth(i)).toHaveText(errors[i]);
+        for (const [i, expected] of errors.entries()) {
+            console.log(`Validating error ${i}: ${expected}`);
+            const msg = this.errorMessages.nth(i);
+            await msg.scrollIntoViewIfNeeded();
+            await expect(msg).toBeVisible();
+            await expect(msg).toHaveText(expected);
         }
     }
 
