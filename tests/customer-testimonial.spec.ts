@@ -52,6 +52,16 @@ test.describe(`Test 'Customer Testimonials' page by`, () => {
         await customerTestimonials.validateSubmitCommentErrors();
     });
 
+    test('validating comments are present', async () => {
+        const comments = [
+            { comment: `Great service! Grat products! Great prices!`, index: 0 },
+            { comment: `Great service overall`, index: 1 },
+        ];
+        for (const comment of comments) {
+            await customerTestimonials.validateCustomerCommentVisible(comment);
+        }
+    });
+
     test.afterAll(async ({ page }) => {
         // Close the page after each test to ensure a clean state for the next test.
         await page.close();

@@ -14,6 +14,7 @@ export class CustomerTestimonials {
     readonly submitCommentButton: Locator;
     readonly errorSayingSomethingWentWrong: Locator;
     readonly errorMessages: Locator;
+    readonly customerComment: Locator;
 
     // Initialize the CustomerTestimonials with the provided Page object.
     constructor(public readonly page: Page) {
@@ -32,6 +33,8 @@ export class CustomerTestimonials {
         this.errorSayingSomethingWentWrong = this.page.locator('div[class="jw-element-form-error jw-comment-error"]')
         // A set of error messages differring by element index
         this.errorMessages = this.page.locator('div[class="jw-element-form-error jw-comment-error"] > ul > li');
+        // Locator for the customer comment
+        this.customerComment = this.page.locator('div[class="jw-comment "] > p');
     }
 
     // **************************************************************************************************************
@@ -87,6 +90,15 @@ export class CustomerTestimonials {
             await expect(msg).toBeVisible();
             await expect(msg).toHaveText(expected);
         }
+    }
+    // **************************************************************************************************************
+    // Validate that the customer comment is visible on the page.
+    async validateCustomerCommentVisible({ comment, index }: { comment: string; index: number }): Promise<void> {
+        console.log(`Validating customer comment: ${comment} at index ${index}`);
+        await expect(this.customerComment.nth(index)).toBeAttached();
+        await this.customerComment.nth(index).scrollIntoViewIfNeeded();
+        await expect(this.customerComment.nth(index)).toBeVisible();
+        await expect(this.customerComment.nth(index)).toHaveText(comment);
     }
 
 
