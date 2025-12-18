@@ -51,6 +51,11 @@ test.describe(`Test 'FAQ' page by`, () => {
         }
     });
 
+    test('validating the FAQ page title', async ({ page }) => {
+        const expectedTitle = 'FAQ | Online store';
+        await expect(page).toHaveTitle(expectedTitle);
+    });
+
     test(`expanding h3 sections and validating text content inside`, async ({ page }) => {
         // Validate each expanded section text.
         const sectionsText = [
