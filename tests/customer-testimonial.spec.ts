@@ -27,10 +27,6 @@ test.describe(`Test 'Customer Testimonials' page by`, () => {
         await expect(page).toHaveURL(`${baseURL}customer-testimonials`);
     });
 
-    test(`validating its overall appearance`, async ({ page }) => {
-        console.log(`Reached the first test block.`);
-    });
-
     test(`validating the customer testimonials content`, async () => {
         const testimonials = [
             { expectedTestimonialsCount: 7, index: 0, expectedTestimonialsText: `"I can't say enough about the outstanding service I received from your company. Their team went above and beyond to meet our needs and exceeded our expectations."` },
