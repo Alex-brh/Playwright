@@ -154,8 +154,4 @@ test.describe(`Test 'Clearance' page by`, () => {
         }
     });
 
-    test.afterAll(async ({ page }) => {
-        // Close the page after each test to ensure a clean state for the next test.
-        await page.close();
-    });
 });

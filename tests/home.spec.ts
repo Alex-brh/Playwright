@@ -1,11 +1,22 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { StoreHomePage } from './POM/home-page';
 import config from '../playwright.config';
+
+let page: Page;
 
 const baseUrl = config.use?.baseURL ?? 'https://free-5288352.webadorsite.com/';
 
 test.describe(`Test 'Home' page by`, () => {
   let storeHomePage: StoreHomePage;
+
+  test.beforeAll(async ({ browser }) => {
+    page = await browser.newPage();
+  });
+
+    test.afterAll(async () => {
+    // Close the page.
+    await page.close();
+  });
 
   // Request both `page` and `request` fixtures here
   test.beforeEach(async ({ page, request }) => {
@@ -80,11 +91,6 @@ test.describe(`Test 'Home' page by`, () => {
     await expect.soft(storeHomePage.picsInCarousel.nth(2)).toHaveAttribute('srcset');
     await expect.soft(storeHomePage.picsInCarousel.nth(3)).toHaveAttribute('srcset');
     await expect.soft(storeHomePage.picsInCarousel.nth(4)).toHaveAttribute('srcset');
-  });
-
-  test.afterAll(async ({ page }) => {
-    // Close the page after each test to ensure a clean state for the next test.
-    await page.close();
   });
 
 });
