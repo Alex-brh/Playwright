@@ -108,7 +108,7 @@ test.describe(`Test 'Contact' page by`, () => {
         await contactPage.validateAllFormElementsPresence();
     });
 
-    test("submitting form with multiple test cases using data-driven approach", async ({
+    test("submitting form with multiple data sets", async ({
         page
     }) => {
         // Define an array of test data for different contact form submissions.
@@ -154,4 +154,5 @@ test.describe(`Test 'Contact' page by`, () => {
             }
         }
     });
+
 });

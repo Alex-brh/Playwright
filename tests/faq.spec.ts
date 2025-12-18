@@ -60,10 +60,9 @@ test.describe(`Test 'FAQ' page by`, () => {
         ];
         for (const sectionText of sectionsText) {
             console.log(`Validating section with index: ${sectionText.index} and text: ${sectionText.text}`);
-        await faqPage.expandSectionAndValidateText(sectionText);
+            await faqPage.expandSectionAndValidateText(sectionText);
         }
 
     });
-
 
 });

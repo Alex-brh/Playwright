@@ -36,7 +36,7 @@ test.describe(`Test 'Clearance' page by`, () => {
         // Validate that there are 4 paragraph texts on the Clearance page.
         await expect(clearancePage.paragraphTexts).toHaveCount(5);
         // Validate the header and paragraph texts on the 'Clearance' page.
-         let elementDetails = [
+        let elementDetails = [
             {
                 elementLocator: clearancePage.pageHeader, elementIndex: 0, elementText: "Clearance items"
             },
@@ -49,7 +49,7 @@ test.describe(`Test 'Clearance' page by`, () => {
             {
                 elementLocator: clearancePage.paragraphTexts, elementIndex: 1, elementText: "We pride ourselves on our adaptability and commitment to excellence in every aspect of our service. Explore what we have to offer and how we can contribute to your success.",
             },
-              {
+            {
                 elementLocator: clearancePage.paragraphTexts, elementIndex: 2, elementText: "This is where our journey begins. Get to know our business and what we do, and how we're committed to quality and great service. Join us as we grow and succeed together. We're glad you're here to be a part of our story.",
             },
             {
@@ -59,8 +59,8 @@ test.describe(`Test 'Clearance' page by`, () => {
                 elementLocator: clearancePage.paragraphTexts, elementIndex: 4, elementText: "DISCLAIMER: This is NOT a real e-comm website. It's being used for educational purposes ONLY. No items can be purchased and/or delivered through this website.",
             }
         ];
-        for (let i = 0; i < elementDetails.length; i++) { 
-            await clearancePage.validateHeaderOrParagraphText(elementDetails[i]);
+        for (const [i, expectedElementDetails] of elementDetails.entries()) {
+            await clearancePage.validateHeaderOrParagraphText(expectedElementDetails);
         }
     });
 
@@ -73,10 +73,10 @@ test.describe(`Test 'Clearance' page by`, () => {
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "manual" },
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "price-desc" },
             { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "title-asc" },
-            { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "title-desc", toWaitForLoadingIndicator: false  }
+            { elementLocator: clearancePage.sortByDropdown, elementIndex: 0, optionValue: "title-desc", toWaitForLoadingIndicator: false }
         ];
-        for (let i = 0; i < elementDetails.length; i++) { 
-            await clearancePage.selectOptionByValueLabelOrIndex(elementDetails[i]);
+        for (const [i, expectedElementDetails] of elementDetails.entries()) {
+            await clearancePage.selectOptionByValueLabelOrIndex(expectedElementDetails);
         }
     });
 
@@ -90,67 +90,68 @@ test.describe(`Test 'Clearance' page by`, () => {
         await expect(clearancePage.clearancePageImage).toHaveCount(3);
         // Validate that each image has the 'loading' attribute set to 'lazy'.
         let elementDetails = [
-            {   elementLocator: clearancePage.clearancePageImage, elementIndex: 0, attributeName: "data-jwlink-title", attributeValue: "Best product #1" },
+            { elementLocator: clearancePage.clearancePageImage, elementIndex: 0, attributeName: "data-jwlink-title", attributeValue: "Best product #1" },
 
-            {   elementLocator: clearancePage.clearancePageImage, elementIndex: 1, attributeName: "data-jwlink-title", attributeValue: "Best product #2" },
+            { elementLocator: clearancePage.clearancePageImage, elementIndex: 1, attributeName: "data-jwlink-title", attributeValue: "Best product #2" },
 
-            {   elementLocator: clearancePage.clearancePageImage, elementIndex: 2, attributeName: "data-jwlink-title", attributeValue: "Best product #3" },
+            { elementLocator: clearancePage.clearancePageImage, elementIndex: 2, attributeName: "data-jwlink-title", attributeValue: "Best product #3" },
         ];
-        for (let i = 0; i < elementDetails.length; i++) { 
-            await showcasePage.validateElemAttribute(elementDetails[i]);
+        for (const [i, expectedElementDetails] of elementDetails.entries()) {
+            await showcasePage.validateElemAttribute(expectedElementDetails);
         }
     });
 
     test("validating the Best Products", async ({ page }) => {
         // Validate the details of 'Best product #1'.
         const bestProductDetails = [
-        {
-            productHeaderIndex: 0,
-            productHeaderText: "Best product #1",
-            productImageIndex: 0,
-            buttonDisabledIndex: 3,
-            productPriceIndex: 1,
-            productCost: "CA$150.00",
-            productDescriptionIndex: 0,
-            productDescriptionText: "This is NOT a real product. It's item for testing. It can't be purchased or ordered.",
-            buttonAddToWishListIndex: 3,
-            seeDetailsButtonIndex: 0,
-            clearanceLabelIndex: 0,
-            productUrlRouting: "best-product-1"
-        },
-        {
-            productHeaderIndex: 1,
-            productHeaderText: "Best product #2",
-            productImageIndex: 1,
-            buttonDisabledIndex: 4,
-            productPriceIndex: 3,
-            productCost: "CA$1,050.00",
-            productDescriptionIndex: 1,
-            productDescriptionText: "This is NOT a real product. It's item for testing. It can't be purchased or ordered.",
-            buttonAddToWishListIndex: 4,
-            seeDetailsButtonIndex: 1,
-            clearanceLabelIndex: 1,
-            productUrlRouting: "best-product-2"
-        },
-        {
-            productHeaderIndex: 2,
-            productHeaderText: "Best product #3",
-            productImageIndex: 2,
-            buttonDisabledIndex: 5,
-            productPriceIndex: 5,
-            productCost: "CA$10,500.00",
-            productDescriptionIndex: 2,
-            productDescriptionText: "This is NOT a real product. It's item for testing. It can't be purchased or ordered.",
-            buttonAddToWishListIndex: 5,
-            seeDetailsButtonIndex: 2,
-            clearanceLabelIndex: 2,
-            productUrlRouting: "best-product-3"
+            {
+                productHeaderIndex: 0,
+                productHeaderText: "Best product #1",
+                productImageIndex: 0,
+                buttonDisabledIndex: 3,
+                productPriceIndex: 1,
+                productCost: "CA$150.00",
+                productDescriptionIndex: 0,
+                productDescriptionText: "This is NOT a real product. It's item for testing. It can't be purchased or ordered.",
+                buttonAddToWishListIndex: 3,
+                seeDetailsButtonIndex: 0,
+                clearanceLabelIndex: 0,
+                productUrlRouting: "best-product-1"
+            },
+            {
+                productHeaderIndex: 1,
+                productHeaderText: "Best product #2",
+                productImageIndex: 1,
+                buttonDisabledIndex: 4,
+                productPriceIndex: 3,
+                productCost: "CA$1,050.00",
+                productDescriptionIndex: 1,
+                productDescriptionText: "This is NOT a real product. It's item for testing. It can't be purchased or ordered.",
+                buttonAddToWishListIndex: 4,
+                seeDetailsButtonIndex: 1,
+                clearanceLabelIndex: 1,
+                productUrlRouting: "best-product-2"
+            },
+            {
+                productHeaderIndex: 2,
+                productHeaderText: "Best product #3",
+                productImageIndex: 2,
+                buttonDisabledIndex: 5,
+                productPriceIndex: 5,
+                productCost: "CA$10,500.00",
+                productDescriptionIndex: 2,
+                productDescriptionText: "This is NOT a real product. It's item for testing. It can't be purchased or ordered.",
+                buttonAddToWishListIndex: 5,
+                seeDetailsButtonIndex: 2,
+                clearanceLabelIndex: 2,
+                productUrlRouting: "best-product-3"
+            }
+        ]
+        for (const [i, expectedBestProductDetails] of bestProductDetails.entries()) {
+            await clearancePage.validateBestProductDetails(expectedBestProductDetails);
+            // Click the 'Clearance' menu item to navigate to the contact page.
+            await storeHomePage.clickMenuItem(page, storeHomePage.clearanceMenuItem, `${baseURL}clearance`);
         }
-    ]
-    for (let i = 0; i < bestProductDetails.length; i++) {
-        await clearancePage.validateBestProductDetails(bestProductDetails[i]);
-        // Click the 'Clearance' menu item to navigate to the contact page.
-        await storeHomePage.clickMenuItem(page, storeHomePage.clearanceMenuItem, `${baseURL}clearance`);
-    }
     });
+
 });

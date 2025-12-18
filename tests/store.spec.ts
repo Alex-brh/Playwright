@@ -129,4 +129,5 @@ test.describe(`Test 'Store' page by`, () => {
             await expect(page).toHaveURL(`${baseURL}store`);
         }
     });
+
 });
