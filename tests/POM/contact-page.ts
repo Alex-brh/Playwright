@@ -1,4 +1,8 @@
 import { type Page, type Locator, expect, APIRequestContext } from "@playwright/test";
+import config from "../../playwright.config";
+
+// Determine the base URL from the Playwright configuration or use a fallback URL.
+const baseURL = config.use?.baseURL ?? "https://free-5288352.webadorsite.com/";
 
 /**
  * Interface for contact form input data.
@@ -67,7 +71,7 @@ export class ContactPage {
      * @returns {Promise<void>} // Resolves when navigation and validation are complete.
      */
     async gotoContactPage(page: Page, request: APIRequestContext): Promise<void> {
-        const url = "https://free-5288352.webadorsite.com/contact";
+        const url = `${baseURL}contact`;
         // Validate API response before navigation
         const response = await request.get(url);
         await expect(response).toBeOK();
