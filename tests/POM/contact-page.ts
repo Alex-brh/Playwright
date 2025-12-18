@@ -31,6 +31,11 @@ export class ContactPage {
     private readonly errorMessage: Locator;
     readonly contactUsButton: Locator;
 
+    // Map
+    readonly enlargeMapButton: Locator;
+    private readonly zoomInButton: Locator;
+    private readonly zoomOutButton: Locator;
+
     /**
      * Creates an instance of ContactPage.
      * @param {Page} page - The Playwright Page object.
@@ -48,6 +53,11 @@ export class ContactPage {
         this.submitButton = this.page.locator('button[name="submit"]');
         this.errorMessage = this.page.locator('div[class="jw-element-form-error"] > strong');
         this.contactUsButton = this.page.locator('a[href="/contact"][title="Contact"]');
+
+        // Map elements
+        this.enlargeMapButton = this.page.locator('button[aria-label="Toggle fullscreen"]');
+        this.zoomInButton = this.page.locator('button[aria-label="Zoom In"]');
+        this.zoomOutButton = this.page.locator('button[aria-label="Zoom Out"]');
     }
 
     /**
@@ -200,6 +210,44 @@ export class ContactPage {
         // Validate navigation to the Contact page
         await this.page.waitForURL("**/contact", { timeout: 15000 });
         await expect(this.page).toHaveURL(/\/contact$/);
+    }
+
+    /**
+     * Click the 'Zoom In' button a specified number of times.
+     * @param {number} times - The number of times to click the 'Zoom In' button.
+     * @returns {Promise<void>}
+     */
+    async clickZoomInButton(times: number): Promise<void> {
+        for (let i = 0; i < times; i++) {
+            // Wait for the 'Zoom In' button to be visible.
+            await expect(this.zoomInButton).toBeAttached();
+            await this.zoomInButton.scrollIntoViewIfNeeded();
+            await expect(this.zoomInButton).toBeVisible();
+            // Click the 'Zoom In' button
+            await expect(this.zoomInButton).toBeEnabled();
+            await this.zoomInButton.click();
+            // Wait for 300 ms
+            await new Promise(resolve => setTimeout(resolve, 300));
+        }
+    }
+
+    /**
+     * Click the 'Zoom Out' button a specified number of times.
+     * @param {number} times - The number of times to click the 'Zoom Out' button.
+     * @returns {Promise<void>} 
+     */
+    async clickZoomOutButton(times: number): Promise<void> {
+        for (let i = 0; i < times; i++) {
+            // Wait for the 'Zoom Out' button to be visible.
+            await expect(this.zoomOutButton).toBeAttached();
+            await this.zoomOutButton.scrollIntoViewIfNeeded();
+            await expect(this.zoomOutButton).toBeVisible();
+            // Click the 'Zoom Out' button
+            await expect(this.zoomOutButton).toBeEnabled();
+            await this.zoomOutButton.click();
+            // Wait for 300 ms
+            await new Promise(resolve => setTimeout(resolve, 300));
+        }
     }
 
 }

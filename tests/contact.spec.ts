@@ -155,4 +155,16 @@ test.describe(`Test 'Contact' page by`, () => {
         }
     });
 
+    test("enlarging the map and zooming out after zooming in", async ({ page }) => {
+        // Enlarge the map.
+        await contactPage.enlargeMapButton.click();
+
+        // Zoom in and out a few times.
+        await contactPage.clickZoomInButton(5);
+        await contactPage.clickZoomOutButton(5);
+
+        // Minimize the map.
+        await contactPage.enlargeMapButton.click();
+    })
+
 });
