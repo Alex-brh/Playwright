@@ -1,4 +1,8 @@
 import { type Page, type Locator, expect, APIRequestContext } from "@playwright/test";
+import config from "../../playwright.config";
+
+// Determine the base URL from the Playwright configuration or use a fallback URL.
+const baseURL = config.use?.baseURL ?? "https://free-5288352.webadorsite.com/";
 
 /**
  * Interface for contact form input data.
@@ -31,6 +35,11 @@ export class ContactPage {
     private readonly errorMessage: Locator;
     readonly contactUsButton: Locator;
 
+    // Map
+    readonly enlargeMapButton: Locator;
+    private readonly zoomInButton: Locator;
+    private readonly zoomOutButton: Locator;
+
     /**
      * Creates an instance of ContactPage.
      * @param {Page} page - The Playwright Page object.
@@ -48,6 +57,11 @@ export class ContactPage {
         this.submitButton = this.page.locator('button[name="submit"]');
         this.errorMessage = this.page.locator('div[class="jw-element-form-error"] > strong');
         this.contactUsButton = this.page.locator('a[href="/contact"][title="Contact"]');
+
+        // Map elements
+        this.enlargeMapButton = this.page.locator('button[aria-label="Toggle fullscreen"][class^="mapboxgl"]');
+        this.zoomInButton = this.page.locator('button[aria-label="Zoom In"]');
+        this.zoomOutButton = this.page.locator('button[aria-label="Zoom Out"]');
     }
 
     /**
@@ -57,7 +71,7 @@ export class ContactPage {
      * @returns {Promise<void>} // Resolves when navigation and validation are complete.
      */
     async gotoContactPage(page: Page, request: APIRequestContext): Promise<void> {
-        const url = "https://free-5288352.webadorsite.com/contact";
+        const url = `${baseURL}contact`;
         // Validate API response before navigation
         const response = await request.get(url);
         await expect(response).toBeOK();
@@ -200,6 +214,58 @@ export class ContactPage {
         // Validate navigation to the Contact page
         await this.page.waitForURL("**/contact", { timeout: 15000 });
         await expect(this.page).toHaveURL(/\/contact$/);
+    }
+
+    /**
+     * Click the 'Zoom In' button a specified number of times.
+     * @param {number} times - The number of times to click the 'Zoom In' button.
+     * @returns {Promise<void>}
+     */
+    async clickZoomInButton(times: number): Promise<void> {
+        for (let i = 0; i < times; i++) {
+            // Wait for the 'Zoom In' button to be visible.
+            await expect(this.zoomInButton).toBeAttached({ timeout: 10000 });
+            await this.zoomInButton.scrollIntoViewIfNeeded();
+            await expect(this.zoomInButton).toBeVisible();
+            // Click the 'Zoom In' button
+            await expect(this.zoomInButton).toBeEnabled();
+            await this.zoomInButton.click();
+            // Wait for 300 ms
+            await new Promise(resolve => setTimeout(resolve, 300));
+        }
+    }
+
+    /**
+     * Click the 'Zoom Out' button a specified number of times.
+     * @param {number} times - The number of times to click the 'Zoom Out' button.
+     * @returns {Promise<void>} 
+     */
+    async clickZoomOutButton(times: number): Promise<void> {
+        for (let i = 0; i < times; i++) {
+            // Wait for the 'Zoom Out' button to be visible.
+            await expect(this.zoomOutButton).toBeAttached({ timeout: 10000 });
+            await this.zoomOutButton.scrollIntoViewIfNeeded();
+            await expect(this.zoomOutButton).toBeVisible();
+            // Click the 'Zoom Out' button
+            await expect(this.zoomOutButton).toBeEnabled();
+            await this.zoomOutButton.click();
+            // Wait for 300 ms
+            await new Promise(resolve => setTimeout(resolve, 300));
+        }
+    }
+
+    /**
+     * Enlarge or minimize the map by clicking the 'Enlarge Map' button.
+     * @returns {Promise<void>}
+     */
+    async enlargeOrMinimizeMap(): Promise<void> {
+        // Wait for the 'Enlarge Map' button to be visible.
+        await expect(this.enlargeMapButton).toBeAttached({ timeout: 10000 });
+        await this.enlargeMapButton.scrollIntoViewIfNeeded();
+        await expect(this.enlargeMapButton).toBeVisible();
+        // Click the 'Enlarge Map' button
+        await expect(this.enlargeMapButton).toBeEnabled();
+        await this.enlargeMapButton.click();
     }
 
 }
