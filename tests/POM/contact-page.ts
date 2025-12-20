@@ -254,4 +254,18 @@ export class ContactPage {
         }
     }
 
+    /**
+     * Enlarge or minimize the map by clicking the 'Enlarge Map' button.
+     * @returns {Promise<void>}
+     */
+    async enlargeOrMinimizeMap(): Promise<void> {
+        // Wait for the 'Enlarge Map' button to be visible.
+        await expect(this.enlargeMapButton).toBeAttached();
+        await this.enlargeMapButton.scrollIntoViewIfNeeded();
+        await expect(this.enlargeMapButton).toBeVisible();
+        // Click the 'Enlarge Map' button
+        await expect(this.enlargeMapButton).toBeEnabled();
+        await this.enlargeMapButton.click();
+    }
+
 }
