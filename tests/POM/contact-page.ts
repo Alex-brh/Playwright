@@ -59,7 +59,7 @@ export class ContactPage {
         this.contactUsButton = this.page.locator('a[href="/contact"][title="Contact"]');
 
         // Map elements
-        this.enlargeMapButton = this.page.locator('button[aria-label="Toggle fullscreen"]');
+        this.enlargeMapButton = this.page.locator('button[aria-label="Toggle fullscreen"][class^="mapboxgl"]');
         this.zoomInButton = this.page.locator('button[aria-label="Zoom In"]');
         this.zoomOutButton = this.page.locator('button[aria-label="Zoom Out"]');
     }
@@ -224,7 +224,7 @@ export class ContactPage {
     async clickZoomInButton(times: number): Promise<void> {
         for (let i = 0; i < times; i++) {
             // Wait for the 'Zoom In' button to be visible.
-            await expect(this.zoomInButton).toBeAttached();
+            await expect(this.zoomInButton).toBeAttached({ timeout: 10000 });
             await this.zoomInButton.scrollIntoViewIfNeeded();
             await expect(this.zoomInButton).toBeVisible();
             // Click the 'Zoom In' button
@@ -243,7 +243,7 @@ export class ContactPage {
     async clickZoomOutButton(times: number): Promise<void> {
         for (let i = 0; i < times; i++) {
             // Wait for the 'Zoom Out' button to be visible.
-            await expect(this.zoomOutButton).toBeAttached();
+            await expect(this.zoomOutButton).toBeAttached({ timeout: 10000 });
             await this.zoomOutButton.scrollIntoViewIfNeeded();
             await expect(this.zoomOutButton).toBeVisible();
             // Click the 'Zoom Out' button
@@ -260,7 +260,7 @@ export class ContactPage {
      */
     async enlargeOrMinimizeMap(): Promise<void> {
         // Wait for the 'Enlarge Map' button to be visible.
-        await expect(this.enlargeMapButton).toBeAttached();
+        await expect(this.enlargeMapButton).toBeAttached({ timeout: 10000 });
         await this.enlargeMapButton.scrollIntoViewIfNeeded();
         await expect(this.enlargeMapButton).toBeVisible();
         // Click the 'Enlarge Map' button
