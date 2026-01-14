@@ -11,10 +11,8 @@ test.describe(`Test 'Elements with frames' page by`, () => {
   test.beforeEach(async ({ page, request }) => {
     storeHomePage = new StoreHomePage(page);
     elementsWithFramesPage = new ElementsWithFramesPage(page);
-
     await storeHomePage.gotoStoreHomePage(page, request);
     await storeHomePage.clickMenuItem(page, storeHomePage.elementsWithFramesMenuItem, `${baseURL}elements-with-frames`);
-    // TODO: elementsWithFramesPage.gotoElementsWithFramesPage(page, request);
   });
 
   test('validating overall appearance and frames content', async ({ page }) => {
