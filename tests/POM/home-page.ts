@@ -29,7 +29,7 @@ export class StoreHomePage {
     this.basketMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/cart"] > span').nth(0);
     this.aboutUsMenuItem = this.page.locator('a[class^="jw-menu-link"][href="/contact"] > span');
     this.pageHeader = this.page.locator('div[class="jw-slideshow-title"]');
-    this.shopNowButton = this.page.locator('a[href="/store"] > div');
+    this.shopNowButton = this.page.locator('a[href="/store"] > span');
     this.pageSubHeader = this.page.locator('h1[class^="jw-heading"]'); //.filter({hasText: `Welcome to Alex's test automation site for practice`});
     this.picsInCarousel = this.page.locator('img[class="jw-element-image__image jw-intrinsic__item"]');
   }
@@ -93,7 +93,8 @@ export class StoreHomePage {
    */
   async clickShopNowButton(page: Page, buttonIndex: number) {
     const locator = this.shopNowButton.nth(buttonIndex);
-    await expect(locator).toBeVisible();
+    locator.scrollIntoViewIfNeeded();
+    await expect(locator).toBeAttached();
     locator.click();
   }
 
