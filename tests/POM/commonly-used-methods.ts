@@ -27,7 +27,7 @@ export class CommonlyUsedMethods {
         // Dropdown selected option locator
         this.dropDownSelectedOption = this.page.locator('select > option[selected]');
         // Sort dropdown caret locator
-        this.sortDropDownCaret = this.page.locator('div[class="product-gallery-sorting js-product-gallery-sorting"]');
+        this.sortDropDownCaret = this.page.locator('div[class="product-gallery-sorting js-product-gallery-sorting"] > select');
     }
 
     /**
