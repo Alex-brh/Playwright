@@ -8,7 +8,7 @@ export class ElementsWithFramesPage {
   readonly firstFrameBody: Locator;
 
   constructor(public readonly page: Page) {
-    this.buttonTypeHere = this.page.locator('div[class="jw-btn-caption"]');
+    this.buttonTypeHere = this.page.locator('a[class*="jw-btn--roundness-rounded"] > span[class="jw-btn-caption"]');// filter({ hasText: 'Type here' });
     this.allFrames = this.page.locator('div[class="iframely-embed"] > div');
     this.firstFrameBody = this.page.locator('div[class="iframely-embed"]').nth(0).locator('div > div[class="body"]').nth(0);
   }

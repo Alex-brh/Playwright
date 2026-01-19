@@ -44,7 +44,7 @@ test.describe(`Test 'Home' page by`, () => {
 
   test(`clicking each one of 'Shop now' buttons and verifying page url it leads to`, async ({ page }) => {
     // Click each one of the 3 'Shop now' buttons on the 'Home' page and validate the page URL.
-    for (let i = 0; i < 3; i++) {
+    for (let i = 1; i < 4; i++) {
       await storeHomePage.clickShopNowButton(page, i);
       await expect(page).toHaveURL(`${baseUrl}store`);
       await page.goBack();

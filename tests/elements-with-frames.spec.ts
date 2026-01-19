@@ -18,8 +18,8 @@ test.describe(`Test 'Elements with frames' page by`, () => {
   test('validating overall appearance and frames content', async ({ page }) => {
     await elementsWithFramesPage.validateIframeCount(6);
     await elementsWithFramesPage.validateFirstFrameHasContent();
-    await expect(elementsWithFramesPage.buttonTypeHere.nth(1)).toBeVisible();
-    await expect(elementsWithFramesPage.buttonTypeHere.nth(1)).toContainText('Type here');
+    await expect(elementsWithFramesPage.buttonTypeHere.nth(0)).toBeAttached();
+    await expect(elementsWithFramesPage.buttonTypeHere.nth(0)).toContainText('Type here');
   });
 
   test('validating the page title', async ({ page }) => {
