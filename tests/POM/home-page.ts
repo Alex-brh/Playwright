@@ -93,7 +93,6 @@ export class StoreHomePage {
    */
   async clickShopNowButton(page: Page, buttonIndex: number) {
     const locator = this.shopNowButton.nth(buttonIndex);
-    locator.scrollIntoViewIfNeeded();
     await expect(locator).toBeAttached();
     locator.click();
   }
