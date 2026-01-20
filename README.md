@@ -25,6 +25,9 @@ tests/
       ├── to-do-page.ts         # TodoMVC app interactions
       └── commonly-used-methods.ts # Shared utility methods
 ```
+## 📁 Test Instructions
+
+https://github.com/Alex-brh/Playwright/blob/main/.github/instructions/HomeSpec.instructions.md
 
 ## 🚀 Running Tests
 
