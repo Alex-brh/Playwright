@@ -31,9 +31,9 @@ test.describe(`Test 'Clearance' page by`, () => {
     });
 
     test("validating the header and paragraph texts on the 'Clearance' page", async () => {
-        // Validate that there are 2 headers on the Clearance page.
+        // Validate that there are 3 headers on the Clearance page.
         await expect(clearancePage.pageHeader).toHaveCount(3);
-        // Validate that there are 4 paragraph texts on the Clearance page.
+        // Validate that there are 5 paragraph texts on the Clearance page.
         await expect(clearancePage.paragraphTexts).toHaveCount(5);
         // Validate the header and paragraph texts on the 'Clearance' page.
         let elementDetails = [

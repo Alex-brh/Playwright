@@ -38,7 +38,16 @@ export class CustomerTestimonials {
     }
 
     // **************************************************************************************************************
-    // Validate that the customer testimonials section(s) is(are) visible on the page.
+    /**
+     * @description Validate that the customer testimonials section(s) is(are) visible on the page.
+     * @param testimonialDetails 
+     * @example
+     * const testimonialDetails = {
+     *   expectedTestimonialsCount: 5,
+     *   index: 0,
+     *   expectedTestimonialsText: 'This is the content of the first testimonial.'
+     * };
+     */
     async validateCustomerTestimonialsVisible(testimonialDetails: TestimonialDetails): Promise<void> {
         const { expectedTestimonialsCount, index, expectedTestimonialsText } = testimonialDetails;
         await expect(this.testimonials).toHaveCount(expectedTestimonialsCount);
@@ -54,7 +63,11 @@ export class CustomerTestimonials {
     }
 
     // **************************************************************************************************************
-    // Validate error messages when submitting a comment without filling the form.
+    /**
+     * @description Validate error messages when submitting a comment without filling the form.
+     * @example
+     * await customerTestimonials.validateSubmitCommentErrors();
+     */
     async validateSubmitCommentErrors(): Promise<void> {
         // Make sure the 'Name' input field is empty.
         await expect(this.nameInputField).toBeEmpty();
@@ -92,7 +105,11 @@ export class CustomerTestimonials {
         }
     }
     // **************************************************************************************************************
-    // Validate that the customer comment is visible on the page.
+    /**
+    * @description Validate that the customer comment is visible on the page.
+    * @example
+    * await customerTestimonials.validateCustomerCommentVisible({ comment, index });
+    */
     async validateCustomerCommentVisible({ comment, index }: { comment: string; index: number }): Promise<void> {
         console.log(`Validating customer comment: ${comment} at index ${index}`);
         await expect(this.customerComment.nth(index)).toBeAttached();
@@ -100,6 +117,5 @@ export class CustomerTestimonials {
         await expect(this.customerComment.nth(index)).toBeVisible();
         await expect(this.customerComment.nth(index)).toHaveText(comment);
     }
-
 
 }

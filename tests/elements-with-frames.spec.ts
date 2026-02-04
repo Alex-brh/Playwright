@@ -13,6 +13,8 @@ test.describe(`Test 'Elements with frames' page by`, () => {
     elementsWithFramesPage = new ElementsWithFramesPage(page);
     await storeHomePage.gotoStoreHomePage(page, request);
     await storeHomePage.clickMenuItem(page, storeHomePage.elementsWithFramesMenuItem, `${baseURL}elements-with-frames`);
+    await expect(page).toHaveURL(`${baseURL}elements-with-frames`);
+    
   });
 
   test('validating overall appearance and frames content', async ({ page }) => {
