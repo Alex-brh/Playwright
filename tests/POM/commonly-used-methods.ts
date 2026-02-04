@@ -155,6 +155,20 @@ export class CommonlyUsedMethods {
      * @param {number} [elementDetails.optionIndex] - Optional index of the option to select.
      * @param {boolean} [elementDetails.toWaitForLoadingIndicator] - true by default. Whether to wait for the loading indicator after selection.
      * @returns {Promise<void>}
+     * @example
+     * await commonMethods.selectOptionByValueLabelOrIndex({
+        *   elementLocator: commonPage.sortDropdown,
+        *   elementIndex: 0,
+        *   optionValue: 'price-asc',
+        *   toWaitForLoadingIndicator: false        
+        * });
+        * // Example 2: Select option by label
+        * await commonMethods.selectOptionByValueLabelOrIndex({
+        *   elementLocator: commonPage.sortDropdown,
+        *   elementIndex: 0,
+        *   optionLabel: 'Price: Low to High',
+        *   toWaitForLoadingIndicator: false        
+        * });  
      */
     async selectOptionByValueLabelOrIndex(elementDetails: ElementDetails): Promise<void> {
         let { elementLocator, elementIndex, optionValue, optionLabel, optionIndex, toWaitForLoadingIndicator = true } = elementDetails;
@@ -210,6 +224,8 @@ export class CommonlyUsedMethods {
      * @param timeoutVisible 
      * @param timeoutHidden 
      * @returns 
+     * @example
+     * await commonMethods.waitForDataLoadingToComplete();
      */
     async waitForDataLoadingToComplete(timeoutVisible = 10000, timeoutHidden = 25000): Promise<void> {
         const loader = this.dataLoadingIndicator
