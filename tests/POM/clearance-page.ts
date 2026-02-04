@@ -45,7 +45,7 @@ export class ClearancePage {
         // Paragraph texts under each header (should be 12 in total right now).
         this.paragraphTexts = this.page.locator('div[class^="jw-element-imagetext-text"] > p');
         // Sort By dropdown locator
-        this.sortByDropdown = this.page.locator('select[class="jw-select__input jw-element-form-input-text"]');
+        this.sortByDropdown = this.page.locator('select[id^="product-gallery-sort"]');
         // Clearance page images.
         this.clearancePageImage = this.page.locator('a[class*="product-image"]');
         // Product header locator: used in 'Best product #1', #2, and #3 validations.
