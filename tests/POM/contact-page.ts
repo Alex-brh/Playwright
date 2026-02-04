@@ -9,7 +9,6 @@ const baseURL = config.use?.baseURL ?? "https://free-5288352.webadorsite.com/";
  * @interface
  * @property {string} [name] - Optional name field value
  * @property {string} [email] - Optional email field value
- * @property {string} [subject] - Optional subject field value
  * @property {string} [message] - Optional message field value
  */
 interface ContactFormData {
@@ -69,6 +68,9 @@ export class ContactPage {
      * @param {Page} page - The Playwright Page object.
      * @param {APIRequestContext} request - The Playwright APIRequestContext fixture.
      * @returns {Promise<void>} // Resolves when navigation and validation are complete.
+     * @throws {Error} - If the API response is not OK.
+     * @example
+     * await contactPage.gotoContactPage(page, request);
      */
     async gotoContactPage(page: Page, request: APIRequestContext): Promise<void> {
         const url = `${baseURL}contact`;
@@ -90,6 +92,8 @@ export class ContactPage {
     /**
      * Validates the presence and visibility of all form elements on the Contact page.
      * @returns {Promise<void>}
+     * @example
+     * await contactPage.validateAllFormElementsPresence();
      */
     async validateAllFormElementsPresence(): Promise<void> {
         // Verify all form fields are visible
@@ -137,6 +141,8 @@ export class ContactPage {
     /**
      * Submits the contact form by clicking the submit button.
      * @returns {Promise<void>}
+     * @example
+     * await contactPage.submitContactForm();
      */
     async submitContactForm(): Promise<void> {
         // Verify submit button is enabled before clicking
@@ -148,6 +154,8 @@ export class ContactPage {
     /**
      * Validates that an error message is displayed after form submission due to unresolved Captcha pattern.
      * @returns {Promise<void>}
+     * @example
+     * await contactPage.validateErrorMessage();
      */
     async validateErrorMessage(): Promise<void> {
         // Wait a short time for error message to appear

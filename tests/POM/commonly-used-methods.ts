@@ -193,8 +193,8 @@ export class CommonlyUsedMethods {
                 await expect(this.dropDownSelectedOption.nth(0)).toBeAttached({ timeout: 10000 });
                 await expect(this.dropDownSelectedOption.nth(0)).toHaveAttribute('value', optionValue);
                 if (optionValue !== "manual") {
-                   // Validate that URL contains the selected option value (except for 'manual').
-                   await expect(this.page).toHaveURL(new RegExp(`=${optionValue}`), { timeout: 10000 });
+                    // Validate that URL contains the selected option value (except for 'manual').
+                    await expect(this.page).toHaveURL(new RegExp(`=${optionValue}`), { timeout: 10000 });
                 }
             }
             if (optionLabel !== undefined && optionLabel !== null) {
