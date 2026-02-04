@@ -48,34 +48,60 @@ export class TodoPage {
     await expect(this.header).toHaveText('todos');
   }
 
-  // Click the "Active" button to filter and display only active (incomplete) items
-  async clickActiveButton() {
+  /**
+   * @description Clicks the "Active" button to filter and display only active items.
+   * This method ensures the button is enabled before clicking.
+   * @returns {Promise<void>} A promise that resolves when the button is clicked.
+   * @throws {Error} If the button is not enabled before clicking.
+   * @example
+   * await todoPage.clickActiveButton();
+   */
+  async clickActiveButton(): Promise<void> {
     // Assert that the buttonActive element is enabled before clicking
     await expect(this.buttonActive).toBeEnabled();
     // Click the buttonActive element
     await this.buttonActive.click();
   }
 
-  // Click the "Completed" button to filter and display only completed items
-  async clickCompletedButton() {
+  /**
+   * @description Clicks the "Completed" button to filter and display only completed items.
+   * This method ensures the button is enabled before clicking.
+   * @returns {Promise<void>} A promise that resolves when the button is clicked.
+   * @throws {Error} If the button is not enabled before clicking.
+   * @example
+   * await todoPage.clickCompletedButton();
+   */
+  async clickCompletedButton(): Promise<void> {
     // Assert that the buttonCompleted element is enabled before clicking
     await expect(this.buttonCompleted).toBeEnabled();
     // Click the buttonCompleted element
     await this.buttonCompleted.click();
   }
 
-  // Verify the item count displays the expected value (accepts string or RegExp)
-  // This method only accepts strings and RegExp as the count parameter
-  async verifyItemCount({ count }: { count: string | RegExp }) {
+  /**
+   * @description Verify the item count displays the expected value. This method only accepts strings and RegExp as the count parameter
+   * @param {Object} params - The parameters object.
+   * @param {string | RegExp} params.count - The expected count value.
+   * @returns {Promise<void>} A promise that resolves when the verification is complete.
+   * @example
+   * await todoPage.verifyItemCount({ count: '3' });
+   */
+  async verifyItemCount({ count }: { count: string | RegExp }): Promise<void> {
     // Assert that the itemCount element is visible on the page
     await expect(this.itemCount).toBeVisible();
     // Assert that the itemCount element text matches the provided count value
     await expect(this.itemCount).toHaveText(count);
   }
 
-  // Check the "Mark all as complete" checkbox to mark all items as completed
-  // This method only accepts strings and RegExp (destructured param)
-  async completeAllItems() {
+  /**
+   * @description Marks all to-do items as complete by checking the "Mark all as complete" checkbox.
+   * This method only accepts strings and RegExp (destructured param)
+   * This method uses the `force: true` option to bypass visibility checks.
+   * @returns {Promise<void>} A promise that resolves when all items are marked as complete.  
+   * @example
+   * await todoPage.completeAllItems();
+   */
+  async completeAllItems(): Promise<void> {
     // Check the markAllAsCompleteCheckbox element, using force: true to bypass visibility checks
     await this.markAllAsCompleteCheckbox.check({ force: true });
   }

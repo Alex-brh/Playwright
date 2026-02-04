@@ -27,10 +27,22 @@ export class ShowcasePage {
 
     // **************************************************************************************************************
     /**
-     * Validate the header and paragraph text on the Showcase page.
+     * @description Validate the header and paragraph text on the Showcase page.
      * @param elementDetails 
+     * @returns void
+     * @example
+     * const elementDetails = {
+     *     elementLocator: this.pageHeader,
+     *     elementIndex: 0,
+     *     elementText: 'Showcase',
+     * };
+     * await this.validateHeaderText(elementDetails);
      */
-    async validateHeaderText(elementDetails: { elementLocator: Locator; elementIndex: number; elementText: string; }) {
+    async validateHeaderText(elementDetails: {
+        elementLocator: Locator;
+        elementIndex: number;
+        elementText: string;
+    }): Promise<void> {
         await this.commonMethods.validateElementText({
             elementLocator: elementDetails.elementLocator,
             elementIndex: elementDetails.elementIndex,
@@ -39,10 +51,23 @@ export class ShowcasePage {
     }
     // **************************************************************************************************************
     /**
-     * Validate an element attribute base on elementLocator, elementIndex, attributeName, and attributeValue
-     * @param elementDetails: elementLocator, elementIndex, attributeName, and attributeValue
+     * @description Validate an element attribute base on elementLocator, elementIndex, attributeName, and attributeValue.
+     * @param elementDetails: elementLocator, elementIndex, attributeName, and attributeValue.
+     * @returns void
+     * @example
+     * const elementDetails = {
+        *     elementLocator: this.showcasePageImage,
+        *     elementIndex: 0,
+        *     attributeName: "src",
+        *     attributeValue: "https://example.com/images/image1.jpg",  
+     }
      */
-    async validateElemAttribute(elementDetails: { elementLocator: Locator; elementIndex: number; attributeName: string; attributeValue: string; }) {
+    async validateElemAttribute(elementDetails: {
+        elementLocator: Locator;
+        elementIndex: number;
+        attributeName: string;
+        attributeValue: string;
+    }): Promise<void> {
         await this.commonMethods.validateElementAttribute({
             elementLocator: elementDetails.elementLocator,
             elementIndex: elementDetails.elementIndex,

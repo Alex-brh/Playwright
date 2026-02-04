@@ -56,10 +56,8 @@ export class StorePage {
     }
     // *************************
     /**
-     * Validates the header of a product element on the page, asserting its existence,
+     * @description Validates the header of a product element on the page, asserting its existence,
      * and optionally its `href` and text content.
-     *
-     * @async
      * @param {Page} page The Playwright `page` object.
      * @param {ProductDetails} productDetails An object containing the details for validation.
      * @param {number} productDetails.productIndex The index of the product element to validate.
@@ -94,13 +92,12 @@ export class StorePage {
     }
     // *************************
     /**
-     * Opens a product by clicking on its header, identified by index, header text, or href.
+     * @description Opens a product by clicking on its header, identified by index, header text, or href.
      * It first determines the most specific locator based on the provided `productDetails`.
      * If `productIndex` is given, it finds the element by index. If `productHref` is also
      * provided, it verifies the href attribute for that element. Otherwise, it uses `headerText`
      * as the primary identifier. An error is thrown if neither `productIndex` nor `headerText`
      * is specified.
-     *
      * @param {Page} page The Playwright Page object.
      * @param {ProductDetails} productDetails An object containing optional properties to identify the product.
      * @param {number} [productDetails.productIndex] The zero-based index of the product header.
@@ -142,65 +139,64 @@ export class StorePage {
         await productLocator.click();
     }
     // *************************
-/**
- * Validates the product details on the page based on the provided object.
- * This method checks for the existence and correct text/attributes of various product elements.
- * All properties in the `productDetailsToValidate` object are optional.
- *
- * @param {import('@playwright/test').Page} page - The Playwright `Page` object.
- * @param {productDetailsToValidate} validateProductDetails - An object containing the product details to validate.
- * @param {string} [validateProductDetails.image] - The expected `alt` attribute value for the product image.
- * @param {string} [validateProductDetails.header] - The expected header text.
- * @param {string} [validateProductDetails.status] - The expected status text.
- * @param {string} [validateProductDetails.price] - The expected price text.
- * @param {string} [validateProductDetails.labelAdditionalOptions] - The expected text for the additional options label.
- * @param {Array<{optionText: string}>} [validateProductDetails.productList] - A list of products with their expected option text.
- * @param {string} [validateProductDetails.labelAddToCart] - The expected text for the "add to cart" label.
- * @param {string} [validateProductDetails.addToWishlistButton] - The expected `title` attribute value for the "add to wishlist" button.
- * @param {string} [validateProductDetails.itemDescription] - The expected item description text.
- * @example
- * // Example usage with a Playwright test
- * import { test, expect } from '@playwright/test';
- * import { ProductPage } from '../pages/ProductPage';
- *
- * test('should validate all product details correctly', async ({ page }) => {
- *   const productPage = new ProductPage(page);
- *   await productPage.goToProductPage();
- *
- *   const productData = {
- *     image: 'Cool-Shirt',
- *     header: 'Cool Shirt',
- *     status: 'In Stock',
- *     price: '$19.99',
- *     labelAdditionalOptions: 'Size',
- *     productList: [
- *       { optionText: 'Small' },
- *       { optionText: 'Medium' }
- *     ],
- *     labelAddToCart: 'Add to Cart',
- *     addToWishlistButton: 'Add to Wishlist',
- *     itemDescription: 'This is a very cool shirt.'
- *   };
- *
- *   await productPage.validateProductDetails(page, productData);
- * });
- * @example
- * // Example usage with only a subset of details to validate
- * import { test, expect } from '@playwright/test';
- * import { ProductPage } from '../pages/ProductPage';
- *
- * test('should validate price and status', async ({ page }) => {
- *   const productPage = new ProductPage(page);
- *   await productPage.goToProductPage();
- *
- *   const productData = {
- *     price: '$25.00',
- *     status: 'Out of Stock',
- *   };
- *
- *   await productPage.validateProductDetails(page, productData);
- * });
- */
+    /**
+     * @description Validates the product details on the page based on the provided object.
+     * This method checks for the existence and correct text/attributes of various product elements.
+     * All properties in the `productDetailsToValidate` object are optional.
+     * @param {import('@playwright/test').Page} page - The Playwright `Page` object.
+     * @param {productDetailsToValidate} validateProductDetails - An object containing the product details to validate.
+     * @param {string} [validateProductDetails.image] - The expected `alt` attribute value for the product image.
+     * @param {string} [validateProductDetails.header] - The expected header text.
+     * @param {string} [validateProductDetails.status] - The expected status text.
+     * @param {string} [validateProductDetails.price] - The expected price text.
+     * @param {string} [validateProductDetails.labelAdditionalOptions] - The expected text for the additional options label.
+     * @param {Array<{optionText: string}>} [validateProductDetails.productList] - A list of products with their expected option text.
+     * @param {string} [validateProductDetails.labelAddToCart] - The expected text for the "add to cart" label.
+     * @param {string} [validateProductDetails.addToWishlistButton] - The expected `title` attribute value for the "add to wishlist" button.
+     * @param {string} [validateProductDetails.itemDescription] - The expected item description text.
+     * @example
+     * // Example usage with a Playwright test
+     * import { test, expect } from '@playwright/test';
+     * import { ProductPage } from '../pages/ProductPage';
+     *
+     * test('should validate all product details correctly', async ({ page }) => {
+     *   const productPage = new ProductPage(page);
+     *   await productPage.goToProductPage();
+     *
+     *   const productData = {
+     *     image: 'Cool-Shirt',
+     *     header: 'Cool Shirt',
+     *     status: 'In Stock',
+     *     price: '$19.99',
+     *     labelAdditionalOptions: 'Size',
+     *     productList: [
+     *       { optionText: 'Small' },
+     *       { optionText: 'Medium' }
+     *     ],
+     *     labelAddToCart: 'Add to Cart',
+     *     addToWishlistButton: 'Add to Wishlist',
+     *     itemDescription: 'This is a very cool shirt.'
+     *   };
+     *
+     *   await productPage.validateProductDetails(page, productData);
+     * });
+     * @example
+     * // Example usage with only a subset of details to validate
+     * import { test, expect } from '@playwright/test';
+     * import { ProductPage } from '../pages/ProductPage';
+     *
+     * test('should validate price and status', async ({ page }) => {
+     *   const productPage = new ProductPage(page);
+     *   await productPage.goToProductPage();
+     *
+     *   const productData = {
+     *     price: '$25.00',
+     *     status: 'Out of Stock',
+     *   };
+     *
+     *   await productPage.validateProductDetails(page, productData);
+     * });
+     */
     async validateProductDetails(page: Page, validateProductDetails: productDetailsToValidate) {
         const {
             image,
