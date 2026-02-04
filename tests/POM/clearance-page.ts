@@ -71,17 +71,54 @@ export class ClearancePage {
     // **************************************************************************************************************
     /**
      * Validate the header or paragraph text on the Showcase page.
-     * @param elementDetails 
+     * @param elementDetails - An object containing element validation details.
+     * @param elementDetails.elementLocator - Required Locator pointing to the element(s) to validate.
+     * @param elementDetails.elementIndex - Optional index of the element to validate (uses nth selector).
+     * @param elementDetails.elementText - Optional text content to validate.
+     * @returns {Promise<void>}
+     * 
+     * @example 
+     * const elementDetails = {
+     *     elementLocator: this.pageHeader,
+     *     elementIndex: 0,
+     *     elementText: 'Showcase',
+     * };
+     * await this.validateHeaderOrParagraphText(elementDetails);
+     * 
      */
-    async validateHeaderOrParagraphText(elementDetails: { elementLocator: Locator; elementIndex: number; elementText: string; }) {
+    async validateHeaderOrParagraphText(
+        { elementLocator, elementIndex, elementText }:
+            {
+                elementLocator: Locator;
+                elementIndex: number;
+                elementText: string;
+            }): Promise<void> {
         await this.commonMethods.validateElementText({
-            elementLocator: elementDetails.elementLocator,
-            elementIndex: elementDetails.elementIndex,
-            elementText: elementDetails.elementText,
+            elementLocator: elementLocator,
+            elementIndex: elementIndex,
+            elementText: elementText,
         });
     }
     // **************************************************************************************************************
-    async selectOptionByValueLabelOrIndex(elementDetails: { elementLocator: Locator; elementIndex: number; optionValue?: string; optionLabel?: string; optionIndex?: number; toWaitForLoadingIndicator?: boolean }) {
+    /**
+     * Select an option from a dropdown by value, label, or index.
+     * @param elementDetails - An object containing element selection details.
+     * @param elementDetails.elementLocator - Required Locator pointing to the dropdown element.
+     * @param elementDetails.elementIndex - Optional index of the dropdown element (uses nth selector).
+     * @param elementDetails.optionValue - Optional value of the option to select.
+     * @param elementDetails.optionLabel - Optional label of the option to select.
+     * @param elementDetails.optionIndex - Optional index of the option to select.
+     * @param elementDetails.toWaitForLoadingIndicator - true by default. Whether to wait for the loading indicator after selection.
+     * @returns {Promise<void>}
+     */
+    async selectOptionByValueLabelOrIndex(elementDetails: {
+        elementLocator: Locator;
+        elementIndex: number;
+        optionValue?: string;
+        optionLabel?: string;
+        optionIndex?: number;
+        toWaitForLoadingIndicator?: boolean
+    }): Promise<void> {
         await this.commonMethods.selectOptionByValueLabelOrIndex({
             elementLocator: elementDetails.elementLocator,
             elementIndex: elementDetails.elementIndex,
@@ -92,6 +129,29 @@ export class ClearancePage {
         });
     }
     // **************************************************************************************************************
+    /**
+     * Validate best product details.
+     * @param bestProductDetails - An object containing details to validate.
+     * @returns {Promise<void>}
+     * 
+     * @example 
+     * const bestProductDetails = {
+        *     productHeaderIndex: 0,
+        *     productHeaderText: "Best product #1",
+        *     productImageIndex: 0,
+        *     buttonDisabledIndex: 3,
+        *     productPriceIndex: 0,
+        *     productCost: "CA$150.00",
+        *     productDescriptionIndex: 0,   
+        *     productDescriptionText: "This is NOT a real product. It's item for testing. It can't be purchased or ordered.",
+        *     buttonAddToWishListIndex: 3,
+        *     seeDetailsButtonIndex: 0,
+        *     clearanceLabelIndex: 0,
+        *     productUrlRouting: "best-product-1"
+        * };     
+     * await this.validateBestProductDetails(bestProductDetails);   
+     }
+     */
     async validateBestProductDetails(bestProductDetails: BestProductDetails): Promise<void> {
         const {
             productHeaderIndex,
@@ -166,14 +226,14 @@ export class ClearancePage {
             // Validate that the 'See details' button is visible.
             await expect(this.seeDetailsButtonLocator.nth(seeDetailsButtonIndex)).toBeAttached();
             if (productUrlRouting !== undefined) {
-            // Click the 'See details' button and validate navigation to the product details page.
-            await this.seeDetailsButtonLocator.nth(seeDetailsButtonIndex).click();
-            await this.page.waitForLoadState("load");
-            await expect(this.page).toHaveURL(new RegExp(productUrlRouting));
-            if (selectedAmountIndex !== undefined) {
-                // Validate that the select-amount dropdown has the correct number of options.
-                await expect(this.selectAmountDropDownListLocator.nth(selectedAmountIndex)).toBeAttached();
-            }
+                // Click the 'See details' button and validate navigation to the product details page.
+                await this.seeDetailsButtonLocator.nth(seeDetailsButtonIndex).click();
+                await this.page.waitForLoadState("load");
+                await expect(this.page).toHaveURL(new RegExp(productUrlRouting));
+                if (selectedAmountIndex !== undefined) {
+                    // Validate that the select-amount dropdown has the correct number of options.
+                    await expect(this.selectAmountDropDownListLocator.nth(selectedAmountIndex)).toBeAttached();
+                }
             }
 
         }
