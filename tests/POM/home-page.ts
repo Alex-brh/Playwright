@@ -46,6 +46,7 @@ export class StoreHomePage {
     const url = "https://free-5288352.webadorsite.com/";
     const response = await request.get(url);
     await expect(response).toBeOK();
+    // Wait until the page is fully loaded.
     await page.goto(url, { waitUntil: "commit" });
     await page.waitForURL(url, { timeout: 15000 });
     await expect(this.homeMenuItem).toBeVisible();

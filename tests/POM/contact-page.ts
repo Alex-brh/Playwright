@@ -191,6 +191,8 @@ export class ContactPage {
     /**
      * Clears all form fields by selecting and deleting their content.
      * @returns {Promise<void>}
+     * @example
+     * await contactPage.clearContactForm();
      */
     async clearContactForm(): Promise<void> {
         // Clear each form field
@@ -201,8 +203,10 @@ export class ContactPage {
 
     /**
      * Click the 'Contact Us' button and then validate navigation to the Contact page.
-     * @param {Locator} contactUsButton - Locator for the 'Contact Us' button
+     * @param None
      * @returns {Promise<void>}
+     * @example
+     * await contactPage.clickContactUsButtonAndValidateNavigation();
      */
     async clickContactUsButtonAndValidateNavigation(): Promise<void> {
         // Click the 'Contact Us' button
@@ -213,6 +217,8 @@ export class ContactPage {
         await this.contactUsButton.click();
         // Validate navigation to the Contact page
         await this.page.waitForURL("**/contact", { timeout: 15000 });
+        // Verify the current URL matches the expected pattern by using a regular expression,
+        // which checks if the URL ends with "/contact".
         await expect(this.page).toHaveURL(/\/contact$/);
     }
 
@@ -220,6 +226,8 @@ export class ContactPage {
      * Click the 'Zoom In' button a specified number of times.
      * @param {number} times - The number of times to click the 'Zoom In' button.
      * @returns {Promise<void>}
+     * @example
+     * await contactPage.clickZoomInButton(3);
      */
     async clickZoomInButton(times: number): Promise<void> {
         for (let i = 0; i < times; i++) {
@@ -230,7 +238,7 @@ export class ContactPage {
             // Click the 'Zoom In' button
             await expect(this.zoomInButton).toBeEnabled();
             await this.zoomInButton.click();
-            // Wait for 300 ms
+            // Wait for the process to complete by pausing for 300 ms after each click.
             await new Promise(resolve => setTimeout(resolve, 300));
         }
     }
@@ -239,6 +247,8 @@ export class ContactPage {
      * Click the 'Zoom Out' button a specified number of times.
      * @param {number} times - The number of times to click the 'Zoom Out' button.
      * @returns {Promise<void>} 
+     * @example
+     * await contactPage.clickZoomOutButton(3);
      */
     async clickZoomOutButton(times: number): Promise<void> {
         for (let i = 0; i < times; i++) {
@@ -249,7 +259,7 @@ export class ContactPage {
             // Click the 'Zoom Out' button
             await expect(this.zoomOutButton).toBeEnabled();
             await this.zoomOutButton.click();
-            // Wait for 300 ms
+            // Wait for the process to complete by pausing for 300 ms after each click.
             await new Promise(resolve => setTimeout(resolve, 300));
         }
     }
@@ -257,13 +267,15 @@ export class ContactPage {
     /**
      * Enlarge or minimize the map by clicking the 'Enlarge Map' button.
      * @returns {Promise<void>}
+     * @example
+     * await contactPage.enlargeOrMinimizeMap();
      */
     async enlargeOrMinimizeMap(): Promise<void> {
         // Wait for the 'Enlarge Map' button to be visible.
         await expect(this.enlargeMapButton).toBeAttached({ timeout: 10000 });
         await this.enlargeMapButton.scrollIntoViewIfNeeded();
         await expect(this.enlargeMapButton).toBeVisible();
-        // Click the 'Enlarge Map' button
+        // Click the 'Enlarge Map' button after ensuring it is enabled.
         await expect(this.enlargeMapButton).toBeEnabled();
         await this.enlargeMapButton.click();
     }
