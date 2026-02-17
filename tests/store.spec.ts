@@ -65,6 +65,11 @@ test.describe(`Test 'Store' page by`, () => {
         }
     });
 
+    test(`validating the total number of products listed on the Store page`, async () => {
+        // Ensure that all expected products are rendered on the Store page.
+        await expect(storePage.productHeader).toHaveCount(3);
+    });
+
     // Test case for opening each product and validating its details on the product page.
     test(`opening a product and validating product details`, async ({ page }) => {
         // Define an array of test data for different products, including details to validate.

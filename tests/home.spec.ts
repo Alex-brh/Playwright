@@ -29,6 +29,25 @@ test.describe(`Test 'Home' page by`, () => {
     await storeHomePage.validateAllMenuItemsPresence();
   });
 
+  test('navigating using menu items survives reload and browser history navigation', async ({ page }) => {
+    // Navigate to the Store page from Home.
+    await storeHomePage.clickMenuItem(page, storeHomePage.storMenuItem, `${baseUrl}store`);
+    await expect(page).toHaveURL(`${baseUrl}store`);
+
+    // Reload the Store page and ensure the menu is still usable.
+    await page.reload();
+    await expect(storeHomePage.storMenuItem).toBeVisible();
+
+    // Use browser back/forward to return to Home and back to Store.
+    await page.goBack();
+    await expect(page).toHaveURL(baseUrl);
+    await expect(storeHomePage.homeMenuItem).toBeVisible();
+
+    await page.goForward();
+    await expect(page).toHaveURL(`${baseUrl}store`);
+    await expect(storeHomePage.storMenuItem).toBeVisible();
+  });
+
   test('switching over between menus and verifying page URL', async ({ page }) => {
     // Click each one of the menu items on the 'Home' page and validate the page URL each time.
     await storeHomePage.clickMenuItem(page, storeHomePage.storMenuItem, `${baseUrl}store`);
@@ -86,11 +105,32 @@ test.describe(`Test 'Home' page by`, () => {
   test(`validating the presence of 5 pictures on the 'Home' page`, async () => {
     await expect(storeHomePage.picsInCarousel).toHaveCount(5);
     // Validate each image attributes.
-    await expect.soft(storeHomePage.picsInCarousel.nth(0)).toHaveAttribute('srcset');
-    await expect.soft(storeHomePage.picsInCarousel.nth(1)).toHaveAttribute('srcset');
-    await expect.soft(storeHomePage.picsInCarousel.nth(2)).toHaveAttribute('srcset');
-    await expect.soft(storeHomePage.picsInCarousel.nth(3)).toHaveAttribute('srcset');
-    await expect.soft(storeHomePage.picsInCarousel.nth(4)).toHaveAttribute('srcset');
+    for (let i = 0; i < 5; i++) {
+      const image = storeHomePage.picsInCarousel.nth(i);
+      await expect.soft(image).toHaveAttribute('srcset');
+      // Robustness check: each image should have a non-empty width and height attributes.
+      await expect.soft(image).toHaveAttribute('width', /.+/);
+      await expect.soft(image).toHaveAttribute('height', /.+/);
+    }
+  });
+
+  test('validating primary API navigation links respond successfully', async ({ request }) => {
+    const navUrls = [
+      `${baseUrl}`,
+      `${baseUrl}store`,
+      `${baseUrl}faq`,
+      `${baseUrl}customer-testimonials`,
+      `${baseUrl}contact`,
+      `${baseUrl}elements-with-frames`,
+      `${baseUrl}showcase`,
+      `${baseUrl}clearance`,
+      `${baseUrl}cart`,
+    ];
+
+    for (const url of navUrls) {
+      const response = await request.get(url);
+      await expect(response, `Expected successful response for ${url}`).toBeOK();
+    }
   });
 
 });

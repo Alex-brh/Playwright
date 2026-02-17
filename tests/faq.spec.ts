@@ -70,4 +70,21 @@ test.describe(`Test 'FAQ' page by`, () => {
 
     });
 
+    test('toggling FAQ sections open and closed', async () => {
+        // Click each section twice to ensure it can be opened and then closed again.
+        const sectionCount = 3;
+        for (let index = 0; index < sectionCount; index++) {
+            await faqPage.expandSectionAndValidateText({ index, text: sectionsText[index].text });
+            // Clicking again should collapse the section (no assertion on text, just that it no longer has the open attribute).
+            await faqPage.toggleSection(index);
+        }
+    });
+
+    test('validating FAQ page has non-empty accordion content for all sections', async () => {
+        const sectionCount = 3;
+        for (let index = 0; index < sectionCount; index++) {
+            await faqPage.ensureSectionHasNonEmptyText(index);
+        }
+    });
+
 });

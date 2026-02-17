@@ -58,4 +58,9 @@ test.describe(`Test 'Customer Testimonials' page by`, () => {
         }
     });
 
+    test('validating the Customer Testimonials page title', async ({ page }) => {
+        const expectedTitle = 'Customer testimonials | Online store';
+        await expect(page).toHaveTitle(expectedTitle);
+    });
+
 });

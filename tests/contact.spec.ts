@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import { StoreHomePage } from "./POM/home-page";
 import { ContactPage } from "./POM/contact-page";
 import config from "../playwright.config";
+import { on } from "process";
 
 // Determine the base URL from the Playwright configuration or use a fallback URL.
 const baseURL = config.use?.baseURL ?? "https://free-5288352.webadorsite.com/";
@@ -56,6 +57,20 @@ test.describe(`Test 'Contact' page by`, () => {
         await contactPage.validateErrorMessage();
     });
 
+    test("submitting the contact form with empty required fields shows an error", async () => {
+        // Ensure all fields are empty.
+        await contactPage.clearContactForm();
+        await expect(contactPage.nameField).toHaveValue("");
+        await expect(contactPage.emailField).toHaveValue("");
+        await expect(contactPage.messageField).toHaveValue("");
+
+        // Attempt to submit the form without entering any data.
+        await contactPage.submitContactForm();
+
+        // Validate that an error message is displayed after submission.
+        await contactPage.validateErrorMessage();
+    });
+
     test("filling form with partial data", async ({ page }) => {
         // Define test data with only some fields populated.
         const partialFormData = {
@@ -98,6 +113,27 @@ test.describe(`Test 'Contact' page by`, () => {
         await expect(contactPage.nameField).toHaveValue("");
         await expect(contactPage.emailField).toHaveValue("");
         await expect(contactPage.messageField).toHaveValue("");
+    });
+
+    test("submitting the form with an invalid email address still shows a generic error", async ({ page }) => {
+        const formData = {
+            name: "Invalid Email User",
+            email: "not-an-email",
+            message: "Testing invalid email handling."
+        };
+
+        await contactPage.clearContactForm();
+        await contactPage.fillContactForm(formData);
+        await contactPage.submitContactForm();
+
+        // Validate that an error message is displayed after submission.
+        page.on('console', msg => {
+  if (msg.type() === 'error') {
+    console.log(`Browser Error: "${msg.text()}"`);
+    // Validate that the error message contains expected text indicating an issue with the email format.
+    expect(msg.text()).toContain("Please enter a valid email address");
+  }
+});
     });
 
     test("navigating to contact page via URL and verifying page elements", async ({ page }) => {

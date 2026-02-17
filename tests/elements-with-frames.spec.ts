@@ -24,6 +24,17 @@ test.describe(`Test 'Elements with frames' page by`, () => {
     await expect(elementsWithFramesPage.buttonTypeHere.nth(0)).toContainText('Type here');
   });
 
+  test('validating all frame containers and "Type here" buttons are present', async () => {
+    // There should be at least one frame container rendered.
+    await expect(elementsWithFramesPage.allFrames).toHaveCount(6);
+    // All visible "Type here" buttons should contain the expected caption.
+    const buttonCount = await elementsWithFramesPage.buttonTypeHere.count();
+    expect(buttonCount).toBeGreaterThan(0);
+    for (let i = 0; i < buttonCount; i++) {
+      await expect(elementsWithFramesPage.buttonTypeHere.nth(i)).toContainText('Type here');
+    }
+  });
+
   test('validating the page title', async ({ page }) => {
     const expectedTitle = 'Elements with frames | Online store';
     await expect(page).toHaveTitle(expectedTitle);

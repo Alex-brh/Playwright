@@ -111,4 +111,26 @@ export class FaqPage {
             throw new Error("The index and text expected values must be provided");
         }
     }
+
+    /**
+     * Toggles an accordion section by index without asserting on its content.
+     * This is useful for verifying open/close behavior independently of text.
+     * @param {number} index - The index of the section to toggle.
+     * @returns {Promise<void>}
+     */
+    async toggleSection(index: number): Promise<void> {
+        await this.caretToExpandSection.nth(index).click();
+    }
+
+    /**
+     * Ensures that a given accordion section has non-empty text content once expanded.
+     * @param {number} index - The index of the section to validate.
+     * @returns {Promise<void>}
+     */
+    async ensureSectionHasNonEmptyText(index: number): Promise<void> {
+        await this.caretToExpandSection.nth(index).click();
+        await expect(this.sectionText.nth(index)).toBeAttached();
+        const text = await this.sectionText.nth(index).innerText();
+        expect(text.trim().length).toBeGreaterThan(0);
+    }
 }

@@ -114,4 +114,9 @@ test.describe(`Test 'Showcase' page by`, () => {
         await expect(showcasePage.page).toHaveURL(`${baseURL}store`);
     });
 
+    test("validating the Showcase page title", async ({ page }) => {
+        const expectedTitle = "Showcase | Online store";
+        await expect(page).toHaveTitle(expectedTitle);
+    });
+
 });
